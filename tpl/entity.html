@@ -1,0 +1,98 @@
+<div id="triples">
+<div shortcut-box shortcuts="shortcuts"></div>
+
+<div dbpv-legend actions="actions"></div>
+
+<div id="pretty-box" data-intro="This is the pretty box. It displays a small selection of entity properties in a pretty way." data-step="3">
+
+	<div id="entityOptions">
+		<span>
+		  <a href="javascript:void(0);" class="dropdown-toggle glyphicon glyphicon-th-large" style="font-size:20px" data-toggle="dropdown"></a>
+		  <ul class="dropdown-menu" role="menu">
+			<li><a href="/describe/?uri={{about.uri}}" target="_self">OpenLink Faceted Browser</a></li>
+			<li><a href="http://linkeddata.uriburner.com/ode/?uri={{about.uri}}">OpenLink Data Explorer</a></li>
+		  </ul>
+		</span>
+		
+		<span>
+		  <a href="javascript:void(0);" class="dropdown-toggle dbpvicon dbpvicon-rdf" data-toggle="dropdown"></a>
+		  <ul class="dropdown-menu" role="menu">
+			<li><a href="{{about.datalink}}.rdf" target="_self">RDF/XML</a></li>
+			<li><a href="{{about.datalink}}.ntriples" target="_self">RDF/N-triples</a></li>
+			<li><a href="{{about.datalink}}.json" target="_self">RDF/JSON</a></li>
+			<li><a href="{{about.datalink}}.n3" target="_self">RDF/N3-Turtle</a></li>
+		  </ul>
+		</span>
+		
+		<span>
+		  <a href="javascript:void(0);" class="dropdown-toggle dbpvicon dbpvicon-json" data-toggle="dropdown"></a>
+		  <ul class="dropdown-menu" role="menu">
+			<li><a href="/sparql?default-graph-uri={{localgraph}}&amp;query=DESCRIBE+<{{about.uri}}>&amp;output=application%2Fmicrodata%2Bjson" target="_self">Microdata/JSON</a></li>
+			<li><a href="/sparql?default-graph-uri={{localgraph}}&amp;query=DESCRIBE+<{{about.uri}}>&amp;output=application%2Fld%2Bjson" target="_self">JSON-LD</a></li>
+			<li><a href="{{about.datalink}}.json"  target="_self">RDF/JSON</a></li>
+		  </ul>
+		</span>
+	</div>
+	
+	<div pretty-box about="about" dbpvp="dbpvp" primarylang="primarylang" fallbacklang="fallbacklang" owlgraph='owlgraph' owlendpoint="owlendpoint" entity-semaphore="entitySemaphore"></div>
+
+</div>
+<div dbpv-preview-box dbpvp="preview" primarylang="primarylang" fallbacklang="fallbacklang"></div>
+
+
+<div dbpvp-map></div>
+
+<div id="triple-list">
+
+<div id="triples">
+
+	<div display-predicates primarylang="primarylang" fallbacklang="fallbacklang" about="about">
+
+	</div>
+	
+	<div dbpv-relation-instances about="about" primarylang="primarylang" fallbacklang="fallbacklang">
+	</div>
+	
+	<div dbpv-class-instances about="about" primarylang="primarylang" fallbacklang="fallbacklang"></div>
+
+</div>
+
+
+<div class="footer">
+    <div id="ft_t">
+        Browse using:
+	<a href="http://linkeddata.uriburner.com/ode/?uri={{about.uri}}">OpenLink Data Explorer</a> |
+	<a href="/describe/?uri={{about.uri}}">OpenLink Faceted Browser</a>
+        <!--a href="http://dataviewer.zitgist.com/?uri=http%3A%2F%2Fdbpedia.org%2Fresource%2FBoris_Johnson">Zitgist Data Viewer</a> |
+        <a href="http://beckr.org/marbles?uri=http%3A%2F%2Fdbpedia.org%2Fresource%2FBoris_Johnson">Marbles</a> |
+        <a href="http://www4.wiwiss.fu-berlin.de/rdf_browser/?browse_uri=http%3A%2F%2Fdbpedia.org%2Fresource%2FBoris_Johnson">DISCO</a> |
+        <a href="http://dig.csail.mit.edu/2005/ajar/release/tabulator/0.8/tab.html?uri=http%3A%2F%2Fdbpedia.org%2Fresource%2FBoris_Johnson" >Tabulator</a-->
+        &nbsp; &nbsp; Raw Data in:
+	
+        <a href="/sparql?default-graph-uri={{localgraph}}&amp;query=DESCRIBE+&lt;{{about.uri}}&gt;&amp;format=text/csv" target="_self" >CSV</a> | RDF (
+        <a href="{{about.datalink}}.ntriples" target="_self" >N-Triples</a> 
+        <a href="{{about.datalink}}.n3" target="_self" >N3/Turtle</a> 
+	<a href="{{about.datalink}}.json" target="_self" >JSON</a> 
+        <a href="{{about.datalink}}.rdf" target="_self" >XML</a> ) | OData (
+	<a href="{{about.datalink}}.atom" target="_self" >Atom</a> 
+	<a href="{{about.datalink}}.json" target="_self" >JSON</a> )| Microdata (
+	<a href="/sparql?default-graph-uri={{localgraph}}&amp;query=DESCRIBE+&lt;{{about.uri}}&gt;&amp;output=application/microdata-json" target="_self" > JSON</a>
+        <a href="/sparql?default-graph-uri={{localgraph}}&amp;query=DESCRIBE+&lt;{{about.uri}}&gt;&amp;output=text/html" target="_self" >HTML</a>) |  
+        <a href="/sparql?default-graph-uri={{localgraph}}&amp;query=DESCRIBE+&lt;{{about.uri}}&gt;&amp;output=application/ld-json" target="_self" >JSON-LD</a> 
+
+        &nbsp; &nbsp;<a href="http://wiki.dbpedia.org/Imprint">About</a>&nbsp; &nbsp;
+      </div> <!-- #ft_t -->
+      <div id="ft_b">
+        <a href="http://virtuoso.openlinksw.com" title="OpenLink Virtuoso"><img class="powered_by" src="/statics/virt_power_no_border.png" alt="Powered by OpenLink Virtuoso"></a>
+        <a href="http://linkeddata.org/"><img alt="This material is Open Knowledge" src="/statics/LoDLogo.gif"></a> &nbsp;
+        <a href="http://dbpedia.org/sparql"><img alt="W3C Semantic Web Technology" src="/statics/sw-sparql-blue.png"></a> &nbsp;  &nbsp;
+        <a href="http://www.opendefinition.org/"><img alt="This material is Open Knowledge" src="/statics/od_80x15_red_green.png"></a>
+	<span about="" resource="http://www.w3.org/TR/rdfa-syntax" rel="dc:conformsTo" xmlns:dc="http://purl.org/dc/terms/">
+	<a href="http://validator.w3.org/check?uri=referer"><img src="http://www.w3.org/Icons/valid-xhtml-rdfa" alt="Valid XHTML + RDFa" height="27"></a>
+	</span>
+      </div> <!-- #ft_b -->
+	  <div dbpv-disclaimer about="about" localgraph="localgraph"></div>
+</div>
+
+</div>
+</div>

@@ -1,0 +1,3 @@
+dbpv.Action = Class.create({
+	initialize
+});
