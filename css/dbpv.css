@@ -354,6 +354,24 @@ body #static {
 	margin-left: 251px;
 }
 
+#dbpvplist .propertyentry {
+	padding: 0.5em;
+}
+
+#dbpvplist .propertykey {
+	font-weight: bold;
+	padding: 0.5em;
+	vertical-align:text-top;
+}
+
+#dbpvplist .propertyvalues {
+	padding: 0.5em;
+}
+
+#dbpvplist .propertyvalue {
+	padding-bottom: 0.5em;
+}
+
 .btn-show-more {
 	background-color: #DDDDDD;
 	border-radius: 0px 0px 0px 0px;

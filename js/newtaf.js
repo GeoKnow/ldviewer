@@ -27,6 +27,24 @@ var RedirectAction = Class.create(dbpv.Action, {
 	}
 });
 
+var PrettyListAction = Class.create(dbpv.Action, {
+	initialize:	function(about, predicate, value) {
+		if (predicate.forward) {
+			if (predicate.uri == "http://dbpedia.org/ontology/birthPlace") {
+				dbpv.addToPrettyList("Place of Birth", value);
+			}
+			else if (predicate.uri == "http://dbpedia.org/property/occupation") {
+				dbpv.addToPrettyList("Occupation", value);
+			}
+			else if (predicate.uri == "http://dbpedia.org/ontology/birthDate") {
+				dbpv.addToPrettyList("Date of Birth", value);
+			}
+		}
+	}
+	
+	
+});
+
 var PrettyBoxAction = Class.create(dbpv.Action, {
 	initialize:	function(about, predicate, value, mapfrom, mapto) {
 		if (predicate.uri == mapfrom) {
@@ -59,7 +77,7 @@ var TypeAction = Class.create(PrettyBoxAction, {
 			dbpv.applyPrettyBox(function(dbpvp) {
 				if (dbpvp[mapto] === undefined) dbpvp[mapto] = [];
 				dbpvp[mapto].push(value);
-				console.log(JSON.stringify(value));
+				//console.log(JSON.stringify(value));
 			});
 		}
 		throw "done";

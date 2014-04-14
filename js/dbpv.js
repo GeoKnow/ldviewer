@@ -492,7 +492,8 @@ dbpv.directive('displayNode', function() {
 		scope:		{
 						node:		"=",
 						primarylang:"=",
-						fallbacklang:"="
+						fallbacklang:"=",
+						settings:	"="
 					}
 	};
 })
@@ -516,7 +517,11 @@ dbpv.directive('displayNode', function() {
 			var lex = $scope.node.uri;
 			var prefshor = UrlService.prefixify($scope.node.uri);
 			if (prefshor !== undefined && prefshor.length > 1) {
-				label = '<span class="rdf-prefix">'+prefshor[0]+':</span>'+prefshor[1];
+				if ($scope.settings && $scope.settings.noprefix) {
+					label = prefshor[1];
+				} else {
+					label = '<span class="rdf-prefix">'+prefshor[0]+':</span>'+prefshor[1];
+				}
 				lex = prefshor[0]+":"+prefshor[1];
 			}
 			var urlobj = UrlService.makeUrl($scope.node.uri);
@@ -973,7 +978,7 @@ dbpv.directive('prettyBox', function() {
 						owlgraph:		"=",
 						owlendpoint:	"="
 					},
-		template:	'	<div><div id="dbpvpthumbnail"><img ng-src="{{dbpvp.thumbnail[0].uri}}"></img>	</div>	<div id="dbpvptext">		<div id="dbpvplabel">			<span ng-repeat="value in dbpvp.label |languageFilter:primarylang:fallbacklang">				<a href="{{about.uri}}">{{value.literalLabel.lex}}</a>			</span>		</div>		<div pretty-types types="dbpvp.types" primarylang="primarylang" fallbacklang="fallbacklang" owlgraph="owlgraph" owlendpoint="owlendpoint"></div>		<div id="dbpvpdescription">			<span ng-repeat="value in dbpvp.description |languageFilter:primarylang:fallbacklang">				{{value.literalLabel.lex}}			</span>		</div>		<div pretty-links links="dbpvp.links"></div> <div id="loading" ng-show="entitySemaphore>0">			<center><img style="margin-bottom:15px;" src="/statics/css/ajax-loader.gif"></img></center>		</div>	</div></div>',
+		template:	'	<div><div id="dbpvpthumbnail"><img ng-src="{{dbpvp.thumbnail[0].uri}}"></img>	</div>	<div id="dbpvptext">		<div id="dbpvplabel">			<span ng-repeat="value in dbpvp.label |languageFilter:primarylang:fallbacklang">				<a href="{{about.uri}}">{{value.literalLabel.lex}}</a>			</span>		</div>		<div pretty-types types="dbpvp.types" primarylang="primarylang" fallbacklang="fallbacklang" owlgraph="owlgraph" owlendpoint="owlendpoint"></div>		<div id="dbpvpdescription">			<span ng-repeat="value in dbpvp.description |languageFilter:primarylang:fallbacklang">				{{value.literalLabel.lex}}			</span>		</div>		<div pretty-links links="dbpvp.links"></div> <div dbpvp-list properties="dbpvp.properties" primarylang="primarylang" fallbacklang="fallbacklang"></div><div id="loading" ng-show="entitySemaphore>0">			<center><img style="margin-bottom:15px;" src="/statics/css/ajax-loader.gif"></img></center>		</div>	</div></div>',
 		controller:	"PrettyBoxCtrl"
 	};
 })
@@ -986,8 +991,52 @@ dbpv.directive('prettyBox', function() {
 		}
 		$scope.entitySemaphore = $rootScope.entitySemaphore;
 		$scope.dbpvp = {};
+		$scope.dbpvp.properties = [];
 		
 	}]);
+
+;
+
+dbpv.directive('dbpvpList', function() {
+	return {
+		restrict:	"EA",
+		transclude:	false,
+		replace:	true,
+		scope:		{
+						properties:	"=",
+						primarylang:"=",
+						fallbacklang:"="
+					},
+		template:	'<table id="dbpvplist"><tr ng-repeat="property in properties" class="propertyentry"><td class="propertykey">{{property.key}}:</td><td  class="propertyvalues"><div ng-repeat="value in property.values"><div display-node node="value" settings="displayset" class="propertyvalue" primarylang="primarylang" fallbacklang="fallbacklang"></div></div></div></td></tr></table>',
+		controller:	'DbpvpListCtrl'
+	}
+})
+
+	.controller('DbpvpListCtrl', ['$scope', function($scope) {
+		$scope.displayset = {"noprefix":true};
+		dbpv.addToPrettyList = function(key, value) {
+			if (key && value) {
+				var found = false;
+				var toaddto = [];
+				var i = 0;
+				while (i < $scope.properties.length) {
+					if ($scope.properties[i].key == key) {
+						found = true;
+						break;
+					}
+					i++;
+				}
+				if (!found) {
+					$scope.properties.push({"key": key, "values":toaddto});
+				} else {
+					toaddto = $scope.properties[i].values;
+				}
+				toaddto.push(value);
+			}
+		};
+		
+		
+	}])
 
 ;
 
