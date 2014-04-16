@@ -397,11 +397,18 @@ body #static {
 	border: 0px solid white;
 	color: white;
 	float:left;
-	width: 50%;
+	width: 33%;
 }
 
+.rev-paginator {
+	width:	33%;
+	float:	left;
+	text-align:center;
+}
+
+
 .btn-show-left-placeholder {
-	width: 50%;
+	width: 33%;
 	float: left;
 	text-align:center;
 }
@@ -416,7 +423,7 @@ body #static {
 	border: 0px solid white;
 	color: white;
 	float:left;
-	width: 50%;
+	width: 33%;
 }
 
 .btn-show-right:hover, .btn-show-right:focus, .btn-show-right:active {
@@ -433,6 +440,17 @@ body #static {
 	border-bottom: 1pt solid #CCC;
 	border-radius: 0px 0px 0px 0px;
 	padding-bottom:0px;
+}
+
+
+.rev-paginator-page {
+	display: inline;
+	width: 25%;
+	text-align:right;
+	padding-bottom: 3px;
+	padding-top: 	1px;
+	padding-right:	3px;
+	height:auto;
 }
 
 label.dbpv-tabletop {

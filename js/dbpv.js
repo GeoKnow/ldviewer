@@ -136,6 +136,20 @@ dbpv.filter("actionFilter", function() {
 	};
 });
 
+dbpv.directive('ngEnter', function () {
+    return function (scope, element, attrs) {
+        element.bind("keydown keypress", function (event) {
+            if(event.which === 13) {
+                scope.$apply(function (){
+                    scope.$eval(attrs.ngEnter);
+                });
+ 
+                event.preventDefault();
+            }
+        });
+    };
+});
+
 dbpv.directive('displayPredicates', function() {
 	return {
 		restrict:	"EA",
@@ -375,7 +389,8 @@ dbpv.directive('displayReverseNodeValues', function() {
 						fallbacklang:	"="
 					},
 		template:	'<div class="pred-values"><div class="pred-value" ng-repeat="val in vals | orderBy:sortValues" ng-show="val.show"><span triple-actions="val.taf" about="about" predicate="predicate" value="val"></span> <span display-node node="val" primarylang="primarylang" fallbacklang="fallbacklang"></span></div>'+
-		'<div ng-show="showButtonLoad"><button class="btn btn-block btn-primary btn-small btn-show-more" ng-click="onLoadButton()">LOAD</button></div><div ng-show="showLeftNav"><button class="btn btn-block-primary btn-small btn-show-left" ng-click="onShowLeft()">PREVIOUS</button></div><div ng-show="!showLeftNav && showRightNav"><div class="btn-show-left-placeholder">PREVIOUS</div></div><div ng-show="showRightNav"><button class="btn btn-block-primary btn-small btn-show-right" ng-click="onShowRight()">NEXT</button></div></div>',
+		'<div ng-show="showButtonLoad"><button class="btn btn-block btn-primary btn-small btn-show-more" ng-click="onLoadButton()">LOAD</button></div><div ng-show="showLeftNav"><button class="btn btn-block-primary btn-small btn-show-left" ng-click="onShowLeft()">PREVIOUS</button></div><div ng-show="!showLeftNav && showRightNav"><div class="btn-show-left-placeholder">PREVIOUS</div></div><div ng-show="showPaginator"><div class="rev-paginator">PAGE: '+
+		'<input class="form-control dbpv-input dbpv-filter rev-paginator-page" ng-model="page" ng-enter="changePage()"/>/{{pages}} <button class="btn btn-block-primary btn-small" ng-click="changePage()">GO</button></div></div><div ng-show="showRightNav"><button class="btn btn-block-primary btn-small btn-show-right" ng-click="onShowRight()">NEXT</button></div></div>',
 		
 		controller:	'DisplayReverseNodeValuesCtrl'
 		
@@ -393,6 +408,33 @@ dbpv.directive('displayReverseNodeValues', function() {
 		$scope.onLoadButton = function() {
 			$scope.loaded = true;
 			$scope.onLoad();
+			$scope.loadCounts();
+		};
+		
+		$scope.loadCounts = function() {
+			if ($scope.loaded) {
+				Entity.loadReverseValuesCount($scope.about, $scope.predicate)
+					.then(
+						function(results) {
+							$scope.count = results[0].literalLabel.val;
+							$scope.checkButtons();
+							$scope.updatePage();
+						}
+					)
+				;
+			}
+		};
+		
+		$scope.updatePage = function() {
+			if ($scope.count) {
+				$scope.pages = Math.ceil($scope.count / $scope.limit);
+				$scope.page = Math.ceil($scope.offset / $scope.limit)+1;
+			}
+		};
+		
+		$scope.changePage = function() {
+			$scope.offset = $scope.limit * ($scope.page-1);
+			$scope.onLoad();
 		};
 		
 		$scope.onLoad = function() {
@@ -407,6 +449,7 @@ dbpv.directive('displayReverseNodeValues', function() {
 								results[i].show = true;
 							}
 							TafService.bindTafPredicate($scope.about, $scope.predicate);
+							$scope.updatePage();
 							$scope.applyFilters();
 						},
 						function(error) {
@@ -423,6 +466,9 @@ dbpv.directive('displayReverseNodeValues', function() {
 		$scope.checkButtons = function() {
 			var results = $scope.results;
 			if ($scope.values && $scope.values.length > 0) {
+				if ($scope.count && $scope.limit < $scope.count) {
+					$scope.showPaginator = true;
+				}
 				if (results.length > $scope.limit) {
 					if ($scope.offset == 0) {
 						$scope.showLeftNav = false;
@@ -443,6 +489,7 @@ dbpv.directive('displayReverseNodeValues', function() {
 				$scope.showButtonLoad = true;
 				$scope.showRightNav = false;
 				$scope.showLeftNav = false;
+				$scope.showPaginator = false;
 			}
 		};
 		
@@ -1007,12 +1054,16 @@ dbpv.directive('dbpvpList', function() {
 						primarylang:"=",
 						fallbacklang:"="
 					},
-		template:	'<div id="dbpvpproperties"><table id="dbpvplist"><tr ng-repeat="property in properties | orderBy:prioSort" class="propertyentry"><td class="propertykey">{{property.key}}:</td><td  class="propertyvalues"><div ng-repeat="value in property.values"><div display-node node="value" settings="displayset" class="propertyvalue" primarylang="primarylang" fallbacklang="fallbacklang"></div></div></div></td></tr></table></div>',
+		template:	'<div id="dbpvpproperties" ng-show="showProperties()"><table id="dbpvplist"><tr ng-repeat="property in properties | orderBy:prioSort" class="propertyentry"><td class="propertykey">{{property.key}}:</td><td  class="propertyvalues"><div ng-repeat="value in property.values"><div display-node node="value" settings="displayset" class="propertyvalue" primarylang="primarylang" fallbacklang="fallbacklang"></div></div></div></td></tr></table></div>',
 		controller:	'DbpvpListCtrl'
 	}
 })
 
 	.controller('DbpvpListCtrl', ['$scope', function($scope) {
+		$scope.showProperties = function() {
+			return $scope.properties.length > 0;
+		};
+		
 		$scope.displayset = {"noprefix":true};
 		
 		$scope.prioSort = function(property) {

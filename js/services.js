@@ -235,6 +235,24 @@ angular.module('dbpv.services', [])
 				;
 			},
 			
+			loadReverseValuesCount:	function(resource, property) {
+				var rdf = Jassa.rdf;
+				var query = "SELECT COUNT(?s) AS ?c WHERE {?s <"+property.uri+"> <"+resource.uri+">}";
+				return JassaService.select(query, UrlService.endpoint, UrlService.endpointgraph)
+					.then(
+						function(resultset) {
+							var sVar = rdf.NodeFactory.createVar("c");
+							var results = [];
+							while(resultset.hasNext() && results.length == 0) {
+								var binding = resultset.nextBinding();
+								results.push(binding.get(sVar));
+							}
+							return results;
+						}
+					)
+				;
+			},
+			
 			relationInstances:	function(relationURL, number) {
 				if (!number) {
 					number = 100;

@@ -66,6 +66,26 @@ var PrettyListAction = Class.create(dbpv.Action, {
 						"uri": 	"http://dbpedia.org/ontology/country",
 						"label":"Country",
 						"priority": 5
+					},
+					{
+						"uri": 	"http://dbpedia.org/ontology/capital",
+						"label":"Capital",
+						"priority": 6
+					},
+					{
+						"uri": 	"http://dbpedia.org/ontology/currency",
+						"label":"Currency",
+						"priority": 7
+					},
+					{
+						"uri": 	"http://dbpedia.org/ontology/language",
+						"label":"Language",
+						"priority": 8
+					},
+					{
+						"uri": 	"http://dbpedia.org/ontology/leaderName",
+						"label":"Leaders",
+						"priority": 9
 					}
 					
 				]
