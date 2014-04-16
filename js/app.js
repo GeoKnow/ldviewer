@@ -1,4 +1,4 @@
-var dbpv = angular.module('dbpv', ['dbpv.services', 'ui.bootstrap']);
+var dbpv = angular.module('dbpv', ['dbpv.services', 'ui.bootstrap', 'ui.jassa']);
 
 dbpv.configure = function(confun) {
 	dbpv.customConfigFunction = confun;

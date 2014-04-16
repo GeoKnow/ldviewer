@@ -186,7 +186,9 @@ dbpv.directive('displayPredicates', function() {
 					'				</div>'+
 					'			</div>'+
 					'			<div ng-switch-default>'+
-									'<div display-reverse-predicate about="about" predicate="predicate" valfilter="valfilter" primarylang="primarylang" fallbacklang="fallbacklang">' +
+									'<div display-reverse-predicate about="about" predicate="predicate" '+
+									'valfilter="valfilter"'+
+'									primarylang="primarylang" fallbacklang="fallbacklang">' +
 									'</div>'+
 					'			</div>'+
 					'		</div>'+
@@ -1700,12 +1702,44 @@ dbpv.directive('dbpvClassInstances', function() {
 						fallbacklang:	"="
 						
 					},
-		template:	'<div id="class-instances" ng-show="showInstances"><div id="class-instances-top">Some instances of this class:</div><div id="class-instances"><div ng-repeat="instance in instances"><div class="class-instance-i"><div class="class-instance"><div display-node node="instance" primarylang="primarylang" fallbacklang="fallbacklang"></div></div></div></div></div></div>',
+		template:	'<div id="class-instances" ng-show="showInstances">'+
+		'<div facet-tree sparql-service="sparqlService" facet-tree-config="facetTreeConfig" select="selectFacet(path)"></div>'+
+		'<div facet-value-list sparql-service="sparqlService" facet-tree-config="facetTreeConfig" path="path"></div>	'+
+		'<div constraint-list sparql-service="sparqlService" facet-tree-config="facetTreeConfig"></div>'+
+		'<div id="class-instances-top">Some instances of this class:</div><div id="class-instances"><div ng-repeat="instance in instances"><div class="class-instance-i"><div class="class-instance"><div display-node node="instance" primarylang="primarylang" fallbacklang="fallbacklang"></div></div></div></div></div></div>',
 		controller:	"DbpvClassInstancesCtrl",
 	};
 })
 
-	.controller('DbpvClassInstancesCtrl', ['$scope', 'Entity', function($scope, Entity) {
+	.controller('DbpvClassInstancesCtrl', ['$scope', 'Entity', 'UrlService', function($scope, Entity, UrlService) {
+	
+		// faceted browsing code //
+		var service = Jassa.service;
+		var facete = Jassa.facete;
+		
+		var sparqlServiceFactory = new service.SparqlServiceFactoryDefault();
+
+		$scope.sparqlService = new service.SparqlServiceHttp(UrlService.endpoint, UrlService.endpointgraph);
+		
+       // $scope.sparqlService = sparqlServiceFactory.createSparqlService(UrlService.endpoint, UrlService.endpointgraph);
+
+        $scope.facetTreeConfig = new Jassa.facete.FacetTreeConfig();
+		
+		var baseVar = Jassa.rdf.NodeFactory.createVar('s');
+		var classNode = Jassa.rdf.NodeFactory.createUri($scope.about.uri);
+		var baseElement = new Jassa.sparql.ElementTriplesBlock([new Jassa.rdf.Triple(baseVar, Jassa.vocab.rdf.type, classNode)]);
+		var baseConcept = new Jassa.facete.Concept(baseElement, baseVar);
+
+		$scope.facetTreeConfig.getFacetConfig().setBaseConcept(baseConcept);
+
+        $scope.path = null;
+
+        $scope.selectFacet = function(path) {
+            //alert('Selected Path: [' + path + ']');
+            $scope.path = path;
+        };
+		
+		// end faceted browsing code //
 	
 		dbpv.showClassInstances = function() {
 			$scope.showInstances = true;
