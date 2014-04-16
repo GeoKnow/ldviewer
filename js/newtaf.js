@@ -30,17 +30,45 @@ var RedirectAction = Class.create(dbpv.Action, {
 var PrettyListAction = Class.create(dbpv.Action, {
 	initialize:	function(about, predicate, value) {
 		if (predicate.forward) {
-			if (predicate.uri == "http://dbpedia.org/ontology/birthPlace") {
-				dbpv.addToPrettyList("Place of Birth", value);
-			}
-			else if (predicate.uri == "http://dbpedia.org/property/occupation") {
-				dbpv.addToPrettyList("Occupation", value);
-			}
-			else if (predicate.uri == "http://dbpedia.org/ontology/birthDate") {
-				dbpv.addToPrettyList("Date of Birth", value);
+			for (var i = 0; i < this.properties.length; i ++) {
+				if (predicate.uri == this.properties[i].uri) {
+					var propertyAdder = dbpv.getPrettyPropertyAdder(this.properties[i].label, this.properties[i].priority);
+					if (propertyAdder) {
+						propertyAdder(value);
+					}
+				}
 			}
 		}
-	}
+	},
+	
+	properties: [
+					{
+						"uri":	"http://dbpedia.org/ontology/birthPlace",
+						"label":"Place of Birth",
+						"priority":	1
+					},
+					{
+						"uri":	"http://dbpedia.org/property/occupation",
+						"label":"Occupation",
+						"priority":	3
+					},
+					{
+						"uri":	"http://dbpedia.org/ontology/birthDate",
+						"label":"Date of Birth",
+						"priority": 2
+					},
+					{
+						"uri":	"http://dbpedia.org/ontology/areaCode",
+						"label":"Area Code",
+						"priority": 4
+					},
+					{
+						"uri": 	"http://dbpedia.org/ontology/country",
+						"label":"Country",
+						"priority": 5
+					}
+					
+				]
 	
 	
 });

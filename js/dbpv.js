@@ -1007,34 +1007,47 @@ dbpv.directive('dbpvpList', function() {
 						primarylang:"=",
 						fallbacklang:"="
 					},
-		template:	'<table id="dbpvplist"><tr ng-repeat="property in properties" class="propertyentry"><td class="propertykey">{{property.key}}:</td><td  class="propertyvalues"><div ng-repeat="value in property.values"><div display-node node="value" settings="displayset" class="propertyvalue" primarylang="primarylang" fallbacklang="fallbacklang"></div></div></div></td></tr></table>',
+		template:	'<div id="dbpvpproperties"><table id="dbpvplist"><tr ng-repeat="property in properties | orderBy:prioSort" class="propertyentry"><td class="propertykey">{{property.key}}:</td><td  class="propertyvalues"><div ng-repeat="value in property.values"><div display-node node="value" settings="displayset" class="propertyvalue" primarylang="primarylang" fallbacklang="fallbacklang"></div></div></div></td></tr></table></div>',
 		controller:	'DbpvpListCtrl'
 	}
 })
 
 	.controller('DbpvpListCtrl', ['$scope', function($scope) {
 		$scope.displayset = {"noprefix":true};
-		dbpv.addToPrettyList = function(key, value) {
-			if (key && value) {
-				var found = false;
-				var toaddto = [];
-				var i = 0;
-				while (i < $scope.properties.length) {
-					if ($scope.properties[i].key == key) {
-						found = true;
-						break;
-					}
-					i++;
-				}
-				if (!found) {
-					$scope.properties.push({"key": key, "values":toaddto});
-				} else {
-					toaddto = $scope.properties[i].values;
-				}
-				toaddto.push(value);
+		
+		$scope.prioSort = function(property) {
+			if (property && property.priority) {
+				return property.priority;
+			} else {
+				return 0;
 			}
 		};
 		
+		dbpv.getPrettyPropertyAdder = function(key, priority) {
+			if (key && key.length && key.length > 0) {
+				var property = null;
+				for (var i = 0; i < $scope.properties.length; i ++) {
+					if ($scope.properties[i].key == key) {
+						property = $scope.properties[i];
+						break;
+					}
+				}
+				if (! property) {
+					property = {};
+					property.key = key;
+					property.values = [];
+					$scope.properties.push(property);
+				}
+				if (property) {
+					property.priority = priority;
+					return function(value) {
+						if (value) {
+							property.values.push(value);
+						}
+					};
+				}
+			}
+		};		
 		
 	}])
 

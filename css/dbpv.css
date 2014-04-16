@@ -109,6 +109,7 @@
 #entityOptions {
 	padding-top: 5px;
 	float:right;
+	margin-right: 10px;
 }
 
 .dbpvicon-rdf {
@@ -354,8 +355,20 @@ body #static {
 	margin-left: 251px;
 }
 
+#dbpvpproperties {
+	border-top:	1px solid #ddd;
+}
+
+#dbpvplist {
+	width: 50%;
+	border-top: 2px solid #ddd;
+	border-bottom: 2px solid #ddd;
+	margin-left: 25%;
+}
+
 #dbpvplist .propertyentry {
 	padding: 0.5em;
+	border-bottom: 1px solid #ddd;
 }
 
 #dbpvplist .propertykey {
@@ -524,7 +537,7 @@ label.dbpv-tabletop {
 #pretty-box {
 	background-color: white;
 	border: 1px solid #CCC;
-	padding-right: 15px;
+	/*padding-right: 15px;*/
 	margin-bottom: 15px;
 	overflow: hidden;
 }

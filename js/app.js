@@ -162,7 +162,7 @@ dbpv.run(function($rootScope) {
 	$rootScope.encodegraph = true;
 
 	$rootScope.owlgraph = "http://dbpedia.org";
-	$rootScope.owlendpoint = "http://live.dbpedia.org/sparql";
+	$rootScope.owlendpoint = "http://dbpedia.org/sparql";
 	
 	$rootScope.lookupgraph = "http://dbpedia.org";
 	$rootScope.lookupendpoint = "http://lookup.dbpedia.org/api/search";
