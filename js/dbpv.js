@@ -160,7 +160,7 @@ dbpv.directive('displayPredicates', function() {
 						primarylang:	"=",
 						fallbacklang:	"="
 					},
-		template:	'<div> '+
+		template:	'<div class="top-block"> '+
 						'<div id="triples-top">'+
 							'<div class="predicate"> '+
 								'<div class="pred-name form-inline"> '+
@@ -295,7 +295,7 @@ dbpv.directive('displayNodeValues', function() {
 						primarylang:	"=",
 						fallbacklang:	"="
 					},
-		template:	'<div class="pred-values"><div class="pred-value" ng-repeat="val in vals | orderBy:sortValues" ng-show="val.show"><span triple-actions="val.taf" about="about" predicate="predicate" value="val"></span> <span display-node node="val" primarylang="primarylang" fallbacklang="fallbacklang"></span></div><div ng-show="showButton"><button class="btn btn-block btn-primary btn-small btn-show-more" ng-click="onShowAll()">Show All</button></div></div>',
+		template:	'<div class="pred-values"><div class="pred-value" ng-repeat="val in vals | orderBy:sortValues" ng-show="val.show"><span triple-actions="val.taf" about="about" predicate="predicate" value="val"></span> <span display-node node="val" primarylang="primarylang" fallbacklang="fallbacklang"></span></div><div ng-show="showButton"><button class="btn btn-block btn-primary btn-small btn-show-more dbpv-btn" ng-click="onShowAll()">Show All</button></div></div>',
 		
 		controller:	'DisplayNodeValuesCtrl'
 		
@@ -376,6 +376,123 @@ dbpv.directive('displayNodeValues', function() {
 
 ;
 
+dbpv.directive('dbpvPagination', function() {
+	return {
+		restrict:	"EA",
+		replace:	true,
+		transclude:	false,
+		scope:		{
+						page:	"=",
+						total:	"=",
+						perpage:	"=",
+						onSelect:	"&"
+					},
+		template:	'<div class="dbpv-paginator" ng-show="showPaginator">'+
+					'	<div ng-show="showLeftNav">'+
+					'		<button class="btn btn-block-primary btn-small btn-show-left dbpv-btn" ng-click="onShowLeft()">'+
+								'PREVIOUS'+
+					'		</button>'+
+					'	</div>'+
+					'	<div ng-show="!showLeftNav">'+
+					'		<div class="btn-show-left-placeholder">'+
+								'PREVIOUS'+
+					'		</div>'+
+					'	</div>'+
+					'	<div ng-show="showPaginator">'+
+						'	<div class="rev-paginator">PAGE: '+
+						'		<input class="form-control dbpv-input dbpv-filter rev-paginator-page" ng-model="pagedis" ng-enter="changePage()"/>/{{pages+1}} '+
+						'		<button class="btn dbpv-btn btn-block-primary btn-small" ng-click="changePage()">'+
+									'GO'+
+						'		</button>'+
+						'	</div>'+
+						'</div>'+
+						'<div ng-show="showRightNav">'+
+							'<button class="btn btn-block-primary btn-small btn-show-right dbpv-btn" ng-click="onShowRight()">'+
+								'NEXT'+
+					'		</button>'+
+					'	</div>'+
+					'	<div ng-show="!showRightNav">'+
+					'		<div class="btn-show-right-placeholder">'+
+								'NEXT'+
+					'		</div>'+
+					'	</div>'+
+					'</div>',
+		controller:	'DbpvPaginationCtrl'
+	};
+})
+
+	.controller('DbpvPaginationCtrl', ['$scope', function($scope) {
+		$scope.init = function() {
+			$scope.pages = Math.floor($scope.total/$scope.perpage);
+		}
+		
+		$scope.$watch('page', function(page) {
+				$scope.pagedis = $scope.page + 1;
+		});
+		
+		/*$scope.$watch('pagedis', function(pagedis) {
+			if (pagedis.length > 0)
+			$scope.page = pagedis - 1;
+		});
+		//*/
+		
+		$scope.$watch('total', function(total) {
+			$scope.init();
+			$scope.checkVisibility();
+		});
+		
+		$scope.onShowRight = function() {
+			var newpage = $scope.page + 1;
+			if (newpage <= $scope.pages) {
+				$scope.page = newpage;
+				$scope.onPageChange();
+			}
+		};
+		
+		$scope.onShowLeft = function() {
+			var newpage = $scope.page - 1;
+			if (newpage >= 0) {
+				$scope.page = newpage;
+				$scope.onPageChange();
+			}
+		};
+		
+		$scope.changePage = function() {
+			$scope.page = $scope.pagedis-1;
+			if ($scope.page > $scope.pages) {
+				$scope.page = $scope.pages;
+			} else if ($scope.page < 0) {
+				$scope.page = 0;
+			}
+			$scope.onPageChange();
+		};
+		
+		$scope.onPageChange = function() {
+			$scope.checkVisibility();
+			$scope.onSelect($scope.page);
+		};
+		
+		$scope.checkVisibility = function() {
+			if ($scope.total > 0 && $scope.perpage <= $scope.total) {
+				$scope.showPaginator = true;
+				$scope.showRightNav = true;
+				$scope.showLeftNav = true;
+			}
+			if ($scope.page == $scope.pages) {
+				$scope.showRightNav = false;
+			}
+			if ($scope.page == 0) {
+				$scope.showLeftNav = false;
+			}
+		};
+		
+		$scope.init();
+		$scope.checkVisibility();
+		
+	}])
+
+;
+
 
 dbpv.directive('displayReverseNodeValues', function() {
 	return {
@@ -391,8 +508,7 @@ dbpv.directive('displayReverseNodeValues', function() {
 						fallbacklang:	"="
 					},
 		template:	'<div class="pred-values"><div class="pred-value" ng-repeat="val in vals | orderBy:sortValues" ng-show="val.show"><span triple-actions="val.taf" about="about" predicate="predicate" value="val"></span> <span display-node node="val" primarylang="primarylang" fallbacklang="fallbacklang"></span></div>'+
-		'<div ng-show="showButtonLoad"><button class="btn btn-block btn-primary btn-small btn-show-more" ng-click="onLoadButton()">LOAD</button></div><div ng-show="showLeftNav"><button class="btn btn-block-primary btn-small btn-show-left" ng-click="onShowLeft()">PREVIOUS</button></div><div ng-show="!showLeftNav && showRightNav"><div class="btn-show-left-placeholder">PREVIOUS</div></div><div ng-show="showPaginator"><div class="rev-paginator">PAGE: '+
-		'<input class="form-control dbpv-input dbpv-filter rev-paginator-page" ng-model="page" ng-enter="changePage()"/>/{{pages}} <button class="btn btn-block-primary btn-small" ng-click="changePage()">GO</button></div></div><div ng-show="showRightNav"><button class="btn btn-block-primary btn-small btn-show-right" ng-click="onShowRight()">NEXT</button></div></div>',
+		'<div ng-show="!predicate.reverseloaded.loaded"><button class="btn btn-block btn-primary btn-small btn-show-more dbpv-btn" ng-click="onLoadButton()">LOAD</button></div><div dbpv-pagination page="predicate.reverseloaded.page" total="predicate.reverseloaded.count" perpage="limit" on-select="onPageSelect(newpage)"></div></div>',
 		
 		controller:	'DisplayReverseNodeValuesCtrl'
 		
@@ -404,117 +520,112 @@ dbpv.directive('displayReverseNodeValues', function() {
 		var lim = 5;
 		$scope.limit = 10;
 		$scope.offset = 0;
-		$scope.vals = [];
-		$scope.loaded = false;
+		if (!$scope.predicate.reverseloaded) {
+			var pred = $scope.predicate.reverseloaded = {};
+			pred.count = 0;
+			pred.page = 0;
+			pred.table = {};
+			pred.loaded = false;
+		}
+		
+		/*$scope.vals = ($scope.predicate.reverseloaded && $scope.predicate.reverseloaded.vals? $scope.predicate.reverseloaded.vals: []);
+		$scope.count = ($scope.predicate.reverseloaded && $scope.predicate.reverseloaded.count? $scope.predicate.reverseloaded.count: 0);
+		$scope.showButtonLoad = !$scope.predicate.reverseloaded.loaded;
+		
+		$scope.page = ($scope.predicate.reverseloaded && $scope.predicate.reverseloaded.page? $scope.predicate.reverseloaded.page: 0);
+		//*/
+		
+		$scope.onPageSelect = function(newpage) {
+			
+		};
+		
+		$scope.$watch('predicate.reverseloaded.page', function(page) {
+				$scope.offset = page*$scope.limit;
+				$scope.onLoad();
+		});
 		
 		$scope.onLoadButton = function() {
-			$scope.loaded = true;
+			$scope.predicate.reverseloaded.loaded = true;
 			$scope.onLoad();
-			$scope.loadCounts();
 		};
 		
 		$scope.loadCounts = function() {
-			if ($scope.loaded) {
+			if ($scope.predicate.reverseloaded.loaded && $scope.predicate.reverseloaded.count < 1) {
 				Entity.loadReverseValuesCount($scope.about, $scope.predicate)
 					.then(
 						function(results) {
-							$scope.count = results[0].literalLabel.val;
-							$scope.checkButtons();
-							$scope.updatePage();
+							$scope.predicate.reverseloaded.count = results[0].literalLabel.val;
 						}
 					)
 				;
 			}
 		};
 		
-		$scope.updatePage = function() {
-			if ($scope.count) {
-				$scope.pages = Math.ceil($scope.count / $scope.limit);
-				$scope.page = Math.ceil($scope.offset / $scope.limit)+1;
+		$scope.getLoaded = function() {
+			var loadedresults = [];
+			var i = $scope.offset;
+			while (i < $scope.offset+$scope.limit) {
+				var loadedvalue = $scope.predicate.reverseloaded.table[i];
+				if (loadedvalue) {
+					loadedresults.push(loadedvalue);
+				}
+				i++;
 			}
-		};
-		
-		$scope.changePage = function() {
-			$scope.offset = $scope.limit * ($scope.page-1);
-			$scope.onLoad();
+			return loadedresults;
 		};
 		
 		$scope.onLoad = function() {
-			if ($scope.loaded) {
-				Entity.loadReverseValues($scope.about, $scope.predicate, $scope.limit+1, $scope.offset)
-					.then(
-						function(results) {
-							$scope.values.length = 0;
-							$scope.results = results;
-							for (var i = 0; i < Math.min($scope.limit, results.length); i++) {
-								$scope.values.push(results[i]);
-								results[i].show = true;
+			if ($scope.predicate.reverseloaded.loaded) {
+				$scope.loadCounts();
+				if ($scope.getLoaded().length == 0) {
+					var offset = $scope.offset;
+					var limit = $scope.limit;
+					Entity.loadReverseValues($scope.about, $scope.predicate, limit, offset)
+						.then(
+							function(results) {
+								$scope.showButtonLoad = false;
+								for (var i = 0; i < results.length; i++) {
+									if (!$scope.predicate.reverseloaded.table[i+offset]) {
+										var resultentry = results[i];
+										$scope.values.push(resultentry);
+										resultentry.show = true;
+										$scope.predicate.reverseloaded.table[i+offset] = resultentry;
+									}
+								}
+								TafService.bindTafPredicate($scope.about, $scope.predicate);
+								$scope.applyFilters();
+								/*$scope.vals = results;
+								$scope.predicate.reverseloaded.vals = $scope.vals;
+								for (var i = 0; i < Math.min($scope.limit, results.length); i++) {
+									$scope.values.push(results[i]);
+									results[i].show = true;
+								}
+								TafService.bindTafPredicate($scope.about, $scope.predicate);
+								$scope.applyFilters();
+								//*/
+							},
+							function(error) {
+							
+							},
+							function(update) {
+							
 							}
-							TafService.bindTafPredicate($scope.about, $scope.predicate);
-							$scope.updatePage();
-							$scope.applyFilters();
-						},
-						function(error) {
-						
-						},
-						function(update) {
-						
-						}
-					)
-				;
-			}
-		};
-		
-		$scope.checkButtons = function() {
-			var results = $scope.results;
-			if ($scope.values && $scope.values.length > 0) {
-				if ($scope.count && $scope.limit < $scope.count) {
-					$scope.showPaginator = true;
-				}
-				if (results.length > $scope.limit) {
-					if ($scope.offset == 0) {
-						$scope.showLeftNav = false;
-					} else {
-						$scope.showLeftNav = true;
-					}
-					$scope.showRightNav = true;
+						)
+					;
 				} else {
-					if ($scope.offset > 0) {
-						$scope.showLeftNav = true;
-					} else {
-						$scope.showLeftNav = false;
-					}
-					$scope.showRightNav = false;
+					$scope.applyFilters();
 				}
-				$scope.showButtonLoad = false;
-			} else {
-				$scope.showButtonLoad = true;
-				$scope.showRightNav = false;
-				$scope.showLeftNav = false;
-				$scope.showPaginator = false;
 			}
 		};
-		
-		$scope.onShowRight = function() {
-			$scope.offset += $scope.limit;
-			$scope.onLoad();
-		};
-		
-		$scope.onShowLeft = function() {
-			$scope.offset -= $scope.limit;
-			if ($scope.offset < 0) $scope.offset = 0;
-			$scope.onLoad();
-		};
-		
-		
+
 		$scope.$watch('valfilter+primarylang+fallbacklang', function(f) {
 			$scope.applyFilters();
 		});
 		
 		$scope.applyFilters = function() {
-			$scope.vals = $filter('valueFilter')($scope.values, $scope.valfilter);
+			$scope.vals = $scope.getLoaded();
+			$scope.vals = $filter('valueFilter')($scope.vals, $scope.valfilter);
 			$scope.vals = $filter('languageFilter')($scope.vals, $scope.primarylang, $scope.fallbacklang);
-			$scope.checkButtons();
 		};
 		
 		$scope.applyFilters();
@@ -1111,7 +1222,7 @@ dbpv.directive('dbpvpMap', function() {
 		restrict:	"EA",
 		transclude:	false,
 		replace:	true,
-		template:	'<div id="dbpvpmapcontainer"><div id="dbpvpmap"></div></div>',
+		template:	'<div id="dbpvpmapcontainer" class="top-block"><div id="dbpvpmap"></div></div>',
 		scope:		{
 						/*lon:	"=",
 						lat:	"="//*/
@@ -1617,7 +1728,7 @@ dbpv.directive('dbpvTopbar', function() {
 						localprefix:	"="
 					},
 					
-		template:	'<div class="navbar"> 		<div class="dbp-logo">			<img ng-src="{{logo}}"></img> 		</div> 		<div id="searchbar">	  			<div class="input-group" id="topstuff">				<span class="input-group-addon glyphicon glyphicon-search"></span>				<div dbpv-lookup lookupgraph="lookupgraph" lookupendpoint="lookupendpoint" localprefix="localprefix"></div> 				<span class="input-group-addon addon-right" title="This is the Named Graph">@ {{localgraph}}</span>				<div dbpv-language-switch primarylang="primarylang" languages="languages"></div>			</div>					</div>	</div>'
+		template:	'<div class="navbar top-block"> 		<div class="dbp-logo">			<img ng-src="{{logo}}"></img> 		</div> 		<div id="searchbar">	  			<div class="input-group" id="topstuff">				<span class="input-group-addon glyphicon glyphicon-search"></span>				<div dbpv-lookup lookupgraph="lookupgraph" lookupendpoint="lookupendpoint" localprefix="localprefix"></div> 				<span class="input-group-addon addon-right" title="This is the Named Graph">@ {{localgraph}}</span>				<div dbpv-language-switch primarylang="primarylang" languages="languages"></div>			</div>					</div>	</div>'
 	};
 })
 ;
@@ -1665,7 +1776,7 @@ dbpv.directive('dbpvRelationInstances', function() {
 						fallbacklang:	"="
 						
 					},
-		template:	'<div id="relation-instances" ng-show="showInstances"><div id="relation-instances-top">Some relation instances</div><div id="relation-instances"><div ng-repeat="instance in instances"><div class="relation-instance"><div class="relation-instance-subject"><div display-node node="instance.subj" primarylang="primarylang" fallbacklang="fallbacklang"></div></div><div class="relation-instance-object"><div display-node node="instance.obj" primarylang="primarylang" fallbacklang="fallbacklang"></div></div></div></div></div></div>',
+		template:	'<div id="relation-instances" class="top-block" ng-show="showInstances"><div id="relation-instances-top">Some relation instances</div><div id="relation-instances"><div ng-repeat="instance in instances"><div class="relation-instance"><div class="relation-instance-subject"><div display-node node="instance.subj" primarylang="primarylang" fallbacklang="fallbacklang"></div></div><div class="relation-instance-object"><div display-node node="instance.obj" primarylang="primarylang" fallbacklang="fallbacklang"></div></div></div></div></div></div>',
 		controller:	"DbpvRelationInstancesCtrl",
 	};
 })
@@ -1703,10 +1814,10 @@ dbpv.directive('dbpvClassInstances', function() {
 						
 					},
 		template:	'<div id="class-instances" ng-show="showInstances">'+
-		'<div facet-tree sparql-service="sparqlService" facet-tree-config="facetTreeConfig" select="selectFacet(path)"></div>'+
+		'<div id="facetblock"><div facet-tree sparql-service="sparqlService" facet-tree-config="facetTreeConfig" select="selectFacet(path)"></div>'+
 		'<div facet-value-list sparql-service="sparqlService" facet-tree-config="facetTreeConfig" path="path"></div>	'+
-		'<div constraint-list sparql-service="sparqlService" facet-tree-config="facetTreeConfig"></div>'+
-		'<div id="class-instances-top">Some instances of this class:</div><div id="class-instances"><div ng-repeat="instance in instances"><div class="class-instance-i"><div class="class-instance"><div display-node node="instance" primarylang="primarylang" fallbacklang="fallbacklang"></div></div></div></div></div></div>',
+		'<div constraint-list sparql-service="sparqlService" facet-tree-config="facetTreeConfig"></div></div>'+
+		'<div id="instance-block" class="top-block"><div id="class-instances-top">Some instances of this class:</div><div id="class-instances"><div class="class-instance-i" dbpv-pagination page="page" total="total" perpage="perpage"></div><div ng-repeat="instance in instances"><div class="class-instance-i"><div class="class-instance"><div display-node node="instance" primarylang="primarylang" fallbacklang="fallbacklang"></div></div></div></div></div></div></div>',
 		controller:	"DbpvClassInstancesCtrl",
 	};
 })
@@ -1740,21 +1851,70 @@ dbpv.directive('dbpvClassInstances', function() {
         };
 		
 		// end faceted browsing code //
+		
+		
+		$scope.showPaginator = true;
+		
+		$scope.perpage = 15;
+		$scope.page = 0;
+		$scope.total = 0;
+		
+		$scope.criteria = "?x <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <"+$scope.about.uri+">";
+		
+		$scope.getInstanceNumber = function() {
+			if ($scope.showInstances) {
+				Entity.loadReverseValuesCount($scope.about, {"uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"})
+					.then(
+						function(number) {
+							$scope.total = number[0].literalLabel.val;
+						}
+					)
+				;//*/
+				/*Entity.loadFacetedCount($scope.criteria, $scope.perpage, $scope.offset).
+					then(
+						function(number) {
+							$scope.total = number[0].literalLabel.val;
+						}
+					)
+				;//*/
+			}
+		};
+		
 	
 		dbpv.showClassInstances = function() {
 			$scope.showInstances = true;
-			$scope.loadInstances(25);
+			$scope.getInstanceNumber();
 		};
 		
-		$scope.loadInstances = function(number) {
-			Entity.classInstances($scope.about.uri, number)
-				.then(
-					function(instances) {
-						$scope.instances = instances;
-					}
-				)
-			;
+		$scope.loadInstances = function() {
+			if ($scope.showInstances) {
+				Entity.loadReverseValues($scope.about, {"uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"}, $scope.perpage, $scope.offset)
+					.then(
+						function(instances) {
+							$scope.instances = instances;
+						}
+					)
+				;
+				//*/
+				/*
+				Entity.loadFaceted($scope.criteria, $scope.perpage, $scope.offset).
+					then(
+						function(instances) {
+							$scope.instances = instances;
+						}
+					)
+				;//*/
+			}
 		};
+		
+		$scope.$watch('page', function(page) {
+			$scope.offset = $scope.page * $scope.perpage;
+			$scope.loadInstances();
+		});
+		
+		$scope.$watch('total', function(total) {
+			$scope.loadInstances();
+		});
 	}])
 
 ;

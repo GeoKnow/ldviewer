@@ -231,6 +231,7 @@ body #static {
 .navbar {
 	background-color: #FFFFFF;
 	border-bottom: 1px solid #CCC;
+	border-radius: 0;
 }
 
 .navbar .btn {
@@ -335,8 +336,7 @@ body #static {
 
 .pred-value {
 	background-color: #ffffff;
-	border: 1pt solid #DDDDDD;
-	border-right: 0pt solid white;
+	border-bottom: 1pt solid #DDDDDD;
 	margin-bottom: 3px;
 	padding: 3px;
 	padding-left: 10px;
@@ -385,23 +385,32 @@ body #static {
 	padding-bottom: 0.5em;
 }
 
-.btn-show-more {
-	background-color: #DDDDDD;
-	border-radius: 0px 0px 0px 0px;
-	border: 0px solid white;
+.top-block {
+	box-shadow: 2px 2px 2px 0px #bfbfbf;
+}
+
+.dbpv-btn {
+	background-color: #DDD;
+	border-radius: 0;
+	border: 0;
+	border-bottom: 1px solid #c2c2c2;
+	border-right: 1px solid #c2c2c2;
+	color:white;
+}
+
+.dbpv-btn:hover, .dbpv-btn:focus, .dbpv-btn:active {
+	background-color: #3CB371;
+	border-bottom: 1px solid #159515;
+	border-right: 1px solid #159515;
 }
 
 .btn-show-left {
-	background-color: #DDDDDD;
-	border-radius: 0;
-	border: 0px solid white;
-	color: white;
 	float:left;
 	width: 33%;
 }
 
 .rev-paginator {
-	width:	33%;
+	width:	34%;
 	float:	left;
 	text-align:center;
 }
@@ -413,25 +422,15 @@ body #static {
 	text-align:center;
 }
 
-.btn-show-left:hover, .btn-show-left:focus, .btn-show-left:active {
-	background-color: #3CB371;
+.btn-show-right-placeholder {
+	width: 33%;
+	float:left;
+	text-align:center;
 }
 
 .btn-show-right {
-	background-color: #DDDDDD;
-	border-radius: 0;
-	border: 0px solid white;
-	color: white;
 	float:left;
 	width: 33%;
-}
-
-.btn-show-right:hover, .btn-show-right:focus, .btn-show-right:active {
-	background-color: #3CB371;
-}
-
-.btn-show-more:hover, .btn-show-more:focus , .btn-show-more:active, .btn-show-more.active {
-	background-color: #3CB371;
 }
 
 .dbpv-filter {
@@ -440,6 +439,7 @@ body #static {
 	border-bottom: 1pt solid #CCC;
 	border-radius: 0px 0px 0px 0px;
 	padding-bottom:0px;
+	background-color:transparent;
 }
 
 
@@ -479,6 +479,10 @@ label.dbpv-tabletop {
 	border: 1px solid #CCCCCC;
 }
 
+.dbpv-paginator {
+	overflow: hidden;
+}
+
 #relation-instances #relation-instances-top {
 	background-color: white;
 	margin-top:	1em;
@@ -511,9 +515,28 @@ label.dbpv-tabletop {
 	width: 50%;
 }
 
+#class-instances {
+	overflow: hidden;
+}
+
+#class-instances #facetblock {
+	float:left;
+	width: 30%;
+	margin-top: 18px;
+	padding: 1em;
+}
+
+#class-instances #instance-block {
+	float:right;
+	width: 60%;
+	padding-top: 0;
+	margin-top: 1em;
+	margin-right:1em;
+	margin-bottom: 1em;
+}
+
 #class-instances #class-instances-top {
 	background-color: white;
-	margin-top:	1em;
 	padding: 10px;
 	font-size: 18px;
 	font-weight: bold;

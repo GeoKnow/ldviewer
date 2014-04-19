@@ -326,6 +326,22 @@ angular.module('dbpv.services', [])
 						}
 					)
 				;				
+			},
+			
+			numberClassInstances: function(classURL) {
+				var rdf = Jassa.rdf;
+				var query = "SELECT COUNT(?x) AS ?c WHERE {?x <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <"+classURL+"> }";
+				return JassaService.select(query, UrlService.endpoint, UrlService.endpointgraph)
+					.then(
+						function(resultset) {
+							var cVar = rdf.NodeFactory.createVar("c");
+							while (resultset.hasNext()) {
+								var count = resultset.nextBinding().get(cVar).literalLabel.val;
+							}
+							return count;
+						}
+					)
+				;
 			}
 		};
 	}])
