@@ -30,7 +30,8 @@ dbpv.controller('MetaCtrl', ['$rootScope', '$scope', '$routeParams', '$filter', 
 		"http://linkedgeodata.org/meta/":	"lgd-meta",
 		"http://linkedgeodata.org/geometry/":	"lgd-geometry",
 		"http://linkedgeodata.org/triplify/":	"lgd-triplify",
-		"http://linkedgeodata.org/":	"lgd"
+		"http://linkedgeodata.org/":	"lgd",
+		"http://www.w3.org/2002/07/owl#":	"owl"
 	};
 
 	dbpv.doConfigure();

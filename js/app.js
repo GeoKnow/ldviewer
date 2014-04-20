@@ -29,9 +29,13 @@ dbpv.factory('UrlService', ['$rootScope', function($rootScope) {
 		primarylang:	$rootScope.primarylang,
 		fallbacklang:	$rootScope.fallbacklang,
 		
+		localUrl:	function(url) {
+			return $rootScope.localgraph !== undefined && $rootScope.localprefix !== undefined && url.uri.slice(0, $rootScope.localgraph.length) == $rootScope.localgraph;
+		},
+		
 		makeUrl: 	function(uri) {
 			var url = {'uri':uri};
-			if ($rootScope.localgraph !== undefined && $rootScope.localprefix !== undefined && url.uri.slice(0, $rootScope.localgraph.length) == $rootScope.localgraph) {
+			if (this.localUrl(url)) {
 				url.uri = url.uri.slice($rootScope.localgraph.length, url.uri.length);
 				url.uri = "/"+$rootScope.localprefix+url.uri;
 				url.local = true;
@@ -169,6 +173,12 @@ dbpv.run(function($rootScope) {
 
 	$rootScope.primarylang = "en";
 	$rootScope.fallbacklang = "en";	
+	
+	$rootScope.labelPrefs = [
+		"http://www.w3.org/2000/01/rdf-schema#label"
+	];
+	
+	$rootScope.showLabels = true;
 	
 	$rootScope.templateStr = "Template";//*/
 });

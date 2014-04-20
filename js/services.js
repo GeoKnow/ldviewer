@@ -114,16 +114,21 @@ angular.module('dbpv.services', [])
 				var about = $("[about]").attr("about");//XXX this is ugly
 				
 				var query = "";
+				var labelquery = "";
 				
 				if (!reverse) {
 					query = "SELECT DISTINCT * where {<"+entityUrl+"> ?p ?o}";
+					labelqueries = ["SELECT DISTINCT ?p as ?x ?pl ?l WHERE { ?p ?pl ?l . {"+query + "}", "SELECT DISTINCT ?o as ?x ?pl ?l WHERE { ?o ?pl ?l . {"+query + "}"];
 				} else {
 					query = "SELECT DISTINCT ?p ?s WHERE {?su ?p <"+entityUrl+"> .FILTER (?p != <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>). {SELECT ?s WHERE {?s ?p <"+entityUrl+">} LIMIT 3 } }";
 				}
 				
+				var assignLabels = this.assignLabels;
+				
 				return JassaService.select(query, UrlService.endpoint, UrlService.endpointgraph)
 					.then(
-						function(resultset) {							
+						function(resultset) {
+							var labelnodes = [];
 							
 							var sVar = rdf.NodeFactory.createVar("s");
 							var pVar = rdf.NodeFactory.createVar("p");
@@ -133,6 +138,7 @@ angular.module('dbpv.services', [])
 								var binding = resultset.nextBinding();
 								//console.log(binding);
 								var prop = binding.get(pVar);
+															labelnodes.push(prop);
 								var predid = prop.uri;
 								var obj = {};
 								if (!reverse) {
@@ -144,6 +150,7 @@ angular.module('dbpv.services', [])
 									predid = "o-"+predid;
 									prop.forward = false;
 								}
+															labelnodes.push(obj);
 								var subj = about;
 								var triple = new rdf.Triple(subj, prop, obj);
 								
@@ -155,6 +162,7 @@ angular.module('dbpv.services', [])
 								}
 								pred.values.push(obj);
 							}
+							assignLabels(labelqueries, labelnodes);
 							console.log("LOADED INQE");
 							return null;
 						},
@@ -168,17 +176,89 @@ angular.module('dbpv.services', [])
 				;
 			},
 			
+			assignLabels:	function(queries, nodes) {
+				if ($rootScope.showLabels) {
+				var rdf = Jassa.rdf;
+				var labelPrefs = $rootScope.labelPrefs;
+				for (var q = 0; q < queries.length; q++) {
+					query = queries[q];
+					query = query+". FILTER(";
+					for (var j = 0; j < labelPrefs.length ; j++) {
+						var addx = "(?pl = <" + labelPrefs[j] + ">)";
+						if (j < labelPrefs.length -1) {
+							addx += " || ";
+						}
+						query += addx;
+					}
+					query += ")}";
+					console.log(query);//*/
+					JassaService.select(query, UrlService.endpoint, UrlService.endpointgraph)
+						.then(
+							function(resultset) {
+								var labelmap = {};
+								var xVar = rdf.NodeFactory.createVar("x");
+								var plVar = rdf.NodeFactory.createVar("pl");
+								var lVar = rdf.NodeFactory.createVar("l");
+								while (resultset.hasNext()) {
+									var binding = resultset.nextBinding();
+									var label = binding.get(lVar);
+									var lprop = binding.get(plVar).uri;
+									var thing = binding.get(xVar).uri;
+									if (!labelmap[thing]) {
+										labelmap[thing] = [];
+									}
+									if (!labelmap[thing][lprop]) {
+										labelmap[thing][lprop] = [];
+									}
+									labelmap[thing][lprop].push(label);
+								}
+								for (var key in labelmap) {
+									var labels = null;
+									for (var k = 0; k < labelPrefs.length; k++) {
+										var labelprops = labelmap[key];
+										for (var labelprop in labelprops) {
+											if (labelPrefs[k] == labelprop) {
+												labels = labelprops[labelprop];
+												break;
+											}
+										}
+										if (labels)
+											break;
+									}
+									if (labels) 
+										labelmap[key] = labels;
+								}
+								for (var i = 0 ; i < nodes.length; i++) {
+									var node = nodes[i];
+									if (node.uri && labelmap[node.uri]) {
+										var labels = labelmap[node.uri];
+										if (labels && labels.length > 0)
+											node.labelNodes = labels;
+									}
+								}
+								//$rootScope.$apply();
+							}
+						)
+					;
+				}
+				}
+			},
+			
 			reversePredicates:	function(resource, predicates) {
 				var rdf = Jassa.rdf;
 				var query = "SELECT DISTINCT ?p WHERE {?s ?p <"+resource+">.}";
+				var labelqueries = ["SELECT DISTINCT ?p as ?x ?pl ?l WHERE { ?p ?pl ?l . {"+query + "}"];
+				var assignLabels = this.assignLabels;
 				return JassaService.select(query, UrlService.endpoint, UrlService.endpointgraph)
 					.then(
 						function(resultset) {
 							var pVar = rdf.NodeFactory.createVar("p");
+							var labelnodes = [];
 							while(resultset.hasNext()) {
 								var binding = resultset.nextBinding();
 								//console.log(binding);
 								var prop = binding.get(pVar);
+																labelnodes.push(prop);
 								var predid = prop.uri;
 								var obj = {};
 								
@@ -197,6 +277,7 @@ angular.module('dbpv.services', [])
 								}
 								//pred.values.push(obj);
 							}
+							assignLabels(labelqueries, labelnodes);
 							console.log("LOADED INQE");
 							return null;
 						},
@@ -213,16 +294,21 @@ angular.module('dbpv.services', [])
 			loadReverseValues:	function(resource, property, limit, offset) {
 				var rdf = Jassa.rdf;
 				var query = "SELECT ?s WHERE {?s <"+property.uri+"> <"+resource.uri+">} LIMIT "+limit+" OFFSET "+offset;
+				var labelqueries = ["SELECT DISTINCT ?s as ?x ?pl ?l WHERE { ?s ?pl ?l . {"+query + "}"];
+				var assignLabels = this.assignLabels;
 				return JassaService.select(query, UrlService.endpoint, UrlService.endpointgraph)
 					.then(
 						function(resultset) {
 							var sVar = rdf.NodeFactory.createVar("s");
 							var results = [];
+							var labelnodes = [];
 							while(resultset.hasNext()) {
 								var binding = resultset.nextBinding();
 								var subj = binding.get(sVar);
+															labelnodes.push(subj);
 								results.push(subj);
 							}
+							assignLabels(labelqueries, labelnodes);
 							return results;
 						},
 						function(error) {
@@ -261,6 +347,8 @@ angular.module('dbpv.services', [])
 				var rdf = Jassa.rdf;
 				
 				var query = "SELECT DISTINCT ?s ?o where {?s <"+relationURL+"> ?o} LIMIT "+number;
+				var labelqueries = ["SELECT DISTINCT ?s as ?x ?pl ?l WHERE { ?s ?pl ?l . {"+query + "}", "SELECT DISTINCT ?o as ?x ?pl ?l WHERE { ?o ?pl ?l . {"+query + "}"];
+				var assignLabels = this.assignLabels;
 				
 				return JassaService.select(query, UrlService.endpoint, UrlService.endpointgraph)
 					.then(
@@ -269,16 +357,20 @@ angular.module('dbpv.services', [])
 							var sVar = rdf.NodeFactory.createVar("s");
 							//var pVar = rdf.NodeFactory.createVar("p");
 							var oVar = rdf.NodeFactory.createVar("o");
+							var labelnodes = [];
 							while(resultset.hasNext()) {
 								var binding = resultset.nextBinding();
 								console.log(binding);
 								var subj = binding.get(sVar);
 								var obj  = binding.get(oVar);
+														labelnodes.push(subj);
+														labelnodes.push(obj);
 								
 								var oneret = {"subj":subj, "obj":obj};
 								instances.push(oneret);
 								console.log(oneret);
 							}
+							assignLabels(labelqueries, labelnodes);
 							console.log("relation instances loaded");
 							return instances;
 						},
@@ -300,21 +392,24 @@ angular.module('dbpv.services', [])
 				var rdf = Jassa.rdf;
 				
 				var query = "SELECT DISTINCT ?s where {?s <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <"+classURL+">} LIMIT "+number;
+				var labelqueries = ["SELECT DISTINCT ?s as ?x ?pl ?l WHERE { ?s ?pl ?l . {"+query + "}"];
+				
+				var assignLabels = this.assignLabels;
 				
 				return JassaService.select(query, UrlService.endpoint, UrlService.endpointgraph)
 					.then(
 						function(resultset) {
 							var sVar = rdf.NodeFactory.createVar("s");
-							//var pVar = rdf.NodeFactory.createVar("p");
-							var oVar = rdf.NodeFactory.createVar("o");
 							
 							var instances = [];
-							
+							var labelnodes = [];
 							while(resultset.hasNext()) {
 								var binding = resultset.nextBinding();
 								var subj = binding.get(sVar);
+														labelnodes.push(subj);
 								instances.push(subj);
 							}
+							assignLabels(labelqueries, labelnodes);
 							console.log("class instances loaded");
 							return instances;
 						},
