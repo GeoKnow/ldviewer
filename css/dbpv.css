@@ -19,7 +19,7 @@
 #legend  #legend-title{
 	position:absolute;
 	right: 0px;
-	top: 6em;
+	top: 11.5em;
 	padding: 15px;
 	background-color:white;
 	border: 1px solid #ccc;
@@ -228,6 +228,13 @@ body #static {
 	border-color: #32CD32;
 }
 
+#dbpv-settings {
+	position:absolute;
+	top: 15px;
+	right: 15px;
+	font-size:	2.5em;
+}
+
 .navbar {
 	background-color: #FFFFFF;
 	border-bottom: 1px solid #CCC;
@@ -241,9 +248,10 @@ body #static {
 .navbar #searchbar{
 	margin-top: 15px;
 	margin-left:250px;
-	margin-bottom:15px;
+	margin-bottom:10px;
 	width:70%;
 	max-width: 1000px;
+	display:inline-block;
 }
 
 .navbar #searchbar #topstuff {
@@ -673,7 +681,7 @@ label.dbpv-tabletop {
 
 #dbpvtour {
 	position:absolute;
-	top: 0.5em;
+	top: 6.5em;
 	right: 0.5em;
 	background-color:white;
 	padding: 15px;

@@ -30,65 +30,81 @@ var RedirectAction = Class.create(dbpv.Action, {
 var PrettyListAction = Class.create(dbpv.Action, {
 	initialize:	function(about, predicate, value) {
 		if (predicate.forward) {
-			for (var i = 0; i < this.properties.length; i ++) {
-				if (predicate.uri == this.properties[i].uri) {
-					var propertyAdder = dbpv.getPrettyPropertyAdder(this.properties[i].label, this.properties[i].priority);
+			//for (var i = 0; i < this.properties.length; i ++) {
+			var propdef = this.properties[predicate.uri];
+				if (propdef) {
+					var propertyAdder = dbpv.getPrettyPropertyAdder(propdef.label, propdef.prio);
 					if (propertyAdder) {
 						propertyAdder(value);
 					}
 				}
-			}
+			//}
 		}
 	},
 	
-	properties: [
+	properties: {
+					"http://dbpedia.org/ontology/birthPlace":
 					{
-						"uri":	"http://dbpedia.org/ontology/birthPlace",
+						"reverse": false,
 						"label":"Place of Birth",
-						"priority":	1
+						"prio":	1
 					},
+					"http://dbpedia.org/property/occupation":
 					{
-						"uri":	"http://dbpedia.org/property/occupation",
+						"reverse": false,
 						"label":"Occupation",
-						"priority":	3
+						"prio":	3
 					},
+					"http://dbpedia.org/ontology/birthDate":
 					{
-						"uri":	"http://dbpedia.org/ontology/birthDate",
+						"reverse": false,
 						"label":"Date of Birth",
-						"priority": 2
+						"prio": 2
 					},
+					"http://dbpedia.org/ontology/areaCode":
 					{
-						"uri":	"http://dbpedia.org/ontology/areaCode",
+						"reverse": false,
 						"label":"Area Code",
-						"priority": 4
+						"prio": 4
 					},
+					"http://dbpedia.org/ontology/country":
 					{
-						"uri": 	"http://dbpedia.org/ontology/country",
+						"reverse": false,
 						"label":"Country",
-						"priority": 5
+						"prio": 5
 					},
+					"http://dbpedia.org/ontology/capital":
 					{
-						"uri": 	"http://dbpedia.org/ontology/capital",
+						"reverse": false,
 						"label":"Capital",
-						"priority": 6
+						"prio": 6
 					},
+					"http://dbpedia.org/ontology/currency":
 					{
-						"uri": 	"http://dbpedia.org/ontology/currency",
+						"reverse": false,
 						"label":"Currency",
-						"priority": 7
+						"prio": 7
 					},
+					"http://dbpedia.org/ontology/language":
 					{
-						"uri": 	"http://dbpedia.org/ontology/language",
+						"reverse": false,
 						"label":"Language",
-						"priority": 8
+						"prio": 8
 					},
+					"http://dbpedia.org/ontology/leaderName":
 					{
-						"uri": 	"http://dbpedia.org/ontology/leaderName",
+						"reverse": false,
 						"label":"Leaders",
-						"priority": 9
+						"prio": 9
+					},
+					"http://dbpedia.org/ontology/wikiPageDisambiguates":
+					{
+						"reverse": false,
+						"label": "Disambiguations",
+						"prio": 10
 					}
 					
-				]
+				}
 	
 	
 });
@@ -293,6 +309,11 @@ var ShortcutAction = Class.create(PrettyBoxAction, {
 				"reverse":false,
 				"label": "Same As",
 				"prio": 8
+			},
+			"http://dbpedia.org/ontology/wikiPageDisambiguates": {
+				"reverse": false,
+				"label": "Disambiguations",
+				"prio": 9
 			}
 		}
 });

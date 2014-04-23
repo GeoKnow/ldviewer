@@ -1802,9 +1802,62 @@ dbpv.directive('dbpvTopbar', function() {
 						localprefix:	"="
 					},
 					
-		template:	'<div class="navbar top-block"> 		<div class="dbp-logo">			<img ng-src="{{logo}}"></img> 		</div> 		<div id="searchbar">	  			<div class="input-group" id="topstuff">				<span class="input-group-addon glyphicon glyphicon-search"></span>				<div dbpv-lookup lookupgraph="lookupgraph" lookupendpoint="lookupendpoint" localprefix="localprefix"></div> 				<span class="input-group-addon addon-right" title="This is the Named Graph">@ {{localgraph}}</span>				<div dbpv-language-switch primarylang="primarylang" languages="languages"></div>			</div>					</div>	</div>'
+		template:	'<div class="navbar top-block"> 		<div class="dbp-logo">			<img ng-src="{{logo}}"></img> 		</div> 		<div id="searchbar">	  			<div class="input-group" id="topstuff">				<span class="input-group-addon glyphicon glyphicon-search"></span>				<div dbpv-lookup lookupgraph="lookupgraph" lookupendpoint="lookupendpoint" localprefix="localprefix"></div> 				<span class="input-group-addon addon-right" title="This is the Named Graph">@ {{localgraph}}</span>				<div dbpv-language-switch primarylang="primarylang" languages="languages"></div>			</div>					</div> <div dbpv-settings></div></div>'
 	};
 })
+;
+
+dbpv.directive('dbpvSettings', function() {
+	return {
+		restrict:	"EA",
+		replace:	true,
+		transclude:	false,
+		scope:		{
+		
+					},
+		template:	'<div id="dbpv-settings"><div ng-repeat="setting in settings"><div class="form-group" ng-switch="setting.type"><div ng-when="string"><label>{{setting.label}}</label><input type="text" class="form-control" ng-model="setting.value"/></div><div ng-when="boolean"><label><input type="checkbox" class="form-control" ng-model="setting.value"/>{{setting.label}}</label></div></div></div> </div>',
+		controller:	"DbpvSettingsController"
+	}
+})
+
+	.controller('DbpvSettingsController', ['$rootScope', '$scope', function($rootScope, $scope) {
+		$scope.settingsmap = [
+			{"id":"localprefix", "label": "Local Prefix", "type": "string", "prio": 0},
+			{"id": "localgraph", "label": "Graph URI", "type": "string", "prio": 1},
+			{"id": "endpoint", "label": "Endpoint URI", "type": "string", "prio": 2},
+			{"id": "fallbacklang", "label": "Fallback Language", "type": "lang", "prio": 0},
+			{"id": "encodegraph", "label": "Encode Graph", "type": "boolean", "prio": 5},
+			{"id": "godmode", "label": "GraffHopper", "type": "boolean", "prio": 6},
+			{"id": "showLabels", "label": "Show Labels", "type": "boolean", "prio": 4},
+		];
+		
+		$scope.settings = [];
+		
+		$scope.makeSettings = function() {
+			for (var i = 0; i < $scope.settingsmap.length; i++) {
+				var setting = $scope.settingsmap[i];
+				setting.value = $rootScope[setting.id];
+				if (setting.prio > 0 && setting.value) {
+					var added = false;
+					for (var j = 0; j < $scope.settings.length; j++) {
+						if ($scope.settings[j].prio > setting.prio) {
+							$scope.settings.splice(j, 0, setting);
+							added = true;
+							break;
+						}
+					}
+					
+					if (!added) {
+						$scope.settings.push(setting);
+					}
+				}
+			}
+			console.log(JSON.stringify($scope.settings));
+		};
+		
+		$scope.makeSettings();
+	}])
+
 ;
 
 dbpv.directive('dbpvDisclaimer', function() {
