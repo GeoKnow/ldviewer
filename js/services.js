@@ -125,7 +125,7 @@ angular.module('dbpv.services', [])
 				
 				var assignLabels = this.assignLabels;
 				
-				return JassaService.select(query, UrlService.endpoint, UrlService.endpointgraph)
+				return JassaService.select(query, UrlService.endpoint(), UrlService.endpointgraph())
 					.then(
 						function(resultset) {
 							var labelnodes = [];
@@ -192,7 +192,7 @@ angular.module('dbpv.services', [])
 					}
 					query += ")}";
 					console.log(query);//*/
-					JassaService.select(query, UrlService.endpoint, UrlService.endpointgraph)
+					JassaService.select(query, UrlService.endpoint(), UrlService.endpointgraph())
 						.then(
 							function(resultset) {
 								var labelmap = {};
@@ -249,7 +249,7 @@ angular.module('dbpv.services', [])
 				var query = "SELECT DISTINCT ?p WHERE {?s ?p <"+resource+">.}";
 				var labelqueries = ["SELECT DISTINCT ?p as ?x ?pl ?l WHERE { ?p ?pl ?l . {"+query + "}"];
 				var assignLabels = this.assignLabels;
-				return JassaService.select(query, UrlService.endpoint, UrlService.endpointgraph)
+				return JassaService.select(query, UrlService.endpoint(), UrlService.endpointgraph())
 					.then(
 						function(resultset) {
 							var pVar = rdf.NodeFactory.createVar("p");
@@ -296,7 +296,7 @@ angular.module('dbpv.services', [])
 				var query = "SELECT ?s WHERE {?s <"+property.uri+"> <"+resource.uri+">} LIMIT "+limit+" OFFSET "+offset;
 				var labelqueries = ["SELECT DISTINCT ?s as ?x ?pl ?l WHERE { ?s ?pl ?l . {"+query + "}"];
 				var assignLabels = this.assignLabels;
-				return JassaService.select(query, UrlService.endpoint, UrlService.endpointgraph)
+				return JassaService.select(query, UrlService.endpoint(), UrlService.endpointgraph())
 					.then(
 						function(resultset) {
 							var sVar = rdf.NodeFactory.createVar("s");
@@ -324,7 +324,7 @@ angular.module('dbpv.services', [])
 			loadReverseValuesCount:	function(resource, property) {
 				var rdf = Jassa.rdf;
 				var query = "SELECT COUNT(?s) AS ?c WHERE {?s <"+property.uri+"> <"+resource.uri+">}";
-				return JassaService.select(query, UrlService.endpoint, UrlService.endpointgraph)
+				return JassaService.select(query, UrlService.endpoint(), UrlService.endpointgraph())
 					.then(
 						function(resultset) {
 							var sVar = rdf.NodeFactory.createVar("c");
@@ -350,7 +350,7 @@ angular.module('dbpv.services', [])
 				var labelqueries = ["SELECT DISTINCT ?s as ?x ?pl ?l WHERE { ?s ?pl ?l . {"+query + "}", "SELECT DISTINCT ?o as ?x ?pl ?l WHERE { ?o ?pl ?l . {"+query + "}"];
 				var assignLabels = this.assignLabels;
 				
-				return JassaService.select(query, UrlService.endpoint, UrlService.endpointgraph)
+				return JassaService.select(query, UrlService.endpoint(), UrlService.endpointgraph())
 					.then(
 						function(resultset) {
 							var instances = [];
@@ -396,7 +396,7 @@ angular.module('dbpv.services', [])
 				
 				var assignLabels = this.assignLabels;
 				
-				return JassaService.select(query, UrlService.endpoint, UrlService.endpointgraph)
+				return JassaService.select(query, UrlService.endpoint(), UrlService.endpointgraph())
 					.then(
 						function(resultset) {
 							var sVar = rdf.NodeFactory.createVar("s");
@@ -426,7 +426,7 @@ angular.module('dbpv.services', [])
 			numberClassInstances: function(classURL) {
 				var rdf = Jassa.rdf;
 				var query = "SELECT COUNT(?x) AS ?c WHERE {?x <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <"+classURL+"> }";
-				return JassaService.select(query, UrlService.endpoint, UrlService.endpointgraph)
+				return JassaService.select(query, UrlService.endpoint(), UrlService.endpointgraph())
 					.then(
 						function(resultset) {
 							var cVar = rdf.NodeFactory.createVar("c");
@@ -478,8 +478,8 @@ angular.module('dbpv.services', [])
 				var rdf = Jassa.rdf;
 				var serve = Jassa.service;
 				var sparqlService = new serve.SparqlServiceHttp(
-					UrlService.endpoint,
-					UrlService.endpointgraph
+					UrlService.endpoint(),
+					UrlService.endpointgraph()
 				);
 				
 				var searchfield = "http://www.w3.org/2000/01/rdf-schema#label";

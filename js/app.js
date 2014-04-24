@@ -23,11 +23,11 @@ dbpv.configure(function() {
 
 dbpv.factory('UrlService', ['$rootScope', function($rootScope) {
 	return {
-		localgraph:	 	$rootScope.localgraph,
-		endpointgraph:	$rootScope.endpointgraph,
-		endpoint:		$rootScope.endpoint,
-		primarylang:	$rootScope.primarylang,
-		fallbacklang:	$rootScope.fallbacklang,
+		localgraph:	 	function() {return $rootScope.localgraph;},
+		endpointgraph:	function() {return $rootScope.endpointgraph;},
+		endpoint:		function() {return $rootScope.endpoint;},
+		primarylang:	function() {return $rootScope.primarylang;},
+		fallbacklang:	function() {return $rootScope.fallbacklang;},
 		
 		localUrl:	function(url) {
 			return $rootScope.localgraph !== undefined && $rootScope.localprefix !== undefined && url.uri.slice(0, $rootScope.localgraph.length) == $rootScope.localgraph;

@@ -1459,10 +1459,10 @@ dbpv.directive('dbpvPreview', function() {
 			for (var key in mappings) {
 				if (dbpv[key] instanceof Array) {
 					for (var subkey in mappings[key]) {
-						dbpvp[key][subkey] = Preview.getProperty(node, mappings[key][subkey], scope, UrlService.localgraph, UrlService.endpoint);
+						dbpvp[key][subkey] = Preview.getProperty(node, mappings[key][subkey], scope, UrlService.localgraph(), UrlService.endpoint());
 					}
 				} else {
-					dbpvp[key] = Preview.getProperty(node, mappings[key], scope, UrlService.localgraph, UrlService.endpoint);
+					dbpvp[key] = Preview.getProperty(node, mappings[key], scope, UrlService.localgraph(), UrlService.endpoint());
 				}
 			}
 	};
@@ -1815,7 +1815,7 @@ dbpv.directive('dbpvSettings', function() {
 		scope:		{
 		
 					},
-		template:	'<div id="dbpv-settings"><div ng-repeat="setting in settings"><div class="form-group" ng-switch="setting.type"><div ng-when="string"><label>{{setting.label}}</label><input type="text" class="form-control" ng-model="setting.value"/></div><div ng-when="boolean"><label><input type="checkbox" class="form-control" ng-model="setting.value"/>{{setting.label}}</label></div></div></div> </div>',
+		template:	'<div id="dbpv-settings"><div ng-repeat="setting in settings"><div class="form-group" ng-switch="setting.type"><div ng-switch-when="string"><label>{{setting.label}}</label><input type="text" class="form-control" ng-model="setting.value"/></div><div ng-switch-when="boolean" class="checkbox"><label><input type="checkbox" ng-model="setting.value">{{setting.label}}</label></div></div></div></div>',
 		controller:	"DbpvSettingsController"
 	}
 })
@@ -1836,26 +1836,68 @@ dbpv.directive('dbpvSettings', function() {
 		$scope.makeSettings = function() {
 			for (var i = 0; i < $scope.settingsmap.length; i++) {
 				var setting = $scope.settingsmap[i];
-				setting.value = $rootScope[setting.id];
-				if (setting.prio > 0 && setting.value) {
-					var added = false;
-					for (var j = 0; j < $scope.settings.length; j++) {
-						if ($scope.settings[j].prio > setting.prio) {
-							$scope.settings.splice(j, 0, setting);
-							added = true;
-							break;
+				if (setting.prio > 0) {
+					var cookied = $scope.loadFromCookies(setting.id);
+					if (cookied) {
+						setting.value = cookied;
+						if (setting.type == "boolean") {
+							setting.value = (setting.value == "true"? true:false);
 						}
+						$scope.saveInRoot(setting);
+					} else {
+						setting.value = $rootScope[setting.id];
 					}
-					
-					if (!added) {
-						$scope.settings.push(setting);
+					if (setting.value !== undefined) {
+						var added = false;
+						for (var j = 0; j < $scope.settings.length; j++) {
+							if ($scope.settings[j].prio > setting.prio) {
+								$scope.settings.splice(j, 0, setting);
+								added = true;
+								break;
+							}
+						}
+						
+						if (!added) {
+							$scope.settings.push(setting);
+						}
 					}
 				}
 			}
 			console.log(JSON.stringify($scope.settings));
 		};
 		
+		$scope.saveInRoot = function(setting) {
+			if ($rootScope[setting.id]!== undefined && setting.value != $rootScope[setting.id]) {
+				$rootScope[setting.id] = setting.value;
+				return true;
+			}
+			return false;
+		};
+		
+		$scope.watchSettings = function() {
+			$scope.$watch('settings', function(settings) {
+				for (var i = 0; i < settings.length; i++) {
+					if ($scope.saveInRoot(settings[i]))
+						$scope.saveAsCookie(settings[i]);
+				}
+				
+			}, true);
+		};
+		
+		$scope.saveAsCookie = function(setting) {
+			if (setting.id && setting.value !== undefined) {
+				$.cookie("dbpv_setting_"+setting.id, setting.value, {expires:90, path: '/'});
+			}
+		};
+		
+		$scope.loadFromCookies = function(settingid) {
+			if ($.cookie("dbpv_setting_"+settingid) !== undefined) {
+				return $.cookie("dbpv_setting_"+settingid);
+			}
+		};
+		
 		$scope.makeSettings();
+		$scope.watchSettings();
 	}])
 
 ;
@@ -1957,7 +1999,7 @@ dbpv.directive('dbpvClassInstances', function() {
 		
 		var sparqlServiceFactory = new service.SparqlServiceFactoryDefault();
 
-		$scope.sparqlService = new service.SparqlServiceHttp(UrlService.endpoint, UrlService.endpointgraph);
+		$scope.sparqlService = new service.SparqlServiceHttp(UrlService.endpoint(), UrlService.endpointgraph());
 		
        // $scope.sparqlService = sparqlServiceFactory.createSparqlService(UrlService.endpoint, UrlService.endpointgraph);
 
