@@ -139,6 +139,8 @@ dbpv.run(function($rootScope) {
 		return $rootScope[config];
 	};
 	$rootScope.iconpath = "/css/200px-dbpedia.png";
+	
+
 
 /*	
 	$rootScope.localprefix = "#";
@@ -161,7 +163,12 @@ dbpv.run(function($rootScope) {
 	$rootScope.godmode = false;
 	
 	$rootScope.localgraph = "http://dbpedia.org";
-	$rootScope.endpointgraph = ["http://dbpedia.org"];
+	$rootScope.endpointgraph = [];
+	
+	$rootScope.$watch('localgraph', function(lg) {
+		$rootScope.endpointgraph = [lg];
+	});
+	
 	$rootScope.endpoint = "http://dbpedia.org/sparql";
 	$rootScope.encodegraph = true;
 
@@ -181,6 +188,18 @@ dbpv.run(function($rootScope) {
 	$rootScope.showLabels = true;
 	
 	$rootScope.templateStr = "Template";//*/
+	
+		// LOAD SETTINGS FROM COOKIES
+	var cookies = $.cookie();
+	for (var key in cookies) {
+		var settingsprefix = "dbpv_setting_";
+		if (key.slice(0, settingsprefix.length) == settingsprefix) {
+			var val = cookies[key];
+			if (val == "true") val = true;
+			if (val == "false") val = false;
+			$rootScope[key.slice(settingsprefix.length, key.length)] = val;
+		}
+	}
 });
 
 dbpv.run(function($rootScope) {

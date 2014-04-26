@@ -238,54 +238,65 @@ dbpv.directive('displayPredicates', function() {
 					'	</div>'+
 					'</div>',
 		
-		controller:	'DisplayPredicatesCtrl'			
+		controller:	'DisplayPredicatesCtrl'		,
+		link:	function(scope, element, attrs) {
+			//alert("linking");
+			console.log("linking");
+		}
 	};
 })
 
-	.controller('DisplayPredicatesCtrl', ['$scope', '$timeout', '$filter', 'Entity', 'TafService', '$rootScope', function($scope, $timeout, $filter, Entity, TafService, $rootScope) {		
+	.controller('DisplayPredicatesCtrl', ['$scope', '$timeout', '$filter', 'Entity', 'TafService', '$rootScope', function($scope, $timeout, $filter, Entity, TafService, $rootScope) {
+	
 		$scope.sortPredicates = function(item) {
 			return item.predid;
 		};
+	
+		$scope.load = function() {
+			//alert("controlling");
+			
+			$scope.predicates = {};
+			
+			$rootScope.entitySemaphore ++;
+			Entity.triples($scope.about.uri, $scope.predicates)
+				.then(
+					function(result) {
+						//jQuery.extend($scope.predicates, predicates);
+						TafService.onPredicateChange($scope.about, $scope.predicates);
+						$rootScope.entitySemaphore --;
+					},
+					function(error) {
+						$rootScope.entitySemaphore --;
+					},
+					function(update) {
+					
+					}
+				)
+			;
+			
+			$scope.reversepredicates = {};
+			
+			
+			
+			$rootScope.entitySemaphore ++;
+			Entity.reversePredicates($scope.about.uri, $scope.reversepredicates)
+				.then(
+					function(result) {
+						TafService.onPredicateChange($scope.about, $scope.reversepredicates);
+						jQuery.extend($scope.predicates, $scope.reversepredicates);
+						$rootScope.entitySemaphore --;
+					},
+					function(error) {
+						$rootScope.entitySemaphore --;
+					},
+					function(update) {
+					
+					}
+				)
+			;
+		};
 		
-		$scope.predicates = {};
-		
-		$rootScope.entitySemaphore ++;
-		Entity.triples($scope.about.uri, $scope.predicates)
-			.then(
-				function(result) {
-					//jQuery.extend($scope.predicates, predicates);
-					TafService.onPredicateChange($scope.about, $scope.predicates);
-					$rootScope.entitySemaphore --;
-				},
-				function(error) {
-					$rootScope.entitySemaphore --;
-				},
-				function(update) {
-				
-				}
-			)
-		;
-		
-		$scope.reversepredicates = {};
-		
-		
-		
-		$rootScope.entitySemaphore ++;
-		Entity.reversePredicates($scope.about.uri, $scope.reversepredicates)
-			.then(
-				function(result) {
-					TafService.onPredicateChange($scope.about, $scope.reversepredicates);
-					jQuery.extend($scope.predicates, $scope.reversepredicates);
-					$rootScope.entitySemaphore --;
-				},
-				function(error) {
-					$rootScope.entitySemaphore --;
-				},
-				function(update) {
-				
-				}
-			)
-		;
+		$scope.load();
 	}])
 ;
 
@@ -1098,6 +1109,49 @@ dbpv.directive('smartSlide', function () {
 	};
 });
 
+dbpv.directive('smartSlider', function() {
+	return {
+		restrict: 	"EA",
+		transclude:	false,
+		replace:	true,
+		scope:		{
+						content:	"=",
+						title:		"=",
+						state:		"="
+					},
+		controller:	"SmartSliderCtrl",
+		template:	'<div id="smartSlider"><div id="smartSlider-title">{{title}}</div><div id="smartSlider-content" compile="content"></div></div>'
+	};
+})
+	
+	.controller('SmartSliderCtrl', ['$scope', function($scope) {
+		$scope.currentState = false;
+	
+		$scope.$watch("state", function(state) {
+			if (state != $scope.currentState) {
+				$scope.updateSlider();
+			}
+		});
+		
+		$scope.updateSlider = function() {
+			if ($scope.state==true && $scope.currentState == false) {
+				$scope.showSlider();
+			} else if ($scope.state = false && $scope.currentState == true) {
+				$scope.hideSlider();
+			}
+		};
+		
+		$scope.showSlider = function() {
+			
+		};
+		
+		$scope.hideSlider = function() {
+		
+		};
+	}])
+
+;
+
 // PRETTY BOX DIRECTIVES
 
 dbpv.directive('prettyTypes', function() {
@@ -1622,7 +1676,7 @@ dbpv.directive('dbpvLegend', function() {
 						
 					},
 		//template:	"<div>haha</div>",
-		template:	'<div id="legend" smart-slide=".trigger" smart-slide-content=".container">	<div class="trigger" id="legend-title" data-intro="Here, the actions applicable to triples are explained." data-step="7" data-position="left"><a href="javascript:void(0);" ><span>LEGEND</span></a></div>	<div class="container" id="legends">		<div class="legend" ng-repeat="legend in legends">			<div class="name">{{legend.name}}</div>			<div class="description">{{legend.description}}</div>			<div class="line" ng-repeat="line in legend.lines">				<span ng-bind-html-unsafe="line.icon"></span> : {{line.text}}			</div>		</div>	</div></div>',//*/
+		template:	'<div id="legend" ><h2 style="margin-top:0;">Legend</h2>	<div class="container" id="legends">		<div class="legend" ng-repeat="legend in legends">			<div class="name">{{legend.name}}</div>			<div class="description">{{legend.description}}</div>			<div class="line" ng-repeat="line in legend.lines">				<span ng-bind-html-unsafe="line.icon"></span> : {{line.text}}			</div>		</div>	</div></div>',//*/
 		controller:	'DbpvLegendCtrl'
 	};
 })
@@ -1788,6 +1842,87 @@ dbpv.directive('dbpvLanguageSwitch', function() {
 
 ;
 
+dbpv.directive('dbpvStatus', function() {
+	return {
+		restrict: 	"EA",
+		transclude:	false,
+		replace:	true,
+		scope:		{
+		
+					},
+		controller:	"DbpvStatusCtrl",
+		template:	'<div id="dbpv-status"><div ng-repeat="status in stasi" class="status-item"><span ng-bind-html-unsafe="status.icon" ng-click="removeStatus(status)"></span><span>{{status.text}}</span></div></div>'
+	};
+})
+	
+	.controller('DbpvStatusCtrl', ['$scope', '$rootScope', function($scope, $rootScope) {
+		$scope.stasi = [];
+		$scope.kgb = 0;
+		$scope.stasiSemaphore = 0;
+		$scope.stasiChange = 0;
+	
+		$scope.addStatus = function(status) {
+			if (status && status.text) {
+				return $scope.getStatusHandler(status);
+			}
+		};
+		
+		$scope.getStatusHandler = function(status) {
+			$scope.stasi.push(status);
+			$scope.kgb ++;
+			$scope.stasiChange ++;
+			status.id = $scope.kgb;
+			console.log("New status id :" + status.id);
+			return {
+				"delete": 	function() {
+					$scope.removeStatus(status);
+				}
+			};
+		};
+		
+		dbpv.addStatus = function(status) {
+			return $scope.addStatus(status);
+		};
+		
+		$scope.removeStatus = function(status) {
+			if (status && status.text && status.id) {
+				console.log("Removing status with id :"+status.id);
+				$scope.stasiChange++;
+				$scope.stasiSemaphore ++;
+				var i = 0; 
+				while (i < $scope.stasi.length) {
+					if ($scope.stasi[i].id == status.id) {
+						$scope.stasi[i].delete = true;
+						break;
+					}
+					i++;
+				}
+				$scope.stasiSemaphore --;
+			}
+		};
+		
+		$scope.$watch('stasiChange', function(s) {
+			var sem = $scope.stasiSemaphore;
+			console.log("Stasi semaphore :"+sem);
+			if (sem == 0) {
+				var i = 0;
+				while (i < $scope.stasi.length) {
+					if ($scope.stasi[i].delete) {
+						$scope.stasi.splice(i, 1);
+						i--;
+					}
+					i++;
+				}
+			}
+		});
+		
+		//var sh = $scope.addStatus({"icon": '<span class="glyphicon glyphicon-book"></span>', "text": "This is a test status"});
+		
+		
+	}])
+
+;
+
 dbpv.directive('dbpvTopbar', function() {
 	return {
 		restrict:	"EA",
@@ -1802,9 +1937,80 @@ dbpv.directive('dbpvTopbar', function() {
 						localprefix:	"="
 					},
 					
-		template:	'<div class="navbar top-block"> 		<div class="dbp-logo">			<img ng-src="{{logo}}"></img> 		</div> 		<div id="searchbar">	  			<div class="input-group" id="topstuff">				<span class="input-group-addon glyphicon glyphicon-search"></span>				<div dbpv-lookup lookupgraph="lookupgraph" lookupendpoint="lookupendpoint" localprefix="localprefix"></div> 				<span class="input-group-addon addon-right" title="This is the Named Graph">@ {{localgraph}}</span>				<div dbpv-language-switch primarylang="primarylang" languages="languages"></div>			</div>					</div> <div dbpv-settings></div></div>'
+		template:	'<div class="navbar top-block"> 		<div class="dbp-logo">			<img ng-src="{{logo}}"></img> 		</div> 		<div id="searchbar">	  			<div class="input-group" id="topstuff">				<span class="input-group-addon glyphicon glyphicon-search"></span>				<div dbpv-lookup lookupgraph="lookupgraph" lookupendpoint="lookupendpoint" localprefix="localprefix"></div> 				<span class="input-group-addon addon-right" title="This is the Named Graph">@ {{localgraph}}</span>				<div dbpv-language-switch primarylang="primarylang" languages="languages"></div>			</div>					</div> <div dbpv-topbuttons></div></div>'
 	};
 })
+;
+
+dbpv.directive('dbpvTopbuttons', function() {
+	return {
+		restrict: 	"EA",
+		replace:	true,
+		scope:		{
+		
+					},
+		template:	'<div id="dbpv-topbuttons"><span ng-repeat="button in buttons"><div class="dbpv-topbutton {{buttonActive(button)}}" id="{{button.css-id}}" title="{{button.description}}" ng-click="buttonClicked(button)" compile="button.display"></div></span><div ng-show="showContent" class="dbpv-rightcol top-block" compile="content"></div></div>',
+		controller:	"DbpvTopbuttonsCtrl"
+	};
+})
+
+	.controller('DbpvTopbuttonsCtrl', ['$scope', function($scope) {
+		$scope.buttons = [];
+		
+		$scope.content = "";
+		$scope.showContent = false;
+		
+		$scope.activeButton = null;
+		
+		$scope.buttons = [
+							{"id":"settings", "description": "Change Settings", "css-id": "dbpv-settingsbutton", "display": '<span class="glyphicon glyphicon-cog"></span>', "execute": function() {
+									$scope.content = '<div dbpv-settings></div>';
+									$scope.showContent = true;
+								},
+								"nexecute": function() {
+									$scope.content = "";
+									$scope.showContent = false;
+								}},
+							{"id":"tour", "description": "Take a tour", "css-id": "dbpv-tourbutton", "display": '<span class="glyphicon glyphicon-bookmark"></span>', "execute": function(){
+								var custom = introJs().setOptions({"skipLabel":"", "nextLabel":"<span class='glyphicon glyphicon-arrow-right'></span>", "prevLabel":"<span class='glyphicon glyphicon-arrow-left'></span>"});
+								$scope.inactivateActiveButton();
+				custom.start();}},
+							{"id":"legend", "description": "View Legend", "css-id": "dbpv-legendbutton", "display": '<span class="glyphicon glyphicon-book"></span>', "execute": function() {
+								$scope.content = "<div dbpv-legend></div>";
+								$scope.showContent = true;
+							},
+							"nexecute": function() {
+								$scope.content = "";
+								$scope.showContent = false;
+							}}
+						 ];
+						 
+		$scope.buttonClicked = function(button) {
+			/*for (var i = 0; i < $scope.buttons.length; i++) {
+				$scope.buttons[i].active = false;
+			}
+			button.active = true;//*/
+			if ($scope.activeButton == button) {
+				$scope.inactivateActiveButton();
+			} else {
+				if ($scope.activeButton && $scope.activeButton.nexecute) $scope.activeButton.nexecute();
+				$scope.activeButton = button;
+				if (button.execute) button.execute();
+			}
+		};
+		
+		$scope.inactivateActiveButton = function() {
+			if ($scope.activeButton) {
+				if ($scope.activeButton.nexecute) $scope.activeButton.nexecute();
+				$scope.activeButton = null;
+			}
+		};
+		
+		$scope.buttonActive = function(button) {
+			return ($scope.activeButton == button? "active": "inactive");
+		};
+	}])
+
 ;
 
 dbpv.directive('dbpvSettings', function() {
@@ -1815,7 +2021,7 @@ dbpv.directive('dbpvSettings', function() {
 		scope:		{
 		
 					},
-		template:	'<div id="dbpv-settings"><div ng-repeat="setting in settings"><div class="form-group" ng-switch="setting.type"><div ng-switch-when="string"><label>{{setting.label}}</label><input type="text" class="form-control" ng-model="setting.value"/></div><div ng-switch-when="boolean" class="checkbox"><label><input type="checkbox" ng-model="setting.value">{{setting.label}}</label></div></div></div></div>',
+		template:	'<div id="dbpv-settings"><h2 style="margin-top:0;">Settings:</h2><div ng-repeat="setting in settings"><div class="form-group" ng-switch="setting.type"><div ng-switch-when="string"><label>{{setting.label}}</label><input type="text" class="form-control" ng-model="setting.value"/></div><div ng-switch-when="boolean" class="checkbox"><label><input type="checkbox" ng-model="setting.value">{{setting.label}}</label></div></div></div><div ng-click="reset()"><a href="javascript:void()">RESET</a></div></div>',
 		controller:	"DbpvSettingsController"
 	}
 })
@@ -1832,6 +2038,16 @@ dbpv.directive('dbpvSettings', function() {
 		];
 		
 		$scope.settings = [];
+		
+		$scope.reset = function() {
+			var cookies = $.cookie();
+			for (var key in cookies) {
+				var settingsprefix = "dbpv_setting_";
+				if (key.slice(0, settingsprefix.length) == settingsprefix) {
+					$.removeCookie(key);
+				}
+			}
+		};
 		
 		$scope.makeSettings = function() {
 			for (var i = 0; i < $scope.settingsmap.length; i++) {

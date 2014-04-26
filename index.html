@@ -76,18 +76,9 @@ _.mixin(_.str.exports());
 	<div dbpv-notifications></div>
 	<div dbpv-topbar logo="iconpath" primarylang="primarylang" languages="languages" lookupendpoint="lookupendpoint" lookupgraph="lookupgraph" localgraph="localgraph" localprefix="localprefix"></div>
 
-	<!-- INTRO JS-->
-	<div id="dbpvtour">
-		<script type="text/javascript">
-			function startTour() {
-				var custom = introJs().setOptions({"skipLabel":"", "nextLabel":"<span class='glyphicon glyphicon-arrow-right'></span>", "prevLabel":"<span class='glyphicon glyphicon-arrow-left'></span>"});
-				custom.start();
-			}
-		</script>
-		<a href="javascript:void(0);" onclick="startTour();"><center>TAKE A TOUR</center></a>
-	</div>
 
 	<div id="page-contents" ng-view></div>
+	<div dbpv-status></div>
 
 </div>
 

@@ -27,15 +27,15 @@
 }
 
 #legend #legends {
-	position:absolute;
+/*	position:absolute;
 	right: -405px;
 	top:11em;
 	background-color: white;
 	border: 1px solid #ccc;
 	border-bottom: 0px none;
 	box-shadow: 1px 1px 4px #AAA;
+	z-index:99;*/
 	width: 400px;
-	z-index:99;
 }
 
 #legend #legends .name {
@@ -229,9 +229,44 @@ body #static {
 }
 
 #dbpv-settings {
-	position:absolute;
-	top: 15px;
+	width: 400px;
+}
+
+#dbpv-topbuttons {
+	float:right;
+	height: 100%;
+	border-left:1px solid #ddd;
+}
+
+.dbpv-rightcol {
+	position: absolute;
+	top: 69px;
 	right: 15px;
+	padding: 1em;
+	background-color: white;
+	
+}
+
+#dbpv-topbuttons div.dbpv-topbutton {
+	float:right;
+	height: 68px;
+	padding: 0.3em;
+	padding-top: 1.15em;
+	font-size: 1.4em;
+	border-right: 1px solid #ddd;
+	color: grey;
+}
+
+#dbpv-topbuttons div.dbpv-topbutton:hover, #dbpv-topbuttons  div.dbpv-topbutton.active{
+	background-color: #ddd;
+	cursor: pointer;
+	color: black;
+}
+
+#dbpv-status {
+	position: fixed;
+	right: 1em;
+	bottom: 1em;
 }
 
 .navbar {

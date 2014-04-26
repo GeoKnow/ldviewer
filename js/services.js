@@ -125,10 +125,14 @@ angular.module('dbpv.services', [])
 				
 				var assignLabels = this.assignLabels;
 				
-				return JassaService.select(query, UrlService.endpoint(), UrlService.endpointgraph())
+				var status = dbpv.addStatus({"icon": '<span class="glyphicon glyphicon-download-alt"></span>', "text": "Fetching data"});
+				
+				var request = JassaService.select(query, UrlService.endpoint(), UrlService.endpointgraph())
 					.then(
 						function(resultset) {
 							var labelnodes = [];
+							
+							if (status) status.delete();
 							
 							var sVar = rdf.NodeFactory.createVar("s");
 							var pVar = rdf.NodeFactory.createVar("p");
@@ -164,7 +168,7 @@ angular.module('dbpv.services', [])
 							}
 							assignLabels(labelqueries, labelnodes);
 							console.log("LOADED INQE");
-							return null;
+							return "x";
 						},
 						function(error) {
 							return error;
@@ -174,6 +178,8 @@ angular.module('dbpv.services', [])
 						}
 					)
 				;
+				
+				return request;
 			},
 			
 			assignLabels:	function(queries, nodes) {
@@ -192,9 +198,14 @@ angular.module('dbpv.services', [])
 					}
 					query += ")}";
 					console.log(query);//*/
+					
+					var status = dbpv.addStatus({"icon": '<span class="glyphicon glyphicon-download-alt"></span>', "text": "Fetching labels"});
+					
 					JassaService.select(query, UrlService.endpoint(), UrlService.endpointgraph())
 						.then(
 							function(resultset) {
+								if (status) status.delete();
+							
 								var labelmap = {};
 								var xVar = rdf.NodeFactory.createVar("x");
 								var plVar = rdf.NodeFactory.createVar("pl");
@@ -249,9 +260,13 @@ angular.module('dbpv.services', [])
 				var query = "SELECT DISTINCT ?p WHERE {?s ?p <"+resource+">.}";
 				var labelqueries = ["SELECT DISTINCT ?p as ?x ?pl ?l WHERE { ?p ?pl ?l . {"+query + "}"];
 				var assignLabels = this.assignLabels;
+				
+				var status = dbpv.addStatus({"icon": '<span class="glyphicon glyphicon-download-alt"></span>', "text": "Fetching reverse predicates"});
+				
 				return JassaService.select(query, UrlService.endpoint(), UrlService.endpointgraph())
 					.then(
 						function(resultset) {
+							if (status) status.delete();
 							var pVar = rdf.NodeFactory.createVar("p");
 							var labelnodes = [];
 							while(resultset.hasNext()) {
@@ -296,9 +311,11 @@ angular.module('dbpv.services', [])
 				var query = "SELECT ?s WHERE {?s <"+property.uri+"> <"+resource.uri+">} LIMIT "+limit+" OFFSET "+offset;
 				var labelqueries = ["SELECT DISTINCT ?s as ?x ?pl ?l WHERE { ?s ?pl ?l . {"+query + "}"];
 				var assignLabels = this.assignLabels;
+				var status = dbpv.addStatus({"icon": '<span class="glyphicon glyphicon-download-alt"></span>', "text": "Fetching data"});
 				return JassaService.select(query, UrlService.endpoint(), UrlService.endpointgraph())
 					.then(
 						function(resultset) {
+							if (status) status.delete();
 							var sVar = rdf.NodeFactory.createVar("s");
 							var results = [];
 							var labelnodes = [];
@@ -350,9 +367,12 @@ angular.module('dbpv.services', [])
 				var labelqueries = ["SELECT DISTINCT ?s as ?x ?pl ?l WHERE { ?s ?pl ?l . {"+query + "}", "SELECT DISTINCT ?o as ?x ?pl ?l WHERE { ?o ?pl ?l . {"+query + "}"];
 				var assignLabels = this.assignLabels;
 				
+				var status = dbpv.addStatus({"icon": '<span class="glyphicon glyphicon-download-alt"></span>', "text": "Fetching relation instances"});
+				
 				return JassaService.select(query, UrlService.endpoint(), UrlService.endpointgraph())
 					.then(
 						function(resultset) {
+							if (status) status.delete();
 							var instances = [];
 							var sVar = rdf.NodeFactory.createVar("s");
 							//var pVar = rdf.NodeFactory.createVar("p");
@@ -396,9 +416,12 @@ angular.module('dbpv.services', [])
 				
 				var assignLabels = this.assignLabels;
 				
+				var status = dbpv.addStatus({"icon": '<span class="glyphicon glyphicon-download-alt"></span>', "text": "Fetching class instances"});
+				
 				return JassaService.select(query, UrlService.endpoint(), UrlService.endpointgraph())
 					.then(
 						function(resultset) {
+							if (status) status.delete();
 							var sVar = rdf.NodeFactory.createVar("s");
 							
 							var instances = [];
