@@ -100,12 +100,11 @@ angular.module('dbpv.services', [])
 
 	.factory('Entity', ['$rootScope', 'UrlService', '$q', 'JassaService', function($rootScope, UrlService, $q, JassaService) {
 		return {
-			triples: function(resource, predicates, reverse) {
+			triples: function(resource, prdicates, reverse) {
+				// XXX prdicates not used
 				if (reverse === undefined) {
 					reverse = false;
 				}
-			
-				var deferred = $q.defer();
 				
 				var entityUrl = resource;
 				
@@ -131,6 +130,8 @@ angular.module('dbpv.services', [])
 					.then(
 						function(resultset) {
 							var labelnodes = [];
+							
+							var predicates = {};
 							
 							if (status) status.delete();
 							
@@ -166,9 +167,13 @@ angular.module('dbpv.services', [])
 								}
 								pred.values.push(obj);
 							}
-							assignLabels(labelqueries, labelnodes);
+							//assignLabels(labelqueries, labelnodes);
 							console.log("LOADED INQE");
-							return "x";
+							var ret = {};
+							ret.predicates = predicates;
+							ret.labelnodes = labelnodes;
+							ret.labelqueries = labelqueries;
+							return predicates;
 						},
 						function(error) {
 							return error;
@@ -199,11 +204,13 @@ angular.module('dbpv.services', [])
 					query += ")}";
 					console.log(query);//*/
 					
-					var status = dbpv.addStatus({"icon": '<span class="glyphicon glyphicon-download-alt"></span>', "text": "Fetching labels"});
+					var statusobj = {"icon": '<span class="glyphicon glyphicon-download-alt"></span>', "text": "Fetching labels"};
+					var status = dbpv.addStatus(statusobj);
 					
 					JassaService.select(query, UrlService.endpoint(), UrlService.endpointgraph())
 						.then(
 							function(resultset) {
+								if (statusobj) console.log("Status passed with id: "+statusobj.id);
 								if (status) status.delete();
 							
 								var labelmap = {};
@@ -255,7 +262,7 @@ angular.module('dbpv.services', [])
 				}
 			},
 			
-			reversePredicates:	function(resource, predicates) {
+			reversePredicates:	function(resource, prdicates) {
 				var rdf = Jassa.rdf;
 				var query = "SELECT DISTINCT ?p WHERE {?s ?p <"+resource+">.}";
 				var labelqueries = ["SELECT DISTINCT ?p as ?x ?pl ?l WHERE { ?p ?pl ?l . {"+query + "}"];
@@ -266,6 +273,7 @@ angular.module('dbpv.services', [])
 				return JassaService.select(query, UrlService.endpoint(), UrlService.endpointgraph())
 					.then(
 						function(resultset) {
+							var predicates = {};
 							if (status) status.delete();
 							var pVar = rdf.NodeFactory.createVar("p");
 							var labelnodes = [];
@@ -294,7 +302,7 @@ angular.module('dbpv.services', [])
 							}
 							assignLabels(labelqueries, labelnodes);
 							console.log("LOADED INQE");
-							return null;
+							return predicates;
 						},
 						function(error) {
 						

@@ -246,7 +246,7 @@ dbpv.directive('displayPredicates', function() {
 	};
 })
 
-	.controller('DisplayPredicatesCtrl', ['$scope', '$timeout', '$filter', 'Entity', 'TafService', '$rootScope', function($scope, $timeout, $filter, Entity, TafService, $rootScope) {
+	.controller('DisplayPredicatesCtrl', ['$scope', '$timeout', '$filter', 'Entity', 'TafService', '$rootScope', '$q', function($scope, $timeout, $filter, Entity, TafService, $rootScope, $q) {
 	
 		$scope.sortPredicates = function(item) {
 			return item.predid;
@@ -255,14 +255,15 @@ dbpv.directive('displayPredicates', function() {
 		$scope.load = function() {
 			//alert("controlling");
 			
+			//var deferred = $q.defer();
 			$scope.predicates = {};
 			
-			$rootScope.entitySemaphore ++;
-			Entity.triples($scope.about.uri, $scope.predicates)
+			//$rootScope.entitySemaphore ++;
+			var forwardpromise = Entity.triples($scope.about.uri, $scope.predicates);/*
 				.then(
 					function(result) {
-						//jQuery.extend($scope.predicates, predicates);
-						TafService.onPredicateChange($scope.about, $scope.predicates);
+						jQuery.extend($scope.predicates, result);
+						
 						$rootScope.entitySemaphore --;
 					},
 					function(error) {
@@ -273,28 +274,59 @@ dbpv.directive('displayPredicates', function() {
 					}
 				)
 			;
-			
+			//*/
+			/*
+			$scope.$watch('predicates', function(p) {
+				TafService.onPredicateChange($scope.about, $scope.predicates);
+			},true);
+			//*/
 			$scope.reversepredicates = {};
 			
 			
 			
-			$rootScope.entitySemaphore ++;
-			Entity.reversePredicates($scope.about.uri, $scope.reversepredicates)
+			//$rootScope.entitySemaphore ++;
+			
+			var reversepromise = Entity.reversePredicates($scope.about.uri, $scope.reversepredicates);/*
 				.then(
 					function(result) {
-						TafService.onPredicateChange($scope.about, $scope.reversepredicates);
-						jQuery.extend($scope.predicates, $scope.reversepredicates);
+						//TafService.onPredicateChange($scope.about, $scope.reversepredicates);
+						jQuery.extend($scope.predicates, result);
 						$rootScope.entitySemaphore --;
 					},
 					function(error) {
 						$rootScope.entitySemaphore --;
 					},
 					function(update) {
+					
+					}
+				)
+			;
+			//*/
+			$q.all([forwardpromise, reversepromise])
+				.then(
+					function(resultmap) {
+						//alert(JSON.stringify(resultmap));
+						jQuery.extend($scope.predicates, resultmap[0]);
+						jQuery.extend($scope.predicates, resultmap[1]);//*/
+						$scope.doTaf = true;
+					},
+					function(errormap) {
+					
+					},
+					function(updatemap) {
 					
 					}
 				)
 			;
 		};
+		
+		$scope.$watch('doTaf', function(doTaf) {
+			if (doTaf) {
+				TafService.onPredicateChange($scope.about, $scope.predicates);
+			}
+		});
+		
+		$scope.doTaf = false;
 		
 		$scope.load();
 	}])
