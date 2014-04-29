@@ -167,7 +167,7 @@ angular.module('dbpv.services', [])
 								}
 								pred.values.push(obj);
 							}
-							//assignLabels(labelqueries, labelnodes);
+							assignLabels(labelqueries, labelnodes);
 							console.log("LOADED INQE");
 							var ret = {};
 							ret.predicates = predicates;
