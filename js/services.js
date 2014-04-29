@@ -505,6 +505,7 @@ angular.module('dbpv.services', [])
 				if (!number) {
 					number = 10;
 				}
+				number = 25;
 				
 				var rdf = Jassa.rdf;
 				var serve = Jassa.service;
@@ -515,7 +516,8 @@ angular.module('dbpv.services', [])
 				
 				var searchfield = "http://www.w3.org/2000/01/rdf-schema#label";
 				
-				var query = 'SELECT DISTINCT ?s ?l where {?s <'+searchfield+'> ?l . FILTER(CONTAINS(LCASE(STR(?l)), LCASE("'+term+'")))} LIMIT '+number;
+				//var query = 'SELECT DISTINCT ?s ?l where {?s <'+searchfield+'> ?l . FILTER(CONTAINS(LCASE(STR(?l)), LCASE("'+term+'")))} LIMIT '+number;
+				var query = 'SELECT DISTINCT ?s ?l where {?s <'+searchfield+'> ?l . FILTER(bif:contains(?l, "'+term+'"))} LIMIT '+number;
 				//var query = 'SELECT DISTINCT ?s WHERE {?s ?p ?o . FILTER(CONTAINS
 				
 				var qe = sparqlService.createQueryExecution(query);
@@ -536,7 +538,8 @@ angular.module('dbpv.services', [])
 								var binding = resultset.nextBinding();
 								var subj = binding.get(sVar);
 								var label = binding.get(lVar);
-								if (label.literalLabel) {
+								var beginuri = subj.uri.slice(0, UrlService.localgraph().length);
+								if (beginuri == UrlService.localgraph() && label.literalLabel) {
 									var ldist = levenshtein(label.literalLabel.lex, term);
 									var obj = {"uri": subj, "dist": ldist, "label": label};
 									results.push(obj);
