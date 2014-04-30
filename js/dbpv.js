@@ -308,10 +308,23 @@ dbpv.directive('displayPredicates', function() {
 						//alert(JSON.stringify(resultmap));
 						jQuery.extend($scope.predicates, resultmap[0]);
 						jQuery.extend($scope.predicates, resultmap[1]);//*/
-						$scope.doTaf = true;
+						var empty = true;
+						for (var key in $scope.predicates) {
+							empty = false;
+							break;
+						}
+						if (empty) {
+							(function(uri) {
+								$rootScope.loadFailed("No information available for "+$scope.about.uri);
+							})($scope.about.uri);
+						} else {
+							$scope.doTaf = true;
+						}
 					},
 					function(errormap) {
-					
+						(function(uri) {
+							$rootScope.loadFailed("No information available for "+$scope.about.uri);
+						})($scope.about.uri);
 					},
 					function(updatemap) {
 					
@@ -1893,8 +1906,9 @@ dbpv.directive('dbpvStatus', function() {
 		$scope.stasiSemaphore = 0;
 		$scope.stasiChange = 0;
 	
-		$scope.addStatus = function(status) {
-			if (status && status.text) {
+		$scope.addStatus = function(text, icon) {
+			if (text) {
+				var status = {"text":text, "icon":icon};
 				return $scope.getStatusHandler(status);
 			}
 		};
@@ -1912,8 +1926,8 @@ dbpv.directive('dbpvStatus', function() {
 			};
 		};
 		
-		dbpv.addStatus = function(status) {
-			return $scope.addStatus(status);
+		dbpv.addStatus = function(status, icon) {
+			return $scope.addStatus(status, icon);
 		};
 		
 		$scope.removeStatus = function(status) {
@@ -2079,7 +2093,7 @@ dbpv.directive('dbpvSettings', function() {
 		scope:		{
 		
 					},
-		template:	'<div id="dbpv-settings"><h2 style="margin-top:0;">Settings:</h2><div ng-repeat="setting in settings"><div class="form-group" ng-switch="setting.type"><div ng-switch-when="string"><label>{{setting.label}}</label><input type="text" class="form-control" ng-model="setting.value"/></div><div ng-switch-when="boolean" class="checkbox"><label><input type="checkbox" ng-model="setting.value">{{setting.label}}</label></div></div></div><div ng-click="reset()"><a href="javascript:void()">RESET</a></div></div>',
+		template:	'<div id="dbpv-settings"><h2 style="margin-top:0;">Settings:</h2><div ng-repeat="setting in settings"><div class="form-group" ng-switch="setting.type"><div ng-switch-when="string"><label>{{setting.label}}</label><input type="text" class="form-control" ng-model="setting.value"/></div><div ng-switch-when="boolean" class="checkbox"><label><input type="checkbox" ng-model="setting.value">{{setting.label}}</label></div></div></div><button class="btn btn-small btn-primary" ng-click="refresh()">SAVE SETTINGS & REFRESH</button><button class="btn btn-small btn-danger" ng-click="reset()" style="float:right">RESET</button></div>',
 		controller:	"DbpvSettingsController"
 	}
 })
@@ -2105,6 +2119,15 @@ dbpv.directive('dbpvSettings', function() {
 					$.removeCookie(key);
 				}
 			}
+			$scope.refresh();
+		};
+		
+		$scope.refresh = function() {
+			for (var i = 0; i < $scope.settings.length; i++) {
+				if ($scope.saveInRoot($scope.settings[i]))
+					$scope.saveAsCookie($scope.settings[i]);
+			}
+			window.location.reload(false);
 		};
 		
 		$scope.makeSettings = function() {
@@ -2157,6 +2180,7 @@ dbpv.directive('dbpvSettings', function() {
 				
 			}, true);
 		};
+//*/
 		
 		$scope.saveAsCookie = function(setting) {
 			if (setting.id && setting.value !== undefined) {
@@ -2171,7 +2195,7 @@ dbpv.directive('dbpvSettings', function() {
 		};
 		
 		$scope.makeSettings();
-		$scope.watchSettings();
+		//$scope.watchSettings();
 	}])
 
 ;

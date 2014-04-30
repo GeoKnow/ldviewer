@@ -189,6 +189,16 @@ dbpv.run(function($rootScope) {
 	
 	$rootScope.templateStr = "Template";//*/
 	
+	
+	$rootScope.loadFailed = function(msg) {
+		$rootScope.failMessage = msg;
+	};
+	
+	$rootScope.$watch("failMessage", function(msg) {
+		if (msg && msg.length>1)
+			dbpv.addNotification(msg, 10000);
+	});
+	
 		// LOAD SETTINGS FROM COOKIES
 	var cookies = $.cookie();
 	for (var key in cookies) {

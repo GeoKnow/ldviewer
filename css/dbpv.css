@@ -296,8 +296,10 @@ body #static {
 }
 
 .navbar .btn {
-	background-color: #3CB371;
+	border-radius:0;
 }
+	/*background-color: #3CB371;
+}//*/
 
 .navbar #searchbar{
 	margin-top: 15px;

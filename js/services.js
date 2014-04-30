@@ -124,7 +124,7 @@ angular.module('dbpv.services', [])
 				
 				var assignLabels = this.assignLabels;
 				
-				var status = dbpv.addStatus({"icon": '<span class="glyphicon glyphicon-download-alt"></span>', "text": "Fetching data"});
+				var status = dbpv.addStatus("Fetching data", '<span class="glyphicon glyphicon-download-alt"></span>');
 				
 				var request = JassaService.select(query, UrlService.endpoint(), UrlService.endpointgraph())
 					.then(
@@ -176,6 +176,7 @@ angular.module('dbpv.services', [])
 							return predicates;
 						},
 						function(error) {
+							if (status) status.delete();
 							return error;
 						},
 						function(update) {
@@ -188,9 +189,16 @@ angular.module('dbpv.services', [])
 			},
 			
 			assignLabels:	function(queries, nodes) {
+				console.log("assigning labels");
+				//(function(queries, nodes) {
 				if ($rootScope.showLabels) {
 				var rdf = Jassa.rdf;
 				var labelPrefs = $rootScope.labelPrefs;
+				
+				var status = dbpv.addStatus('Fetching labels','<span class="glyphicon glyphicon-download-alt"></span>');
+				
+				var promises = [];
+				
 				for (var q = 0; q < queries.length; q++) {
 					query = queries[q];
 					query = query+". FILTER(";
@@ -204,15 +212,15 @@ angular.module('dbpv.services', [])
 					query += ")}";
 					console.log(query);//*/
 					
+					/*
 					var statusobj = {"icon": '<span class="glyphicon glyphicon-download-alt"></span>', "text": "Fetching labels"};
 					var status = dbpv.addStatus(statusobj);
+					//*/
 					
-					JassaService.select(query, UrlService.endpoint(), UrlService.endpointgraph())
+					
+					var promise = JassaService.select(query, UrlService.endpoint(), UrlService.endpointgraph())
 						.then(
 							function(resultset) {
-								if (statusobj) console.log("Status passed with id: "+statusobj.id);
-								if (status) status.delete();
-							
 								var labelmap = {};
 								var xVar = rdf.NodeFactory.createVar("x");
 								var plVar = rdf.NodeFactory.createVar("pl");
@@ -255,11 +263,26 @@ angular.module('dbpv.services', [])
 									}
 								}
 								//$rootScope.$apply();
+							},
+							
+							function(fail) {
+								if (status) status.delete();
+							}
+						)
+					;
+					
+					promises.push(promise);
+					
+					$q.all(promises)
+						.then(
+							function(promisemap) {
+								if (status) status.delete();
 							}
 						)
 					;
 				}
 				}
+				//})(queries, nodes);
 			},
 			
 			reversePredicates:	function(resource, prdicates) {
@@ -268,7 +291,7 @@ angular.module('dbpv.services', [])
 				var labelqueries = ["SELECT DISTINCT ?p as ?x ?pl ?l WHERE { ?p ?pl ?l . {"+query + "}"];
 				var assignLabels = this.assignLabels;
 				
-				var status = dbpv.addStatus({"icon": '<span class="glyphicon glyphicon-download-alt"></span>', "text": "Fetching reverse predicates"});
+				var status = dbpv.addStatus("Fetching reverse predicates", '<span class="glyphicon glyphicon-download-alt"></span>');
 				
 				return JassaService.select(query, UrlService.endpoint(), UrlService.endpointgraph())
 					.then(
@@ -305,7 +328,7 @@ angular.module('dbpv.services', [])
 							return predicates;
 						},
 						function(error) {
-						
+							if (status) status.delete();
 						},
 						function(update) {
 						
@@ -319,7 +342,9 @@ angular.module('dbpv.services', [])
 				var query = "SELECT ?s WHERE {?s <"+property.uri+"> <"+resource.uri+">} LIMIT "+limit+" OFFSET "+offset;
 				var labelqueries = ["SELECT DISTINCT ?s as ?x ?pl ?l WHERE { ?s ?pl ?l . {"+query + "}"];
 				var assignLabels = this.assignLabels;
-				var status = dbpv.addStatus({"icon": '<span class="glyphicon glyphicon-download-alt"></span>', "text": "Fetching data"});
+				
+				var status = dbpv.addStatus("Fetching data", '<span class="glyphicon glyphicon-download-alt"></span>');
+				
 				return JassaService.select(query, UrlService.endpoint(), UrlService.endpointgraph())
 					.then(
 						function(resultset) {
@@ -337,6 +362,7 @@ angular.module('dbpv.services', [])
 							return results;
 						},
 						function(error) {
+							if (status) status.delete();
 						
 						},
 						function(update) {
@@ -375,7 +401,7 @@ angular.module('dbpv.services', [])
 				var labelqueries = ["SELECT DISTINCT ?s as ?x ?pl ?l WHERE { ?s ?pl ?l . {"+query + "}", "SELECT DISTINCT ?o as ?x ?pl ?l WHERE { ?o ?pl ?l . {"+query + "}"];
 				var assignLabels = this.assignLabels;
 				
-				var status = dbpv.addStatus({"icon": '<span class="glyphicon glyphicon-download-alt"></span>', "text": "Fetching relation instances"});
+				var status = dbpv.addStatus("Fetching relation instances", '<span class="glyphicon glyphicon-download-alt"></span>');
 				
 				return JassaService.select(query, UrlService.endpoint(), UrlService.endpointgraph())
 					.then(
@@ -403,6 +429,7 @@ angular.module('dbpv.services', [])
 							return instances;
 						},
 						function(error){
+							if (status) status.delete();
 						
 						},
 						function(update) {
@@ -424,7 +451,7 @@ angular.module('dbpv.services', [])
 				
 				var assignLabels = this.assignLabels;
 				
-				var status = dbpv.addStatus({"icon": '<span class="glyphicon glyphicon-download-alt"></span>', "text": "Fetching class instances"});
+				var status = dbpv.addStatus("Fetching class instances", '<span class="glyphicon glyphicon-download-alt"></span>');
 				
 				return JassaService.select(query, UrlService.endpoint(), UrlService.endpointgraph())
 					.then(
@@ -445,6 +472,7 @@ angular.module('dbpv.services', [])
 							return instances;
 						},
 						function(error) {
+							if (status) status.delete();
 						
 						},
 						function(update) {
@@ -517,7 +545,10 @@ angular.module('dbpv.services', [])
 				var searchfield = "http://www.w3.org/2000/01/rdf-schema#label";
 				
 				//var query = 'SELECT DISTINCT ?s ?l where {?s <'+searchfield+'> ?l . FILTER(CONTAINS(LCASE(STR(?l)), LCASE("'+term+'")))} LIMIT '+number;
-				var query = 'SELECT DISTINCT ?s ?l where {?s <'+searchfield+'> ?l . FILTER(bif:contains(?l, "'+term+'"))} LIMIT '+number;
+				//var query = 'SELECT DISTINCT ?s ?l where {?s <'+searchfield+'> ?l . FILTER(bif:contains(?l, "'+term+'"))} LIMIT '+number;
+				term = term.replace(/\s/g, "_");
+				//alert(term);
+				var query = 'select ?s ?l {?s <'+searchfield+'> ?l . ?l bif:contains "'+term+'" . filter(contains(str(?s), "http://dbpedia.org/"))} LIMIT '+number;
 				//var query = 'SELECT DISTINCT ?s WHERE {?s ?p ?o . FILTER(CONTAINS
 				
 				var qe = sparqlService.createQueryExecution(query);
