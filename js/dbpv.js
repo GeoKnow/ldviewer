@@ -77,30 +77,7 @@ dbpv.filter("predicateValueFilter", function() { //XXX maybe merge with previous
 				}//*/
 				
 				
-				/*var value = predicate.values[i];
-				var label = value.lex;
-				if (label === undefined && value.literalLabel !== undefined) {
-					label = value.literalLabel.lex;
-				}
-				if (value.labelNodes !== undefined) {
-					label = [];
-					for (var i = 0; i < value.labelNodes.length; i++) {
-						label.push(value.labelNodes[i].literalLabel.val);
-					}
-				}
-				if (label !== undefined && label instanceof Array && label.length !== undefined && label.length > 0) {
-					var contained = false;
-					for (var i = 0; i < label.length; i++) {
-						if (label[i].toLowerCase().indexOf(query) != -1) {
-							contained = true;
-							break;
-						}
-					}
-					if (contained)
-						hasvalues = true;
-				} else if (label !== undefined && label.toLowerCase().indexOf(query) != -1) 
-					hasvalues = true;
-					//*/
+				
 			}
 			if (hasvalues) {
 				result[predicate.predid] = predicate;

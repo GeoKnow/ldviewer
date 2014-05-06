@@ -115,6 +115,7 @@ var PrettyBoxAction = Class.create(dbpv.Action, {
 			dbpv.applyPrettyBox(function(dbpvp) {
 				if (dbpvp[mapto] === undefined) dbpvp[mapto] = [];
 				dbpvp[mapto].push(value);
+				console.log("extracted "+mapto);
 			});
 		}
 		throw "done";		
@@ -123,8 +124,17 @@ var PrettyBoxAction = Class.create(dbpv.Action, {
 PrettyBoxAction.abstrait = true;
 
 var LabelAction = Class.create(PrettyBoxAction, {
-	initialize:	function($super, about, predicate, value) {
-		$super(about, predicate, value, this.mapfrom, this.mapto);
+	initialize:	function(about, predicate, value) {
+		var mapto = this.mapto;
+		var mapfrom = this.mapfrom;
+		if (predicate.uri == mapfrom) {
+			dbpv.applyPrettyBox(function(dbpvp) {
+				if (dbpvp[mapto] === undefined) dbpvp[mapto] = [];
+				dbpvp[mapto].push(value);
+				console.log("extracted "+mapto);
+			});
+		}
+		throw "done";
 	},
 	
 	mapfrom:	"http://www.w3.org/2000/01/rdf-schema#label",
@@ -154,8 +164,17 @@ var TypeAction = Class.create(PrettyBoxAction, {
 });
 
 var AbstractAction = Class.create(PrettyBoxAction, {
-	initialize:	function($super, about, predicate, value) {
-		$super(about, predicate, value, this.mapfrom, this.mapto);
+	initialize:	function(about, predicate, value) {
+		var mapto = this.mapto;
+		var mapfrom = this.mapfrom;
+		if (predicate.uri == mapfrom) {
+			dbpv.applyPrettyBox(function(dbpvp) {
+				if (dbpvp[mapto] === undefined) dbpvp[mapto] = [];
+				dbpvp[mapto].push(value);
+				console.log("extracted "+mapto);
+			});
+		}
+		throw "done";
 	},
 	
 	mapfrom:	"http://www.w3.org/2000/01/rdf-schema#comment",
@@ -164,8 +183,17 @@ var AbstractAction = Class.create(PrettyBoxAction, {
 });
 
 var ThumbnailAction = Class.create(PrettyBoxAction, {
-	initialize:	function($super, about, predicate, value) {
-		$super(about, predicate, value, this.mapfrom, this.mapto);
+	initialize:	function(about, predicate, value) {
+		var mapto = this.mapto;
+		var mapfrom = this.mapfrom;
+		if (predicate.uri == mapfrom) {
+			dbpv.applyPrettyBox(function(dbpvp) {
+				if (dbpvp[mapto] === undefined) dbpvp[mapto] = [];
+				dbpvp[mapto].push(value);
+				console.log("extracted "+mapto);
+			});
+		}
+		throw "done";
 	},
 	
 	mapfrom:	"http://dbpedia.org/ontology/thumbnail",
