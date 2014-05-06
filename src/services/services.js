@@ -1,0 +1,1 @@
+angular.module('ldv.services', ['ldv.services.jassa', 'ldv.services.UrlService', 'ldv.services.preview', 'ldv.services.entity', 'ldv.services.search', 'ldv.services.spotlight', 'ldv.services.taf', 'ldv.services.languages']);
