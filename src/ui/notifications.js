@@ -11,7 +11,7 @@ angular.module('ldv.ui.notifications', [])
 })
 
 	.controller('DbpvNotificationsCtrl', ['$scope', '$timeout', function($scope, $timeout) {
-		dbpv.addNotification = function (noti, time) {
+		LDViewer.addNotification = function (noti, time) {
 			$scope.addNotification(noti, time);	
 		};
 		

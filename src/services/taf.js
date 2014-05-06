@@ -10,7 +10,7 @@ angular.module('ldv.services.taf', [])
 							if (predicates[id].forward) {
 								var val = predicates[id].values[i];
 								if (val.literalLabel !== undefined && val.literalLabel.lang!== undefined && val.literalLabel.lang !== "") {
-									dbpv.newAvailableLanguage(val.literalLabel.lang);
+									LDViewer.newAvailableLanguage(val.literalLabel.lang);
 								}
 							}
 						}
@@ -47,7 +47,7 @@ angular.module('ldv.services.taf', [])
 			
 			getActions:				function() {
 				console.log("getting actions");
-				var actions = [dbpv.Action];
+				var actions = [LDViewer.Action];
 				var i = 0;
 				while (i < actions.length) {
 					var action = actions[i];

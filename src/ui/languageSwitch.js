@@ -25,7 +25,7 @@ angular.module('ldv.ui.languageSwitch', ['ldv.services.languages'])
 			$scope.availableLanguages[args] = LanguageService.languages[args];
 		};
 		
-		dbpv.newAvailableLanguage = $scope.newAvailableLanguage;
+		LDViewer.newAvailableLanguage = $scope.newAvailableLanguage;
 		
 		$scope.restLanguages = function() {
 			var ret = {};
@@ -46,7 +46,7 @@ angular.module('ldv.ui.languageSwitch', ['ldv.services.languages'])
 					more = true;
 					break;
 				}
-				if (more) dbpv.addNotification("There are no values in the chosen language for this entity", 5000);
+				if (more) LDViewer.addNotification("There are no values in the chosen language for this entity", 5000);
 			}
 			//$scope.$apply();
 		});

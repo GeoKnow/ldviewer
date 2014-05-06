@@ -30,7 +30,7 @@ angular.module('ldv.pretty.list', ['ldv.table.displayNode'])
 			}
 		};
 		
-		dbpv.getPrettyPropertyAdder = function(key, priority) {
+		LDViewer.getPrettyPropertyAdder = function(key, priority) {
 			if (key && key.length && key.length > 0) {
 				var property = null;
 				for (var i = 0; i < $scope.properties.length; i ++) {

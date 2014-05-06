@@ -15,7 +15,7 @@ angular.module('ldv.ui.shortcuts', ['ldv.ui.custom', 'ldv.services.UrlService', 
 
 	.controller('ShortcutBoxCtrl', ['$scope', function($scope) {
 		$scope.shortcuts = [];
-		dbpv.addShortcut = function(url, label, prio) {
+		LDViewer.addShortcut = function(url, label, prio) {
 		//$scope.$apply(function() {
 			var neue = {"url": url, "label":label, "prio":prio};
 			var prevbigger = false;
@@ -43,8 +43,9 @@ angular.module('ldv.ui.shortcuts', ['ldv.ui.custom', 'ldv.services.UrlService', 
 		};
 	}])
 	
-.directive('shortcut', function ($compile, UrlService) {
+.directive('shortcut', ['$compile', 'UrlService', function ($compile, UrlService) {
 	return {
+		restrict:	"EA",
 		link: 	function (scope, element, attrs) {
 				var pred = scope.$eval(attrs.shortcut);
 				var label = scope.$eval(attrs.shortcutLabel);
@@ -63,5 +64,5 @@ angular.module('ldv.ui.shortcuts', ['ldv.ui.custom', 'ldv.services.UrlService', 
 				$compile(element.contents())(scope);
 			}
 		};
-})
+}])
 ;

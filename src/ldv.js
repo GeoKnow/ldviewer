@@ -1,16 +1,16 @@
-var dbpv = angular.module('ldv', ['ldv.services', 'ldv.controller', 'ldv.table', 'ldv.ui', 'ldv.pretty']);
+var ldv = angular.module('ldv', ['ldv.services', 'ldv.controller', 'ldv.table', 'ldv.ui', 'ldv.pretty']);
 
 var LDViewer = {};
 
-dbpv.configure = function(confun) {
-	dbpv.customConfigFunction = confun;
+LDViewer.configure = function(confun) {
+	LDViewer.customConfigFunction = confun;
 };
 
-dbpv.doConfigure = function() {
-	dbpv.customConfigFunction();
+LDViewer.doConfigure = function() {
+	LDViewer.customConfigFunction();
 };
 
-dbpv.config(function($routeProvider, $locationProvider) {
+ldv.config(function($routeProvider, $locationProvider) {
 	//$locationProvider.html5Mode(true);
 	$routeProvider
 		.when('/search/:q', {templateUrl: '/tpl/search.html', controller: 'SearchCtrl'})
@@ -23,16 +23,16 @@ dbpv.config(function($routeProvider, $locationProvider) {
 });
 //*/
 
-dbpv.run(function($rootScope) {
+ldv.run(function($rootScope) {
 	$rootScope.$watch('localgraph', function(lg) {
 		$rootScope.endpointgraph = [lg];
 	});
 	
-	dbpv.setConfig = function(config, value) {
+	LDViewer.setConfig = function(config, value) {
 		$rootScope[config] = value;
 	};
 
-	dbpv.getConfig = function(config) {
+	LDViewer.getConfig = function(config) {
 		return $rootScope[config];
 	};
 	$rootScope.iconpath = "/css/200px-dbpedia.png";
@@ -45,7 +45,7 @@ dbpv.run(function($rootScope) {
 	
 	$rootScope.$watch("failMessage", function(msg) {
 		if (msg && msg.length>1)
-			dbpv.addNotification(msg, 10000);
+			LDViewer.addNotification(msg, 10000);
 	});
 	
 		// LOAD SETTINGS FROM COOKIES

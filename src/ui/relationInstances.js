@@ -17,7 +17,7 @@ angular.module('ldv.ui.relationInstances', ['ldv.table.displayNode'])
 
 	.controller('DbpvRelationInstancesCtrl', ['$scope', 'Entity', function($scope, Entity) {
 		
-		dbpv.showRelationInstances = function() {
+		LDViewer.showRelationInstances = function() {
 			$scope.showInstances = true;
 			console.log("getting instances");
 			$scope.loadInstances(25);

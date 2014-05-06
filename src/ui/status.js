@@ -39,7 +39,7 @@ angular.module('ldv.ui.status', [])
 			};
 		};
 		
-		dbpv.addStatus = function(status, icon) {
+		LDViewer.addStatus = function(status, icon) {
 			return $scope.addStatus(status, icon);
 		};
 		

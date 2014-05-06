@@ -18,7 +18,7 @@ angular.module('ldv.ui.disclaimer', [])
 		$scope.suffix = "/resource/";
 		$scope.disclaimed = false;
 		
-		dbpv.setFooterWikipage = function(settings) {
+		LDViewer.setFooterWikipage = function(settings) {
 			$scope.wikipage = settings;
 		};
 		

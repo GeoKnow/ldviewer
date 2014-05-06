@@ -17,7 +17,7 @@ angular.module('ldv.pretty.map', [])
 	.controller('DbpvpMapCtrl', ['$scope', function($scope) {
 	// OLD COORDINATES REMAIN !!!
 	
-		dbpv.setMapCoord = function(coord) {
+		LDViewer.setMapCoord = function(coord) {
 			if ($scope.lon === undefined) {
 				$scope.lon = coord[1];
 				$scope.lat = coord[0];

@@ -78,7 +78,7 @@ angular.module('ldv.ui.classInstances', ['ldv.table.displayNode', 'ldv.ui.pagina
 		};
 		
 	
-		dbpv.showClassInstances = function() {
+		LDViewer.showClassInstances = function() {
 			$scope.showInstances = true;
 			$scope.getInstanceNumber();
 		};

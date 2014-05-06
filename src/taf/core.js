@@ -1,4 +1,4 @@
-dbpv.Action = Class.create({
+LDViewer.Action = Class.create({
 	initialize:	function (about, predicate, value) {
 		if (about === undefined || predicate === undefined || value === undefined) {
 			throw "action not applicable";
@@ -9,8 +9,8 @@ dbpv.Action = Class.create({
 	}
 });
 
-dbpv.Action.init = function() {
+LDViewer.Action.init = function() {
 
 };
 
-dbpv.Action.abstrait = true;
+LDViewer.Action.abstrait = true;

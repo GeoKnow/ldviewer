@@ -1,6 +1,6 @@
 
 LDViewer.configuration = function() {
-	dbpv.setConfig("previewMappings", {
+	LDViewer.setConfig("previewMappings", {
 		label:		"http://www.w3.org/2000/01/rdf-schema#label",
 		thumbnail:	"http://dbpedia.org/ontology/thumbnail",
 		description:"http://www.w3.org/2000/01/rdf-schema#comment",
@@ -11,7 +11,7 @@ LDViewer.configuration = function() {
 		}
 	});
 	
-	dbpv.setConfig('prefixes', {
+	LDViewer.setConfig('prefixes', {
 		"http://dbpedia.org/resource/": "dbpedia",
 		"http://www.w3.org/1999/02/22-rdf-syntax-ns#": "rdf",
 		"http://www.w3.org/2000/01/rdf-schema#": "rdfs",
@@ -29,32 +29,32 @@ LDViewer.configuration = function() {
 		"http://www.w3.org/2002/07/owl#":	"owl"
 	});
 	
-	dbpv.setConfig('entitySemaphore', 0);
+	LDViewer.setConfig('entitySemaphore', 0);
 
-	dbpv.setConfig('localprefix' , "#");
+	LDViewer.setConfig('localprefix' , "#");
 	
-	dbpv.setConfig('godmode' , false);
+	LDViewer.setConfig('godmode' , false);
 	
-	dbpv.setConfig('localgraph', "http://dbpedia.org");
-	dbpv.setConfig('endpointgraph', []);
+	LDViewer.setConfig('localgraph', "http://dbpedia.org");
+	LDViewer.setConfig('endpointgraph', []);
 	
-	dbpv.setConfig('endpoint', "http://dbpedia.org/sparql");
-	dbpv.setConfig('encodegraph', true);
+	LDViewer.setConfig('endpoint', "http://dbpedia.org/sparql");
+	LDViewer.setConfig('encodegraph', true);
 
-	dbpv.setConfig('owlgraph', "http://dbpedia.org");
-	dbpv.setConfig('owlendpoint', "http://dbpedia.org/sparql");
+	LDViewer.setConfig('owlgraph', "http://dbpedia.org");
+	LDViewer.setConfig('owlendpoint', "http://dbpedia.org/sparql");
 	
-	dbpv.setConfig('lookupgraph', "http://dbpedia.org");
-	dbpv.setConfig('lookupendpoint', "http://lookup.dbpedia.org/api/search");
+	LDViewer.setConfig('lookupgraph', "http://dbpedia.org");
+	LDViewer.setConfig('lookupendpoint', "http://lookup.dbpedia.org/api/search");
 
-	dbpv.setConfig('primarylang', "en");
-	dbpv.setConfig('fallbacklang', "en");	
+	LDViewer.setConfig('primarylang', "en");
+	LDViewer.setConfig('fallbacklang', "en");	
 	
-	dbpv.setConfig('labelPrefs' ,[
+	LDViewer.setConfig('labelPrefs' ,[
 		"http://www.w3.org/2000/01/rdf-schema#label"
 	]);
 	
-	dbpv.setConfig('showLabels' , true);
+	LDViewer.setConfig('showLabels' , true);
 	
-	dbpv.setConfig('templateStr', "Template");//*/
+	LDViewer.setConfig('templateStr', "Template");//*/
 };

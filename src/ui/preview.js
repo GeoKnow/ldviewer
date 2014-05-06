@@ -34,7 +34,7 @@ angular.module('ldv.preview', ['ldv.filters'])
 	$scope.populatePreview = function(node, dbpvp, scope) {
 		//scope.$apply(function() {
 			scope.previewSemaphore = 1;
-			var mappings = dbpv.getConfig('previewMappings');
+			var mappings = LDViewer.getConfig('previewMappings');
 			for (var key in mappings) {
 				if (dbpv[key] instanceof Array) {
 					for (var subkey in mappings[key]) {

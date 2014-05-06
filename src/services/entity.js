@@ -26,7 +26,7 @@ angular.module('ldv.services.entity', ['ldv.services.UrlService', 'ldv.services.
 				
 				var assignLabels = this.assignLabels;
 				
-				var status = dbpv.addStatus("Fetching data", '<span class="glyphicon glyphicon-download-alt"></span>');
+				var status = LDViewer.addStatus("Fetching data", '<span class="glyphicon glyphicon-download-alt"></span>');
 				
 				var request = JassaService.select(query, UrlService.endpoint(), UrlService.endpointgraph())
 					.then(
@@ -97,7 +97,7 @@ angular.module('ldv.services.entity', ['ldv.services.UrlService', 'ldv.services.
 				var rdf = Jassa.rdf;
 				var labelPrefs = $rootScope.labelPrefs;
 				
-				var status = dbpv.addStatus('Fetching labels','<span class="glyphicon glyphicon-download-alt"></span>');
+				var status = LDViewer.addStatus('Fetching labels','<span class="glyphicon glyphicon-download-alt"></span>');
 				
 				var promises = [];
 				
@@ -116,7 +116,7 @@ angular.module('ldv.services.entity', ['ldv.services.UrlService', 'ldv.services.
 					
 					/*
 					var statusobj = {"icon": '<span class="glyphicon glyphicon-download-alt"></span>', "text": "Fetching labels"};
-					var status = dbpv.addStatus(statusobj);
+					var status = LDViewer.addStatus(statusobj);
 					//*/
 					
 					
@@ -193,7 +193,7 @@ angular.module('ldv.services.entity', ['ldv.services.UrlService', 'ldv.services.
 				var labelqueries = ["SELECT DISTINCT ?p as ?x ?pl ?l WHERE { ?p ?pl ?l . {"+query + "}"];
 				var assignLabels = this.assignLabels;
 				
-				var status = dbpv.addStatus("Fetching reverse predicates", '<span class="glyphicon glyphicon-download-alt"></span>');
+				var status = LDViewer.addStatus("Fetching reverse predicates", '<span class="glyphicon glyphicon-download-alt"></span>');
 				
 				return JassaService.select(query, UrlService.endpoint(), UrlService.endpointgraph())
 					.then(
@@ -245,7 +245,7 @@ angular.module('ldv.services.entity', ['ldv.services.UrlService', 'ldv.services.
 				var labelqueries = ["SELECT DISTINCT ?s as ?x ?pl ?l WHERE { ?s ?pl ?l . {"+query + "}"];
 				var assignLabels = this.assignLabels;
 				
-				var status = dbpv.addStatus("Fetching data", '<span class="glyphicon glyphicon-download-alt"></span>');
+				var status = LDViewer.addStatus("Fetching data", '<span class="glyphicon glyphicon-download-alt"></span>');
 				
 				return JassaService.select(query, UrlService.endpoint(), UrlService.endpointgraph())
 					.then(
@@ -303,7 +303,7 @@ angular.module('ldv.services.entity', ['ldv.services.UrlService', 'ldv.services.
 				var labelqueries = ["SELECT DISTINCT ?s as ?x ?pl ?l WHERE { ?s ?pl ?l . {"+query + "}", "SELECT DISTINCT ?o as ?x ?pl ?l WHERE { ?o ?pl ?l . {"+query + "}"];
 				var assignLabels = this.assignLabels;
 				
-				var status = dbpv.addStatus("Fetching relation instances", '<span class="glyphicon glyphicon-download-alt"></span>');
+				var status = LDViewer.addStatus("Fetching relation instances", '<span class="glyphicon glyphicon-download-alt"></span>');
 				
 				return JassaService.select(query, UrlService.endpoint(), UrlService.endpointgraph())
 					.then(
@@ -353,7 +353,7 @@ angular.module('ldv.services.entity', ['ldv.services.UrlService', 'ldv.services.
 				
 				var assignLabels = this.assignLabels;
 				
-				var status = dbpv.addStatus("Fetching class instances", '<span class="glyphicon glyphicon-download-alt"></span>');
+				var status = LDViewer.addStatus("Fetching class instances", '<span class="glyphicon glyphicon-download-alt"></span>');
 				
 				return JassaService.select(query, UrlService.endpoint(), UrlService.endpointgraph())
 					.then(

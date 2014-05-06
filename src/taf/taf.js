@@ -1,20 +1,20 @@
 
-var RedirectAction = Class.create(dbpv.Action, {
+var RedirectAction = Class.create(LDViewer.Action, {
 	initialize:	function(about, predicate, value) {
 		if (predicate.forward && predicate.uri == "http://dbpedia.org/ontology/wikiPageRedirects") {
-			window.location = dbpv.preprocess_triple_url(value.uri);
+			window.location = LDViewer.preprocess_triple_url(value.uri);
 		}
 		throw "done";
 	}
 });
 
-var PrettyListAction = Class.create(dbpv.Action, {
+var PrettyListAction = Class.create(LDViewer.Action, {
 	initialize:	function(about, predicate, value) {
 		if (predicate.forward) {
 			//for (var i = 0; i < this.properties.length; i ++) {
 			var propdef = this.properties[predicate.uri];
 				if (propdef) {
-					var propertyAdder = dbpv.getPrettyPropertyAdder(propdef.label, propdef.prio);
+					var propertyAdder = LDViewer.getPrettyPropertyAdder(propdef.label, propdef.prio);
 					if (propertyAdder) {
 						propertyAdder(value);
 					}
@@ -90,10 +90,10 @@ var PrettyListAction = Class.create(dbpv.Action, {
 	
 });
 
-var PrettyBoxAction = Class.create(dbpv.Action, {
+var PrettyBoxAction = Class.create(LDViewer.Action, {
 	initialize:	function(about, predicate, value, mapfrom, mapto) {
 		if (predicate.uri == mapfrom) {
-			dbpv.applyPrettyBox(function(dbpvp) {
+			LDViewer.applyPrettyBox(function(dbpvp) {
 				if (dbpvp[mapto] === undefined) dbpvp[mapto] = [];
 				dbpvp[mapto].push(value);
 				console.log("extracted "+mapto);
@@ -109,7 +109,7 @@ var LabelAction = Class.create(PrettyBoxAction, {
 		var mapto = this.mapto;
 		var mapfrom = this.mapfrom;
 		if (predicate.uri == mapfrom) {
-			dbpv.applyPrettyBox(function(dbpvp) {
+			LDViewer.applyPrettyBox(function(dbpvp) {
 				if (dbpvp[mapto] === undefined) dbpvp[mapto] = [];
 				dbpvp[mapto].push(value);
 				console.log("extracted "+mapto);
@@ -129,7 +129,7 @@ var TypeAction = Class.create(PrettyBoxAction, {
 			var mapfrom = this.mapfrom;
 			value.displayValue = value.uri.slice(this.prefiks.length, value.uri.length);
 			//console.log(JSON.stringify(value.uri.slice(this.prefiks.length, value.uri.length)));
-			dbpv.applyPrettyBox(function(dbpvp) {
+			LDViewer.applyPrettyBox(function(dbpvp) {
 				if (dbpvp[mapto] === undefined) dbpvp[mapto] = [];
 				dbpvp[mapto].push(value);
 				//console.log(JSON.stringify(value));
@@ -149,7 +149,7 @@ var AbstractAction = Class.create(PrettyBoxAction, {
 		var mapto = this.mapto;
 		var mapfrom = this.mapfrom;
 		if (predicate.uri == mapfrom) {
-			dbpv.applyPrettyBox(function(dbpvp) {
+			LDViewer.applyPrettyBox(function(dbpvp) {
 				if (dbpvp[mapto] === undefined) dbpvp[mapto] = [];
 				dbpvp[mapto].push(value);
 				console.log("extracted "+mapto);
@@ -168,7 +168,7 @@ var ThumbnailAction = Class.create(PrettyBoxAction, {
 		var mapto = this.mapto;
 		var mapfrom = this.mapfrom;
 		if (predicate.uri == mapfrom) {
-			dbpv.applyPrettyBox(function(dbpvp) {
+			LDViewer.applyPrettyBox(function(dbpvp) {
 				if (dbpvp[mapto] === undefined) dbpvp[mapto] = [];
 				dbpvp[mapto].push(value);
 				console.log("extracted "+mapto);
@@ -192,7 +192,7 @@ var LinkAction = Class.create(PrettyBoxAction, {
 					var matches = mapping.labelx.exec(value.uri);
 					matches = matches.slice(1);
 					value.plex = matches.join("");
-					dbpv.applyPrettyBox(function(dbpvp) {
+					LDViewer.applyPrettyBox(function(dbpvp) {
 						if (dbpvp[mapto] === undefined) dbpvp[mapto] = {};
 						if (dbpvp[mapto][label] === undefined) dbpvp[mapto][label] = [];
 						dbpvp[mapto][label].push(value);
@@ -232,7 +232,7 @@ var MapAction = Class.create(PrettyBoxAction, {
 		if (predicate.forward && predicate.uri == this.mapfrom) {
 			var matches = value.literalLabel.val.match(/([-+]?([0-9]*\.[0-9]+|[0-9]+))\s([-+]?([0-9]*\.[0-9]+|[0-9]+))/);
 			var coord = [matches[3], matches[1]];
-			dbpv.setMapCoord(coord);
+			LDViewer.setMapCoord(coord);
 		}
 		throw "done";
 	},
@@ -240,12 +240,12 @@ var MapAction = Class.create(PrettyBoxAction, {
 	mapfrom:	"http://www.georss.org/georss/point"
 });
 
-var LgdMapAction = Class.create(dbpv.Action, {
+var LgdMapAction = Class.create(LDViewer.Action, {
 	initialize:	function(about, predicate, value) {
 		if (predicate.forward && predicate.uri == this.mapfrom) {
 			var matches = value.literalLabel.lex.match(this.regex);
 			var coord = [matches[1], matches[3]];
-			dbpv.setMapCoord(coord);
+			LDViewer.setMapCoord(coord);
 		}
 		throw "done";
 	},
@@ -255,7 +255,7 @@ var LgdMapAction = Class.create(dbpv.Action, {
 	regex:		/POINT\(([-+]?([0-9]*\.[0-9]+|[0-9]+))\s([-+]?([0-9]*\.[0-9]+|[0-9]+))\)/
 });
 
-var LgdDuoMapAction = Class.create(dbpv.Action, {
+var LgdDuoMapAction = Class.create(LDViewer.Action, {
 	initialize:	function(about, predicate, value) {
 		if (predicate.forward && predicate.uri == this.latprop) {
 			LgdDuoMapAction.currentLat = value.literalLabel.lex;
@@ -264,7 +264,7 @@ var LgdDuoMapAction = Class.create(dbpv.Action, {
 		}
 		
 		if (LgdDuoMapAction.currentLon !== undefined && LgdDuoMapAction.currentLat !== undefined) {
-			dbpv.setMapCoord([LgdDuoMapAction.currentLon, LgdDuoMapAction.currentLat]);
+			LDViewer.setMapCoord([LgdDuoMapAction.currentLon, LgdDuoMapAction.currentLat]);
 			LgdDuoMapAction.currentLon = undefined;
 			LgdDuoMapAction.currentLat = undefined;
 		}
@@ -282,7 +282,7 @@ var ShortcutAction = Class.create(PrettyBoxAction, {
 			if (predicate.uri == url && predicate.forward != this.mappings[url].reverse) {
 				var map = this.mappings[predicate.uri].label;
 				var prio = this.mappings[predicate.uri].prio;
-				dbpv.addShortcut(predicate.uri, map, prio);
+				LDViewer.addShortcut(predicate.uri, map, prio);
 			}
 		}
 		throw "done";
@@ -328,7 +328,7 @@ var ShortcutAction = Class.create(PrettyBoxAction, {
 });
 //*/
 
-var WikipediaAction = Class.create(dbpv.Action, {
+var WikipediaAction = Class.create(LDViewer.Action, {
 	initialize:	function(about, predicate, value) {
 		if (value.uri === undefined || (value.uri.indexOf("http://dbpedia.org/resource") != 0)) {
 			throw "not applicable";
@@ -364,7 +364,7 @@ WikipediaAction.legendize = function() {
 	};
 };
 
-var TemplateAction = Class.create(dbpv.Action, {
+var TemplateAction = Class.create(LDViewer.Action, {
 	initialize:	function(about, predicate, value) {
 		var regex = new RegExp(this.regex());
 		if (value.uri === undefined || !regex.test(value.uri)) {
@@ -388,7 +388,7 @@ var TemplateAction = Class.create(dbpv.Action, {
 });
 //*/
 
-var RelFinderAction = Class.create(dbpv.Action, {
+var RelFinderAction = Class.create(LDViewer.Action, {
 	initialize:		function(about, predicate, value) {
 		var checkregex = new RegExp("^http\:\/\/([a-z]+\.)?dbpedia\.org\/resource\/.+$");
 		if (value.uri === undefined || (checkregex.exec(value.uri)[1] != checkregex.exec(about.uri)[1])) {
@@ -475,7 +475,7 @@ var RelFinderAction = Class.create(dbpv.Action, {
 });
 //*/
 //XXX DOESN'T WORK
-var SpotlightAction = Class.create(dbpv.Action, {
+var SpotlightAction = Class.create(LDViewer.Action, {
 	initialize:		function(about, predicate, value) {
 		if (value.literalLabel === undefined || value.literalLabel.lex === undefined || value.literalLabel.lex.length < 50) {
 			throw new "not applicable";
@@ -503,7 +503,7 @@ var SpotlightAction = Class.create(dbpv.Action, {
 			//this.annotate_async(value.literalLabel.lex, this.execute_callback, this);
 			var busy = this;
 			var text = value.literalLabel.lex;
-			dbpv.http.get(this.endpoint+"?text="+encodeURIComponent(text)).success(function (data, status, headers, config) {	
+			LDViewer.http.get(this.endpoint+"?text="+encodeURIComponent(text)).success(function (data, status, headers, config) {	
 				busy.busy = false;
 				busy.done = true;
 				if (data !== undefined && data["Resources"] !== undefined) {
@@ -515,7 +515,7 @@ var SpotlightAction = Class.create(dbpv.Action, {
 						var offset = parseInt(annotation["@offset"]);
 						var len = annotation["@surfaceForm"].length;
 						var link = annotation["@URI"];
-						link = dbpv.preprocess_triple_url(link);
+						link = LDViewer.preprocess_triple_url(link);
 						link = '<a dbpv-preview href="'+link+'">';
 						pieces.push(text.substring(previndex, offset));
 						pieces.push(link+text.substr(offset, len)+"</a>");
@@ -523,22 +523,22 @@ var SpotlightAction = Class.create(dbpv.Action, {
 					}
 					pieces.push(text.substr(previndex));
 					value.literalLabel.lex = pieces.join("");
-					//dbpv.compile(value.literalLabel.lex);
+					//LDViewer.compile(value.literalLabel.lex);
 				}
 			})
 			.error(function (data, status, headers, config) {
-				dbpv.addNotification("Annotation request failed",5000);
+				LDViewer.addNotification("Annotation request failed",5000);
 				//callback(undefined);
 			});
 			this.busy = true;
 		} else {
-			dbpv.addNotification("Annotation request to the DBpedia Spotlight API is already pending", 5000);
+			LDViewer.addNotification("Annotation request to the DBpedia Spotlight API is already pending", 5000);
 		}
 	}
 });
 //*/
 
-var LodliveAction = Class.create(dbpv.Action, {
+var LodliveAction = Class.create(LDViewer.Action, {
 	initialize:		function(about, predicate, value) {
 						if (value.uri === undefined || (value.uri.indexOf("http://dbpedia.org/resource") != 0)) {
 							throw new "not applicable";
@@ -557,7 +557,7 @@ var LodliveAction = Class.create(dbpv.Action, {
 					}
 });
 
-var DisclaimerAction = Class.create(dbpv.Action, {
+var DisclaimerAction = Class.create(LDViewer.Action, {
 	initialize:		function(about, predicate, value) {
 						if (predicate.uri.match("http://xmlns.com/foaf/0.1/isPrimaryTopicOf")) {
 							//alert("disclaimer action called");
@@ -568,13 +568,13 @@ var DisclaimerAction = Class.create(dbpv.Action, {
 							var lang = match[1];
 							settings.title = match[2];
 							settings.history = "http://" + lang + ".wikipedia.org/w/index.php?title=" + settings.title + "&action=history";
-							dbpv.setFooterWikipage(settings);
+							LDViewer.setFooterWikipage(settings);
 						}
 						throw "executed";
 					}
 });
 
-var NofollowAction = Class.create(dbpv.Action, {
+var NofollowAction = Class.create(LDViewer.Action, {
 	initialize:		function(about, predicate, value) {
 						if (predicate.uri.match("wikiPageExternalLink") || predicate.uri.match("xmlns.com/foaf/0.1/homepage")) {
 							value.nofollow = true;
@@ -583,19 +583,19 @@ var NofollowAction = Class.create(dbpv.Action, {
 					}
 });
 
-var RelationInstancesAction = Class.create(dbpv.Action, {
+var RelationInstancesAction = Class.create(LDViewer.Action, {
 	initialize:		function(about, predicate, value) {
 						if (predicate.uri.match("http://www.w3.org/1999/02/22-rdf-syntax-ns#type") && (value.uri.match("#DatatypeProperty") || value.uri.match("#ObjectProperty") || value.uri.match("http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"))) {
-							dbpv.showRelationInstances();
+							LDViewer.showRelationInstances();
 						}
 						throw "executed";
 					}
 });
 
-var ClassInstancesAction = Class.create(dbpv.Action, {
+var ClassInstancesAction = Class.create(LDViewer.Action, {
 	initialize:		function(about, predicate, value) {
 						if (predicate.uri.match("http://www.w3.org/1999/02/22-rdf-syntax-ns#type") && value.uri.match("#Class")) {
-							dbpv.showClassInstances();
+							LDViewer.showClassInstances();
 						}
 						throw "executed";
 					}

@@ -1,11 +1,11 @@
 angular.module('ldv.controller', ['ldv.services.UrlService'])
 .controller('MetaCtrl', ['$rootScope', '$scope', '$routeParams', '$filter', '$timeout', "$http", '$compile', '$location', 'UrlService', function ($rootScope, $scope, $routeParams, $filter, $timeout, $http, $compile, $location, UrlService) {
 
-	dbpv.configure(LDViewer.configuration);
+	LDViewer.configure(LDViewer.configuration);
 
-	dbpv.doConfigure();
+	LDViewer.doConfigure();
 
-	dbpv.about = function(about) {
+	LDViewer.about = function(about) {
 		if (about === undefined) {
 			return $scope.about;
 		} else {
@@ -19,22 +19,22 @@ angular.module('ldv.controller', ['ldv.services.UrlService'])
 	
 	var resource = UrlService.processResource($routeParams);
 
-	dbpv.about({uri: resource});
+	LDViewer.about({uri: resource});
 
-	dbpv.http = $http;
+	LDViewer.http = $http;
 	delete $http.defaults.headers.common['X-Requested-With'];
 	
-	dbpv.compile = $compile;
+	LDViewer.compile = $compile;
 	
 	$scope.loadFail = function() {
-		dbpv.addNotification('Loading failed.', 10000);
+		LDViewer.addNotification('Loading failed.', 10000);
 	};
 	
 	$scope.noInfo = function() {
-		dbpv.addNotification('No information about this resource available.', 10000);
+		LDViewer.addNotification('No information about this resource available.', 10000);
 	};
 	
-	dbpv.preprocess_triple_url = function(url) {
+	LDViewer.preprocess_triple_url = function(url) {
 		return UrlService.makeUrl(url).uri;
 		/*if (url.slice(0, $scope.localgraph.length) == $scope.localgraph) {
 			url = $scope.localprefix + url.slice($scope.localgraph.length, url.length);

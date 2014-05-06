@@ -60,5 +60,5 @@ module.exports = function (grunt) {
 		['concat:css', 'cssmin:css', 'concat:js', 'ngmin:dist', 'uglify:js']);
 		
 	grunt.registerTask('buildSrc',
-		['concat:css', 'cssmin:css', 'concat:srcjs', 'ngmin:dist']);
+		['concat:css', 'cssmin:css', 'concat:srcjs', 'ngmin:dist', 'uglify:js']);
 };

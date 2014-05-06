@@ -18,7 +18,7 @@ angular.module('ldv.pretty', ['ldv.pretty.types', 'ldv.pretty.links', 'ldv.prett
 })
 
 	.controller('PrettyBoxCtrl', ['$scope', '$rootScope', function($scope, $rootScope) {		
-		dbpv.applyPrettyBox = function(fn) {
+		LDViewer.applyPrettyBox = function(fn) {
 			//$scope.$apply(
 				fn($scope.dbpvp);
 			//);
