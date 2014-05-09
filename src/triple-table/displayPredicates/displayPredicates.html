@@ -1,0 +1,34 @@
+<div class="top-block"> 
+						<div id="triples-top">
+						<div class="predicate">
+								<div class="pred-name form-inline">
+									<label class="dbpv-tabletop"> Property:
+									</label> 
+									<span predicate-filter predfilter="predfilter">
+									</span>
+								</div>
+								<div class="pred-values">		
+									<div class="pred-value form-inline"> 
+										<label class="dbpv-tabletop"> Value: 
+										</label> 
+										<span value-filter valfilter="valfilter">
+										</span>
+									</div>	
+								</div>	
+							</div>
+						</div>
+						<div class="predicate" ng-repeat="(id, predicate) in predicates | predicateFilter:predfilter | predicateValueFilter:valfilter | orderBy:sortPredicates">
+							<div ng-switch on="predicate.forward">
+								<div ng-switch-when="true">
+									<div display-predicate about="about" predicate="predicate" valfilter="valfilter" primarylang="primarylang" fallbacklang="fallbacklang">
+									</div>
+								</div>
+								<div ng-switch-default>
+								<div display-reverse-predicate about="about" predicate="predicate" 
+							valfilter="valfilter"
+									primarylang="primarylang" fallbacklang="fallbacklang">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>

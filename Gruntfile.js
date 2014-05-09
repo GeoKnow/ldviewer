@@ -19,7 +19,8 @@ module.exports = function (grunt) {
 					'src/ldv.js',
 					'src/config.js',
 					'src/controller.js',
-					'src/*/*.js'
+					'src/**/*.js',
+					'dist/tpls/*.js'
 				],
 				dest: 'dist/ldv.js'
 			}
@@ -44,6 +45,23 @@ module.exports = function (grunt) {
                 }
             }
         },
+		html2js: {
+			options: {
+				module:	function(obj, target) {return "ldv.templates."+target;}
+			},
+			pretty: {
+				src: 	'src/pretty/**/*.html',
+				dest:	'dist/tpls/pretty.js'
+			},
+			ui:		{
+				src:	'src/ui/**/*.html',
+				dest:	'dist/tpls/ui.js'
+			},
+			tripletable: {
+				src:	'src/triple-table/**/*.html',
+				dest:	'dist/tpls/tripletable.js'
+			}
+		},
         watch: {
           files: ['src/*', 'src/*/*'],
           tasks: ['buildSrc']
@@ -60,5 +78,5 @@ module.exports = function (grunt) {
 		['concat:css', 'cssmin:css', 'concat:js', 'ngmin:dist', 'uglify:js']);
 		
 	grunt.registerTask('buildSrc',
-		['concat:css', 'cssmin:css', 'concat:srcjs', 'ngmin:dist', 'uglify:js']);
+		['concat:css', 'cssmin:css', 'html2js', 'concat:srcjs', 'ngmin:dist', 'uglify:js']);
 };

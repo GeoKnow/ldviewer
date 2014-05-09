@@ -1,7 +1,22 @@
 
-angular.module('ldv.services.preview', [])	
-	.factory('Preview', ['$http', function($http) {
-		return {getProperty: function (rurl, prop, scope, graph, endpoint) {
+angular.module('ldv.services.preview', ['ldv.services.UrlService'])	
+	.factory('Preview', ['$http', 'UrlService', function($http, UrlService) {
+		return {
+			getPreview:	function(rurl, mappings, scope) {
+				if (scope.previewSemaphore === undefined) {
+					scope.previewSemaphore = 0;
+				}				
+				var uri;
+				if (rurl.slice(0, UrlService.localgraph().length) == UrlService.localgraph()) {
+					uri = rurl;
+				} else {
+					uri = UrlService.localgraph()+rurl;
+				}
+				var baseq = "SELECT DISTINCT ?p ?o {<"+uri+"> ?p ?o";
+				
+			},
+		
+			getProperty: function (rurl, prop, scope, graph, endpoint) {
 				if (scope.previewSemaphore === undefined) {
 					scope.previewSemaphore = 0;
 				}

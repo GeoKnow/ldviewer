@@ -14,7 +14,7 @@ var PrettyListAction = Class.create(LDViewer.Action, {
 			//for (var i = 0; i < this.properties.length; i ++) {
 			var propdef = this.properties[predicate.uri];
 				if (propdef) {
-					var propertyAdder = LDViewer.getPrettyPropertyAdder(propdef.label, propdef.prio);
+					var propertyAdder = LDViewer.getPrettyPropertyAdder(predicate, propdef.prio);
 					if (propertyAdder) {
 						propertyAdder(value);
 					}
@@ -27,61 +27,51 @@ var PrettyListAction = Class.create(LDViewer.Action, {
 					"http://dbpedia.org/ontology/birthPlace":
 					{
 						"reverse": false,
-						"label":"Place of Birth",
 						"prio":	1
 					},
 					"http://dbpedia.org/property/occupation":
 					{
 						"reverse": false,
-						"label":"Occupation",
 						"prio":	3
 					},
 					"http://dbpedia.org/ontology/birthDate":
 					{
 						"reverse": false,
-						"label":"Date of Birth",
 						"prio": 2
 					},
 					"http://dbpedia.org/ontology/areaCode":
 					{
 						"reverse": false,
-						"label":"Area Code",
 						"prio": 4
 					},
 					"http://dbpedia.org/ontology/country":
 					{
 						"reverse": false,
-						"label":"Country",
 						"prio": 5
 					},
 					"http://dbpedia.org/ontology/capital":
 					{
 						"reverse": false,
-						"label":"Capital",
 						"prio": 6
 					},
 					"http://dbpedia.org/ontology/currency":
 					{
 						"reverse": false,
-						"label":"Currency",
 						"prio": 7
 					},
 					"http://dbpedia.org/ontology/language":
 					{
 						"reverse": false,
-						"label":"Language",
 						"prio": 8
 					},
 					"http://dbpedia.org/ontology/leaderName":
 					{
 						"reverse": false,
-						"label":"Leaders",
 						"prio": 9
 					},
 					"http://dbpedia.org/ontology/wikiPageDisambiguates":
 					{
 						"reverse": false,
-						"label": "Disambiguations",
 						"prio": 10
 					}
 					

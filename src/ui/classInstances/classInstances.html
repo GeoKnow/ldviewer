@@ -1,0 +1,5 @@
+<div id="class-instances" ng-show="showInstances">
+		<div id="facetblock"><div facet-tree sparql-service="sparqlService" facet-tree-config="facetTreeConfig" select="selectFacet(path)"></div>
+		<div facet-value-list sparql-service="sparqlService" facet-tree-config="facetTreeConfig" path="path"></div>	
+		<div constraint-list sparql-service="sparqlService" facet-tree-config="facetTreeConfig"></div></div>
+		<div id="instance-block" class="top-block"><div id="class-instances-top">Some instances of this class:</div><div id="class-instances"><div class="class-instance-i" dbpv-pagination page="page" total="total" perpage="perpage"></div><div ng-repeat="instance in instances"><div class="class-instance-i"><div class="class-instance"><div display-node node="instance" primarylang="primarylang" fallbacklang="fallbacklang"></div></div></div></div></div></div></div>

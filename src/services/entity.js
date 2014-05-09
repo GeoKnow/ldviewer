@@ -19,7 +19,9 @@ angular.module('ldv.services.entity', ['ldv.services.UrlService', 'ldv.services.
 				
 				if (!reverse) {
 					query = "SELECT DISTINCT * where {<"+entityUrl+"> ?p ?o}";
-					labelqueries = ["SELECT DISTINCT ?p as ?x ?pl ?l WHERE { ?p ?pl ?l . {"+query + "}", "SELECT DISTINCT ?o as ?x ?pl ?l WHERE { ?o ?pl ?l . {"+query + "}"];
+					if ($rootScope.showLabels) {
+						labelqueries = ["SELECT DISTINCT ?p as ?x ?pl ?l WHERE { ?p ?pl ?l . {"+query + "}", "SELECT DISTINCT ?o as ?x ?pl ?l WHERE { ?o ?pl ?l . {"+query + "}"];
+					}
 				} else {
 					query = "SELECT DISTINCT ?p ?s WHERE {?su ?p <"+entityUrl+"> .FILTER (?p != <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>). {SELECT ?s WHERE {?s ?p <"+entityUrl+">} LIMIT 3 } }";
 				}
@@ -88,6 +90,14 @@ angular.module('ldv.services.entity', ['ldv.services.UrlService', 'ldv.services.
 				;
 				
 				return request;
+			},
+			
+			labelledQuery:	function(q, labelvars) {
+				if ($rootScope.showLabels) {
+					for (var i = 0; i < $rootScope.labelPrefs; i++) {
+					
+					}
+				}
 			},
 			
 			assignLabels:	function(queries, nodes) {

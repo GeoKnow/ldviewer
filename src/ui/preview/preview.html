@@ -1,0 +1,10 @@
+<div ng-show="dbpvp.show" id="dbpvpreview" style="position:absolute;top:{{dbpvp.top}}px;left:{{dbpvp.left}}px;" ng-mouseenter="previewHover()" ng-mouseleave="previewUnhover()">
+	<div id="dbpvpthumbnail">				<img ng-src="{{dbpvp.thumbnail[0].value}}"></img			</div>
+	<div id="dbpvptext">			
+		<div id="dbpvplabel">				<span ng-repeat="value in dbpvp.label |languageFilter:primarylang:fallbacklang">					{{value.value}}				</span>			</div>			
+		<div id="dbpvpdescription">				<span ng-repeat="value in dbpvp.description |languageFilter:primarylang:fallbacklang">					{{value.value}}				</span>			</div>			
+	</div>
+	<div ng-repeat="(key, val) in dbpvp.properties">				
+		<div id="dbpvpdescription">					<span ng-show="val.length>0">						{{key}}:						<a href="{{val.uri}}">							{{val.lex}}						</a>					</span>				</div>			
+	</div>	
+</div>

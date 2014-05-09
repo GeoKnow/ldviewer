@@ -1,0 +1,30 @@
+<div class="dbpv-paginator" ng-show="showPaginator">
+						<div ng-show="showLeftNav">
+							<button class="btn btn-block-primary btn-small btn-show-left dbpv-btn" ng-click="onShowLeft()">
+						PREVIOUS
+							</button>
+						</div>
+						<div ng-show="!showLeftNav">
+							<div class="btn-show-left-placeholder">
+								PREVIOUS
+							</div>
+						</div>
+						<div ng-show="showPaginator">
+							<div class="rev-paginator">PAGE:
+								<input class="form-control dbpv-input dbpv-filter rev-paginator-page" ng-model="pagedis" ng-enter="changePage()"/>/{{pages+1}} 
+								<button class="btn dbpv-btn btn-block-primary btn-small" ng-click="changePage()">
+								GO
+								</button>
+							</div>
+						</div>
+						<div ng-show="showRightNav">
+					<button class="btn btn-block-primary btn-small btn-show-right dbpv-btn" ng-click="onShowRight()">
+					NEXT
+							</button>
+						</div>
+						<div ng-show="!showRightNav">
+							<div class="btn-show-right-placeholder">
+					NEXT
+							</div>
+						</div>
+					</div>
