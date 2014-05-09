@@ -1,1 +1,1 @@
-angular.module('ldv.ui', ['ldv.ui.classInstances', 'ldv.ui.disclaimer', 'ldv.ui.topbar', 'ldv.ui.relationInstances', 'ldv.ui.status', 'ldv.ui.shortcuts']);
+angular.module('ldv.ui', ['ldv.ui.classInstances', 'ldv.ui.disclaimer', 'ldv.ui.topbar', 'ldv.ui.relationInstances', 'ldv.ui.status', 'ldv.ui.shortcuts', 'ldv.ui.notifications']);
