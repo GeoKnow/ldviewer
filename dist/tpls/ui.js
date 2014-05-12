@@ -3,9 +3,12 @@ angular.module('ldv.templates.ui', ['ui/classInstances/classInstances.html', 'ui
 angular.module("ui/classInstances/classInstances.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("ui/classInstances/classInstances.html",
     "<div id=\"class-instances\" ng-show=\"showInstances\">\n" +
-    "		<div id=\"facetblock\"><div facet-tree sparql-service=\"sparqlService\" facet-tree-config=\"facetTreeConfig\" select=\"selectFacet(path)\"></div>\n" +
-    "		<div facet-value-list sparql-service=\"sparqlService\" facet-tree-config=\"facetTreeConfig\" path=\"path\"></div>	\n" +
-    "		<div constraint-list sparql-service=\"sparqlService\" facet-tree-config=\"facetTreeConfig\"></div></div>\n" +
+    "		<div id=\"facetblock\">\n" +
+    "			<div id=\"facettitleblock\" class=\"top-block\">Faceted Browser</div>\n" +
+    "			<div id=\"facettreeblock\" class=\"top-block\"><div class=\"titletext\">Facets</div><div facet-tree sparql-service=\"sparqlService\" facet-tree-config=\"facetTreeConfig\" select=\"selectFacet(path)\"></div></div>\n" +
+    "			<div id=\"facetvaluesblock\" class=\"top-block\"><div class=\"titletext\">Values</div><div facet-value-list sparql-service=\"sparqlService\" facet-tree-config=\"facetTreeConfig\" path=\"path\"></div>	</div>\n" +
+    "			<div id=\"facetconstraintsblock\" class=\"top-block\"><div class=\"titletext\">Constraints</div><div constraint-list sparql-service=\"sparqlService\" facet-tree-config=\"facetTreeConfig\"></div></div>\n" +
+    "		</div>\n" +
     "		<div id=\"instance-block\" class=\"top-block\"><div id=\"class-instances-top\">Some instances of this class:</div><div id=\"class-instances\"><div class=\"class-instance-i\" dbpv-pagination page=\"page\" total=\"total\" perpage=\"perpage\"></div><div ng-repeat=\"instance in instances\"><div class=\"class-instance-i\"><div class=\"class-instance\"><div display-node node=\"instance\" primarylang=\"primarylang\" fallbacklang=\"fallbacklang\"></div></div></div></div></div></div></div>");
 }]);
 

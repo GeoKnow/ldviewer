@@ -1,12 +1,12 @@
 {
-  "name": "dbpv",
-  "version": "0.0.1",
+  "name": "ldviewer",
+  "version": "1.0.0",
   "description": "linked data viewer",
   "main": "index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Denis Lukovnikov",
+  "author": "edwh",
   "license": "ISC",
   "devDependencies": {
     "grunt": "~0.4.2",
@@ -16,6 +16,7 @@
     "grunt-contrib-uglify": "~0.2.0",
     "grunt-ngmin": "~0.0.3",
     "grunt-html2js": "~0.2.0",
-    "html2js": "0.0.2"
+    "html2js": "0.0.2",
+    "grunt-contrib-sass": "^0.7.3"
   }
 }

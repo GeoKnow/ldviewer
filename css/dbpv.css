@@ -585,10 +585,28 @@ label.dbpv-tabletop {
 
 #class-instances #facetblock {
 	float:left;
-	width: 30%;
-	margin-top: 18px;
+	width: 35%;
 	padding: 1em;
 }
+
+ #facettreeblock, #facetvaluesblock, #facetconstraintsblock, #facettitleblock  {
+	margin-bottom: 18px;
+	width: 100%;
+	background-color: white;
+	padding: 10px;
+ }
+ 
+ #facettitleblock {
+	font-weight: bold;
+	font-align: center;
+	font-size: 18px;
+ }
+ 
+ .titletext {
+	font-weight:bold;
+	font-align: center;
+	font-size: 18px;
+ }
 
 #class-instances #instance-block {
 	float:right;
