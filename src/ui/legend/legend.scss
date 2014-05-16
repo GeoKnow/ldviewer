@@ -1,0 +1,36 @@
+#legend {
+
+	#legends {
+		width:	400px;
+		
+		.name {
+			font: {
+				size: 1.2em;
+				weight:	bold;
+			}
+		}
+		
+		.legend {
+			padding: 15px;
+			border-bottom:	1px solid $border-color;
+			
+			.description {
+				border-bottom: 1px solid $border-color;
+			}
+			
+			.line {
+				margin-top: 3px;
+			}
+		}
+	}
+	
+	#legend-title {
+		position:absolute;
+		right: 0px;
+		top: 11.5em;
+		padding: 15px;
+		background-color:$fg-color;
+		border: 1px solid $border-color;
+		z-index: 99;	
+	}
+}
