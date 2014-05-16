@@ -1,4 +1,4 @@
-angular.module('ldv.controller', ['ldv.services.UrlService'])
+angular.module('ldv.controller', ['ldv.services.UrlService', 'ldv.ui.survey'])
 .controller('MetaCtrl', ['$rootScope', '$scope', '$routeParams', '$filter', '$timeout', "$http", '$compile', '$location', 'UrlService', function ($rootScope, $scope, $routeParams, $filter, $timeout, $http, $compile, $location, UrlService) {
 
 	LDViewer.configure(LDViewer.configuration);

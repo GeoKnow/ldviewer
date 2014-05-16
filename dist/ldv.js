@@ -72,7 +72,10 @@ ldv.run([
     }
   }
 ]);
-angular.module('ldv.controller', ['ldv.services.UrlService']).controller('MetaCtrl', [
+angular.module('ldv.controller', [
+  'ldv.services.UrlService',
+  'ldv.ui.survey'
+]).controller('MetaCtrl', [
   '$rootScope',
   '$scope',
   '$routeParams',
@@ -2192,7 +2195,10 @@ nodeModule.directive('displayNode', function () {
           }
           lex = prefshor[0] + ':' + prefshor[1];
         }
-        if ($scope.node.labelNodes && $rootScope.showLabels) {
+        if ($scope.node.displayLabel && $rootScope.showLabels) {
+          label = $scope.node.displayLabel;
+          lex = label;
+        } else if ($scope.node.labelNodes && $rootScope.showLabels) {
           //label = '<span ng-repeat="n in node.labelNodes | languageFilter:primarylang:fallbacklang"><span display-node node="n" primarylang="primarylang" fallbacklang="fallbacklang" settings="settings" showlanguage="false"></span></span>';
           var filtlabel = $filter('languageFilter')($scope.node.labelNodes, $scope.primarylang, $scope.fallbacklang);
           if (filtlabel && filtlabel.length > 0) {
@@ -2766,6 +2772,7 @@ angular.module('ldv.ui.classInstances', [
     var facete = Jassa.facete;
     var sparqlServiceFactory = new service.SparqlServiceFactoryDefault();
     $scope.sparqlService = new service.SparqlServiceHttp(UrlService.endpoint(), UrlService.endpointgraph());
+    $scope.sparqlService = new service.SparqlServiceCache($scope.sparqlService);
     // $scope.sparqlService = sparqlServiceFactory.createSparqlService(UrlService.endpoint, UrlService.endpointgraph);
     $scope.facetTreeConfig = new Jassa.facete.FacetTreeConfig();
     var baseVar = Jassa.rdf.NodeFactory.createVar('s');
@@ -2773,16 +2780,28 @@ angular.module('ldv.ui.classInstances', [
     var baseElement = new Jassa.sparql.ElementTriplesBlock([new Jassa.rdf.Triple(baseVar, Jassa.vocab.rdf.type, classNode)]);
     var baseConcept = new Jassa.facete.Concept(baseElement, baseVar);
     $scope.facetTreeConfig.getFacetConfig().setBaseConcept(baseConcept);
+    var labelmap = Jassa.sponate.SponateUtils.createDefaultLabelMap([
+        $scope.primarylang,
+        $scope.fallbacklang
+      ], LDViewer.getConfig('labelPrefs'));
+    $scope.facetTreeConfig.labelMap = labelmap;
     $scope.path = null;
     $scope.selectFacet = function (path) {
       //alert('Selected Path: [' + path + ']');
       $scope.path = path;
     };
+    $scope.$watch('primarylang', function (lang) {
+      var labelmap = Jassa.sponate.SponateUtils.createDefaultLabelMap([
+          lang,
+          $scope.fallbacklang
+        ], LDViewer.getConfig('labelPrefs'));
+      $scope.facetTreeConfig.labelMap = labelmap;
+    });
     $scope.processFacetedValues = function () {
       var fvs = new facete.FacetValueService($scope.sparqlService, $scope.facetTreeConfig);
       var fetcher = fvs.createFacetValueFetcher(new facete.Path(), '');
       var p1 = fetcher.fetchCount();
-      var p2 = fetcher.fetchData(0, 10);
+      var p2 = fetcher.fetchData($scope.offset, $scope.perpage);
       var result = jQuery.when.apply(null, [
           p2,
           p1
@@ -2791,6 +2810,7 @@ angular.module('ldv.ui.classInstances', [
           for (var i = 0; i < data.length; i++) {
             var result = data[i];
             if (result.node) {
+              result.node.displayLabel = result.displayLabel;
               $scope.instances.push(result.node);
             }
           }
@@ -3193,6 +3213,10 @@ angular.module('ldv.ui.languageSwitch', [
     $scope.$watch('primarylanguage', function (lang) {
       $scope.primarylang = lang;
       $.cookie('dbpv_primary_lang', lang);
+      Jassa.sponate.SponateUtils.defaultPrefLangs = [
+        lang,
+        $scope.fallbacklang
+      ];
       if (!(lang in $scope.availableLanguages)) {
         var more = false;
         for (var k in $scope.availableLanguages) {

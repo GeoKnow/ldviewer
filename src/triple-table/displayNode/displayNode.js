@@ -54,7 +54,11 @@ nodeModule.directive('displayNode', function() {
 					}
 					lex = prefshor[0]+":"+prefshor[1];
 				}
-				if ($scope.node.labelNodes && $rootScope.showLabels) {
+				if ($scope.node.displayLabel && $rootScope.showLabels) {
+					label = $scope.node.displayLabel;
+					lex = label;
+				}
+				else if ($scope.node.labelNodes && $rootScope.showLabels) {
 					//label = '<span ng-repeat="n in node.labelNodes | languageFilter:primarylang:fallbacklang"><span display-node node="n" primarylang="primarylang" fallbacklang="fallbacklang" settings="settings" showlanguage="false"></span></span>';
 					var filtlabel = $filter('languageFilter')($scope.node.labelNodes, $scope.primarylang, $scope.fallbacklang);
 					if (filtlabel && filtlabel.length > 0) {

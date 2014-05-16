@@ -40,6 +40,9 @@ angular.module('ldv.ui.languageSwitch', ['ldv.services.languages', 'ldv.template
 		$scope.$watch('primarylanguage', function(lang) {
 			$scope.primarylang = lang;
 			$.cookie("dbpv_primary_lang", lang);
+			
+			Jassa.sponate.SponateUtils.defaultPrefLangs = [lang, $scope.fallbacklang];
+			
 			if (! (lang in $scope.availableLanguages)) {
 				var more = false;
 				for (var k in $scope.availableLanguages) {

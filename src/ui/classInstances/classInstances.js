@@ -25,6 +25,8 @@ angular.module('ldv.ui.classInstances', ['ldv.table.displayNode', 'ldv.ui.pagina
 
 		$scope.sparqlService = new service.SparqlServiceHttp(UrlService.endpoint(), UrlService.endpointgraph());
 		
+		$scope.sparqlService = new service.SparqlServiceCache($scope.sparqlService);
+		
        // $scope.sparqlService = sparqlServiceFactory.createSparqlService(UrlService.endpoint, UrlService.endpointgraph);
 
         $scope.facetTreeConfig = new Jassa.facete.FacetTreeConfig();
@@ -35,7 +37,8 @@ angular.module('ldv.ui.classInstances', ['ldv.table.displayNode', 'ldv.ui.pagina
 		var baseConcept = new Jassa.facete.Concept(baseElement, baseVar);
 
 		$scope.facetTreeConfig.getFacetConfig().setBaseConcept(baseConcept);
-
+		var labelmap = Jassa.sponate.SponateUtils.createDefaultLabelMap([$scope.primarylang, $scope.fallbacklang], LDViewer.getConfig('labelPrefs'));
+		$scope.facetTreeConfig.labelMap = labelmap;
         $scope.path = null;
 
         $scope.selectFacet = function(path) {
@@ -43,18 +46,24 @@ angular.module('ldv.ui.classInstances', ['ldv.table.displayNode', 'ldv.ui.pagina
             $scope.path = path;
         };
 		
+		$scope.$watch("primarylang", function(lang) {
+			var labelmap = Jassa.sponate.SponateUtils.createDefaultLabelMap([lang, $scope.fallbacklang], LDViewer.getConfig('labelPrefs'));
+			$scope.facetTreeConfig.labelMap = labelmap;
+		});
+		
 		$scope.processFacetedValues = function() {
 			var fvs = new facete.FacetValueService($scope.sparqlService, $scope.facetTreeConfig)
 			var fetcher = fvs.createFacetValueFetcher(new facete.Path(), "");
 			
 			var p1 = fetcher.fetchCount();
-			var p2 = fetcher.fetchData(0, 10);
+			var p2 = fetcher.fetchData($scope.offset, $scope.perpage);
 			
 			var result = jQuery.when.apply(null, [p2, p1]).pipe(function(data, count) {
 				$scope.instances = [];
 				for (var i = 0; i < data.length; i++) {
 					var result = data[i];
 					if (result.node) {
+						result.node.displayLabel = result.displayLabel;
 						$scope.instances.push(result.node);
 					}
 				}
