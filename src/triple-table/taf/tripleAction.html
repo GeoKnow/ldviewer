@@ -1,1 +1,17 @@
-<span><a href="javascript:void(0);" title="{{action.description}}" ng-click="action.execute(about, predicate, value);"> <span ng-bind-html-unsafe="action.display();"></span> </a></span>
+<span><span ng-hide="group">
+	<a href="javascript:void(0);" title="{{action.description}}" ng-click="action.execute(about, predicate, value);"> 
+		<span ng-bind-html-unsafe="action.display();"></span> 
+	</a>
+</span>
+<span ng-show="group">
+	<a role="button" class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);" title="{{action.description}}"> 
+		<span ng-bind-html-unsafe="action.display();"></span> 
+	</a>
+	<ul class="dropdown-menu action-group">
+		<li ng-repeat="act in action.actions">
+			<a href="javascript:void(0);" title="{{act.description}}" ng-click="act.execute(about, predicate, value);"> 
+				<span ng-bind-html-unsafe="act.display();"></span> 
+			</a>
+		</li>
+	</ul>
+</span></span>

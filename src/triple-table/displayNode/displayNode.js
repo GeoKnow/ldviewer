@@ -17,6 +17,9 @@ nodeModule.directive('displayNode', function() {
 	};
 })
 	.controller('DisplayNodeCtrl', ['$scope', 'UrlService', '$rootScope', '$filter' ,function($scope, UrlService, $rootScope, $filter) {
+		if ($scope.settings === undefined) {
+			//alert($scope.node);
+		}
 		if (!$scope.showlanguage) {
 			$scope.showlanguage = true;
 		}

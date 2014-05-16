@@ -20,12 +20,13 @@ angular.module('ldv.ui.legend', ['ldv.templates.ui'])
 		$scope.addLegend = function(legend) {
 			$scope.legends.push(legend);
 		};
+		
 		$scope.actions = TafService.getActions();
 		
 		for (var i = 0; i < $scope.actions.length; i++) {
 			var action = $scope.actions[i];
-			if (typeof(action.legendize) != "undefined") {
-				$scope.addLegend(action.legendize());
+			if (typeof(action.legend) != "undefined") {
+				$scope.addLegend(action.legend);
 			}
 		}//*/
 	}])

@@ -2,12 +2,22 @@ angular.module('ldv.templates.pretty', ['pretty/prettyLinks/prettyLinks.html', '
 
 angular.module("pretty/prettyLinks/prettyLinks.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("pretty/prettyLinks/prettyLinks.html",
-    "<div id=\"dbpvplinks\">			<div ng-repeat=\"(label, list) in links\" style=\"float:left;margin-right: 15px;\">				<div ng-show=\"list.length>1\" >					<a role=\"button\" href=\"javascript:void(0);\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">{{label}} <span class=\"glyphicon glyphicon-chevron-down\" style=\"font-size:0.6em;\"></span></a>					<ul class=\"dropdown-menu\">						<li ng-repeat=\"link in list\"><a target=\"_blank\" href=\"{{link.uri}}\">{{link.plex}}</a></li>									</ul>				</div>				<div ng-show=\"list.length==1\">					<a target=\"_blank\" href=\"{{list[0].uri}}\">{{list[0].plex}}</a>				</div>			</div>		</div>");
+    "<div id=\"dbpvplinks\">			\n" +
+    "<div ng-repeat=\"(label, list) in links\" style=\"float:left;margin-right: 15px;\">				<div ng-show=\"list.length>1\" >					\n" +
+    "\n" +
+    "<a role=\"button\" href=\"javascript:void(0);\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">{{label}} \n" +
+    "	<span class=\"glyphicon glyphicon-chevron-down\" style=\"font-size:0.6em;\"></span>\n" +
+    "</a>					\n" +
+    "<ul class=\"dropdown-menu\">						\n" +
+    "	<li ng-repeat=\"link in list\"><a target=\"_blank\" href=\"{{link.uri}}\">{{link.plex}}</a></li>									\n" +
+    "</ul>			\n" +
+    "\n" +
+    "</div>				<div ng-show=\"list.length==1\">					<a target=\"_blank\" href=\"{{list[0].uri}}\">{{list[0].plex}}</a>				</div>			</div>		</div>");
 }]);
 
 angular.module("pretty/prettyList/prettyList.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("pretty/prettyList/prettyList.html",
-    "<div id=\"dbpvpproperties\" ng-show=\"showProperties()\"><table id=\"dbpvplist\"><tr ng-repeat=\"property in properties | orderBy:prioSort\" class=\"propertyentry\"><td class=\"propertykey\"><div display-node node=\"property.key\" primarylang=\"primarylang\" fallbacklang=\"fallbacklang\"></div>:</td><td  class=\"propertyvalues\"><div ng-repeat=\"value in property.values\"><div display-node node=\"value\" settings=\"displayset\" class=\"propertyvalue\" primarylang=\"primarylang\" fallbacklang=\"fallbacklang\" dbpv-preview></div></div></div></td></tr></table></div>");
+    "<div id=\"dbpvpproperties\" ng-show=\"showProperties()\"><table id=\"dbpvplist\"><tr ng-repeat=\"property in properties | orderBy:prioSort\" class=\"propertyentry\"><td class=\"propertykey\"><div display-node settings=\"\" showlanguage=\"false\" node=\"property.key\" primarylang=\"primarylang\" fallbacklang=\"fallbacklang\"></div>:</td><td  class=\"propertyvalues\"><div ng-repeat=\"value in property.values\"><div display-node node=\"value\" settings=\"displayset\" class=\"propertyvalue\" primarylang=\"primarylang\" fallbacklang=\"fallbacklang\" showlanguage=\"false\" dbpv-preview></div></div></div></td></tr></table></div>");
 }]);
 
 angular.module("pretty/prettyMap/prettyMap.html", []).run(["$templateCache", function($templateCache) {

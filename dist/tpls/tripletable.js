@@ -2,7 +2,7 @@ angular.module('ldv.templates.tripletable', ['triple-table/displayPredicates/dis
 
 angular.module("triple-table/displayPredicates/displayPredicate.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("triple-table/displayPredicates/displayPredicate.html",
-    "<div><div class=\"pred-name\"><span display-node node=\"predicate\" primarylang=\"primarylang\" fallbacklang=\"fallbacklang\"></span></div><div display-node-values about=\"about\" predicate=\"predicate\" values=\"predicate.values\" valfilter=\"valfilter\" primarylang=\"primarylang\" fallbacklang=\"fallbacklang\"></div></div>");
+    "<div><div class=\"pred-name\"><span display-node settings=\"\" showlanguage=\"true\" node=\"predicate\" primarylang=\"primarylang\" fallbacklang=\"fallbacklang\"></span></div><div display-node-values about=\"about\" predicate=\"predicate\" values=\"predicate.values\" valfilter=\"valfilter\" primarylang=\"primarylang\" fallbacklang=\"fallbacklang\"></div></div>");
 }]);
 
 angular.module("triple-table/displayPredicates/displayPredicates.html", []).run(["$templateCache", function($templateCache) {
@@ -47,7 +47,7 @@ angular.module("triple-table/displayPredicates/displayReversePredicate.html", []
   $templateCache.put("triple-table/displayPredicates/displayReversePredicate.html",
     "<div>\n" +
     "	<div class=\"pred-name\">\n" +
-    "		<span display-node node=\"predicate\" primarylang=\"primarylang\" fallbacklang=\"fallbacklang\"></span>\n" +
+    "		<span display-node settings=\"\" showlanguage=\"true\" node=\"predicate\" primarylang=\"primarylang\" fallbacklang=\"fallbacklang\"></span>\n" +
     "	</div>\n" +
     "	<div display-reverse-node-values about=\"about\" predicate=\"predicate\" values=\"predicate.values\" valfilter=\"valfilter\" primarylang=\"primarylang\" fallbacklang=\"fallbacklang\"></div>\n" +
     "</div>");
@@ -55,12 +55,12 @@ angular.module("triple-table/displayPredicates/displayReversePredicate.html", []
 
 angular.module("triple-table/displayValues/displayNodeValues.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("triple-table/displayValues/displayNodeValues.html",
-    "<div class=\"pred-values\"><div class=\"pred-value\" ng-repeat=\"val in vals | orderBy:sortValues\" ng-show=\"val.show\"><span triple-actions=\"val.taf\" about=\"about\" predicate=\"predicate\" value=\"val\"></span> <span display-node node=\"val\" primarylang=\"primarylang\" fallbacklang=\"fallbacklang\"></span></div><div ng-show=\"showButton\"><button class=\"btn btn-block btn-primary btn-small btn-show-more dbpv-btn\" ng-click=\"onShowAll()\">Show All</button></div></div>");
+    "<div class=\"pred-values\"><div class=\"pred-value\" ng-repeat=\"val in vals | orderBy:sortValues\" ng-show=\"val.show\"><span triple-actions=\"val.taf\" about=\"about\" predicate=\"predicate\" value=\"val\"></span> <span display-node node=\"val\" primarylang=\"primarylang\" fallbacklang=\"fallbacklang\" settings=\"\" showlanguage=\"true\"></span></div><div ng-show=\"showButton\"><button class=\"btn btn-block btn-primary btn-small btn-show-more dbpv-btn\" ng-click=\"onShowAll()\">Show All</button></div></div>");
 }]);
 
 angular.module("triple-table/displayValues/displayReverseNodeValues.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("triple-table/displayValues/displayReverseNodeValues.html",
-    "<div class=\"pred-values\"><div class=\"pred-value\" ng-repeat=\"val in vals | orderBy:sortValues\" ng-show=\"val.show\"><span triple-actions=\"val.taf\" about=\"about\" predicate=\"predicate\" value=\"val\"></span> <span display-node node=\"val\" primarylang=\"primarylang\" fallbacklang=\"fallbacklang\"></span></div>\n" +
+    "<div class=\"pred-values\"><div class=\"pred-value\" ng-repeat=\"val in vals | orderBy:sortValues\" ng-show=\"val.show\"><span triple-actions=\"val.taf\" about=\"about\" predicate=\"predicate\" value=\"val\"></span> <span display-node node=\"val\" primarylang=\"primarylang\" fallbacklang=\"fallbacklang\" settings=\"\" showlanguage=\"true\"></span></div>\n" +
     "		<div ng-show=\"!predicate.reverseloaded.loaded\"><button class=\"btn btn-block btn-primary btn-small btn-show-more dbpv-btn\" ng-click=\"onLoadButton()\">LOAD</button></div><div dbpv-pagination page=\"predicate.reverseloaded.page\" total=\"predicate.reverseloaded.count\" perpage=\"limit\" on-select=\"onPageSelect(newpage)\"></div></div>");
 }]);
 
@@ -81,5 +81,21 @@ angular.module("triple-table/taf/taf.html", []).run(["$templateCache", function(
 
 angular.module("triple-table/taf/tripleAction.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("triple-table/taf/tripleAction.html",
-    "<span><a href=\"javascript:void(0);\" title=\"{{action.description}}\" ng-click=\"action.execute(about, predicate, value);\"> <span ng-bind-html-unsafe=\"action.display();\"></span> </a></span>");
+    "<span><span ng-hide=\"group\">\n" +
+    "	<a href=\"javascript:void(0);\" title=\"{{action.description}}\" ng-click=\"action.execute(about, predicate, value);\"> \n" +
+    "		<span ng-bind-html-unsafe=\"action.display();\"></span> \n" +
+    "	</a>\n" +
+    "</span>\n" +
+    "<span ng-show=\"group\">\n" +
+    "	<a role=\"button\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" href=\"javascript:void(0);\" title=\"{{action.description}}\"> \n" +
+    "		<span ng-bind-html-unsafe=\"action.display();\"></span> \n" +
+    "	</a>\n" +
+    "	<ul class=\"dropdown-menu action-group\">\n" +
+    "		<li ng-repeat=\"act in action.actions\">\n" +
+    "			<a href=\"javascript:void(0);\" title=\"{{act.description}}\" ng-click=\"act.execute(about, predicate, value);\"> \n" +
+    "				<span ng-bind-html-unsafe=\"act.display();\"></span> \n" +
+    "			</a>\n" +
+    "		</li>\n" +
+    "	</ul>\n" +
+    "</span></span>");
 }]);

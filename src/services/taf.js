@@ -28,24 +28,38 @@ angular.module('ldv.services.taf', [])
 			
 			bindTafPredicate:		function(about, predicate, actions) {
 				if (!actions) actions = this.getActions();
-				for(var j = 0; j < predicate.values.length; j++) {
+				for (var j = 0; j < predicate.values.length; j++) {
 					var val = predicate.values[j];
 					if (val.taf === undefined) {
 						val.taf = [];
 						for (var k = 0; k < actions.length; k++) {
 							var subk = actions[k];
+							if (subk.check(about, predicate, val)) {
+								var instance = subk.factory(about, predicate, val);
+								if (instance && instance.display) {
+									val.taf.push(instance);
+								} else if (instance.execute){
+									instance.execute(about, predicate, val);
+								}
+							}
+							/*
 							try {
 								var actionInstance = new subk(about, predicate, val);
 								val.taf.push(actionInstance);
 							} catch (err) {
 								//console.log(err);
 							}
+							//*/
 						}
 					}
 				}
 			},
 			
-			getActions:				function() {
+			getActions:		function() {
+				return Taf.actions;
+			}
+			
+			/*getActions:				function() {
 				console.log("getting actions");
 				var actions = [LDViewer.Action];
 				var i = 0;
@@ -62,7 +76,7 @@ angular.module('ldv.services.taf', [])
 					i++;
 				}
 				return actions;
-			}
+			}//*/
 			
 		};
 	}])

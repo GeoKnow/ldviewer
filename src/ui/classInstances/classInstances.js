@@ -43,6 +43,30 @@ angular.module('ldv.ui.classInstances', ['ldv.table.displayNode', 'ldv.ui.pagina
             $scope.path = path;
         };
 		
+		$scope.processFacetedValues = function() {
+			var fvs = new facete.FacetValueService($scope.sparqlService, $scope.facetTreeConfig)
+			var fetcher = fvs.createFacetValueFetcher(new facete.Path(), "");
+			
+			var p1 = fetcher.fetchCount();
+			var p2 = fetcher.fetchData(0, 10);
+			
+			var result = jQuery.when.apply(null, [p2, p1]).pipe(function(data, count) {
+				$scope.instances = [];
+				for (var i = 0; i < data.length; i++) {
+					var result = data[i];
+					if (result.node) {
+						$scope.instances.push(result.node);
+					}
+				}
+				
+				$scope.total = count;
+				
+				$scope.$apply();
+				
+			});//*/
+		};
+		
+		//$scope.processFacetedValues();
 		// end faceted browsing code //
 		
 		
@@ -56,13 +80,15 @@ angular.module('ldv.ui.classInstances', ['ldv.table.displayNode', 'ldv.ui.pagina
 		
 		$scope.getInstanceNumber = function() {
 			if ($scope.showInstances) {
+				
+				/*
 				Entity.loadReverseValuesCount($scope.about, {"uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"})
 					.then(
 						function(number) {
 							$scope.total = number[0].literalLabel.val;
 						}
 					)
-				;//*/
+				;
 				/*Entity.loadFacetedCount($scope.criteria, $scope.perpage, $scope.offset).
 					then(
 						function(number) {
@@ -76,12 +102,14 @@ angular.module('ldv.ui.classInstances', ['ldv.table.displayNode', 'ldv.ui.pagina
 	
 		LDViewer.showClassInstances = function() {
 			$scope.showInstances = true;
-			$scope.getInstanceNumber();
+			//$scope.getInstanceNumber();
+			$scope.loadInstances();
 		};
 		
 		$scope.loadInstances = function() {
 			if ($scope.showInstances) {
-				Entity.loadReverseValues($scope.about, {"uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"}, $scope.perpage, $scope.offset)
+				$scope.processFacetedValues();
+				/*Entity.loadReverseValues($scope.about, {"uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"}, $scope.perpage, $scope.offset)
 					.then(
 						function(instances) {
 							$scope.instances = instances;
@@ -99,6 +127,13 @@ angular.module('ldv.ui.classInstances', ['ldv.table.displayNode', 'ldv.ui.pagina
 				;//*/
 			}
 		};
+		
+		    $scope.ObjectUtils = Jassa.util.ObjectUtils;
+		
+		
+		$scope.$watch('ObjectUtils.hashCode(facetTreeConfig)', function(cfg) {
+			$scope.loadInstances();
+		}, true);
 		
 		$scope.$watch('page', function(page) {
 			$scope.offset = $scope.page * $scope.perpage;

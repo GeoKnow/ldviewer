@@ -726,6 +726,30 @@ label.dbpv-tabletop {
 	color:	#333;
 }
 
+#ldv-triple-group {
+	padding: 3px;
+	z-index: 1999;
+	background-color:white;
+	border: 1px solid #CCC;
+	max-width: 30px;
+	min-height: 30px;
+	overflow:hidden;
+	box-shadow: 1px 1px 4px #AAA;
+	position:absolute;
+}
+
+#ldv-triple-group ul {
+	padding:3px;
+}
+
+ul .action-group {
+	width: 20px;
+}
+
+ul .action-group li {
+	width: 20px;
+}
+
 #dbpvpreview #dbpvptext {
 }
 

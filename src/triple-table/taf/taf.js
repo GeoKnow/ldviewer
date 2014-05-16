@@ -34,7 +34,31 @@ angular.module('ldv.table.taf', ['ldv.templates.tripletable'])
 						predicate:"=",
 						value:	"="
 					},
-		templateUrl:	'triple-table/taf/tripleAction.html'
+		templateUrl:	'triple-table/taf/tripleAction.html',
+		controller:		'TripleActionCtrl'
 	};
-});
+})
+.controller('TripleActionCtrl', ['$scope', function($scope) {
+	//console.log($scope.action);
+	if ($scope.action.actions !== undefined && $scope.action.actions.length>0) {
+		$scope.group = true;
+		//alert("it's a group!");
+	} else {
+		$scope.group = false;
+		//alert("it's not a group"+$scope.action.group);
+	}
+}])
+.directive('tripleGroup', function() {
+	return {
+		restrict:	"EA",
+		replace:	true,
+		scope:		{
+						action:	"="
+					},
+		template:	'<div ng-show="doshow"></div>'
+	};
+})
+;
+
+
 
