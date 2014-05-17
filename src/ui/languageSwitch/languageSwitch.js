@@ -15,10 +15,7 @@ angular.module('ldv.ui.languageSwitch', ['ldv.services.languages', 'ldv.template
 })
 
 	.controller('DbpvLanguageSwitchCtrl', ['$scope', 'LanguageService', function($scope, LanguageService) {
-		if ($.cookie("dbpv_primary_lang") === undefined) {
-			$.cookie("dbpv_primary_lang", $scope.primarylang, {expires:90, path: '/'});
-		}
-		$scope.primarylanguage = $.cookie("dbpv_primary_lang");
+
 
 		$scope.availableLanguages = {};
 		$scope.newAvailableLanguage = function (args) {
@@ -36,10 +33,25 @@ angular.module('ldv.ui.languageSwitch', ['ldv.services.languages', 'ldv.template
 			}
 			return ret;
 		};
+		
+		//LDViewer.addNotification("noti test from lan switch", 500);
+		
+		/*if ($.cookie("dbpv_primary_lang") === undefined) {
+			$.cookie("dbpv_primary_lang", $scope.primarylang, {expires:90, path: '/'});
+		}//*/
+		//$scope.primarylanguage = $.cookie("dbpv_primary_lang");//*/
+		
+		$scope.$watch('primarylang', function(lang) {
+			if (lang != $scope.primarylanguage) {
+				$scope.primarylanguage = lang;
+			}
+		});//*/
 
 		$scope.$watch('primarylanguage', function(lang) {
-			$scope.primarylang = lang;
-			$.cookie("dbpv_primary_lang", lang);
+			if (lang != $scope.primarylang) {
+				$scope.primarylang = lang;
+			}
+			//$.cookie("dbpv_primary_lang", lang);
 			
 			Jassa.sponate.SponateUtils.defaultPrefLangs = [lang, $scope.fallbacklang];
 			

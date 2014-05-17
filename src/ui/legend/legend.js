@@ -28,6 +28,14 @@ angular.module('ldv.ui.legend', ['ldv.templates.ui'])
 			if (typeof(action.legend) != "undefined") {
 				$scope.addLegend(action.legend);
 			}
+			if (action.group !== undefined && action.group.length > 0) {
+				for (var j = 0; j < action.group.length; j++) {
+					var act = action.group[j];
+					if (typeof(act.prototype.legend) != "undefined") {
+						$scope.addLegend(act.prototype.legend);
+					}
+				}
+			}
 		}//*/
 	}])
 

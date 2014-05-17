@@ -17,6 +17,17 @@ angular.module('ldv.controller', ['ldv.services.UrlService', 'ldv.ui.survey'])
 		$routeParams.a = "resource";
 	}
 	
+	// Language setting
+	if ($.cookie("dbpv_primary_lang") === undefined) {
+		$.cookie("dbpv_primary_lang", $rootScope.primarylang, {expires:90, path: '/'});
+	} else {
+		$rootScope.primarylang = $.cookie("dbpv_primary_lang");
+	}
+	
+	$rootScope.$watch('primarylang', function(lang) {
+		$.cookie("dbpv_primary_lang", $rootScope.primarylang);
+	});
+	
 	var resource = UrlService.processResource($routeParams);
 
 	LDViewer.about({uri: resource});

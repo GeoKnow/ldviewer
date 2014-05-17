@@ -18,9 +18,21 @@
   ],
   "dependencies": {
     "angular": "1.0.7",
-    "jassa": "0.0.2-SNAPSHOT"
+    "jassa": "~0.0.2-SNAPSHOT",
+    "jquery": "1.9.1",
+    "jquery-cookie": "~1.4.1",
+    "leaflet": "~0.7.2",
+    "intro.js": "~0.8.0",
+    "underscore": "~1.6.0",
+    "underscore.string": "~2.3.3"
   },
-  "resolutions": {
-    "jquery": "1.10.2"
+  "devDependencies": {
+    "jassa": "~0.0.2-SNAPSHOT",
+    "jquery": "1.9.1",
+    "jquery-cookie": "~1.4.1",
+    "leaflet": "~0.7.2",
+    "intro.js": "~0.8.0",
+    "underscore": "~1.6.0",
+    "underscore.string": "~2.3.3"
   }
 }

@@ -317,7 +317,7 @@ LDViewer.configuration = function() {
 		})
 	});
 	
-//	Taf.addAction(TypeAction);
+	Taf.addAction(TypeAction);
 	
 	var AbstractAction = Class.create(PrettyActionFactory, {
 		mapfrom:	"http://www.w3.org/2000/01/rdf-schema#comment",

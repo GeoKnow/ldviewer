@@ -98,6 +98,18 @@ angular.module('ldv.controller', [
     if ($routeParams.a == 'page') {
       $routeParams.a = 'resource';
     }
+    // Language setting
+    if ($.cookie('dbpv_primary_lang') === undefined) {
+      $.cookie('dbpv_primary_lang', $rootScope.primarylang, {
+        expires: 90,
+        path: '/'
+      });
+    } else {
+      $rootScope.primarylang = $.cookie('dbpv_primary_lang');
+    }
+    $rootScope.$watch('primarylang', function (lang) {
+      $.cookie('dbpv_primary_lang', $rootScope.primarylang);
+    });
     var resource = UrlService.processResource($routeParams);
     LDViewer.about({ uri: resource });
     LDViewer.http = $http;
@@ -2791,6 +2803,7 @@ angular.module('ldv.ui.classInstances', [
       $scope.path = path;
     };
     $scope.$watch('primarylang', function (lang) {
+      //alert("lang switch class instances");
       var labelmap = Jassa.sponate.SponateUtils.createDefaultLabelMap([
           lang,
           $scope.fallbacklang
@@ -2856,7 +2869,7 @@ angular.module('ldv.ui.classInstances', [
     };
     $scope.ObjectUtils = Jassa.util.ObjectUtils;
     $scope.$watch('ObjectUtils.hashCode(facetTreeConfig)', function (cfg) {
-      $scope.loadInstances();
+      $scope.loadInstances();  //$scope.page = 0;
     }, true);
     $scope.$watch('page', function (page) {
       $scope.offset = $scope.page * $scope.perpage;
@@ -3189,13 +3202,6 @@ angular.module('ldv.ui.languageSwitch', [
   '$scope',
   'LanguageService',
   function ($scope, LanguageService) {
-    if ($.cookie('dbpv_primary_lang') === undefined) {
-      $.cookie('dbpv_primary_lang', $scope.primarylang, {
-        expires: 90,
-        path: '/'
-      });
-    }
-    $scope.primarylanguage = $.cookie('dbpv_primary_lang');
     $scope.availableLanguages = {};
     $scope.newAvailableLanguage = function (args) {
       $scope.availableLanguages[args] = LanguageService.languages[args];
@@ -3210,9 +3216,22 @@ angular.module('ldv.ui.languageSwitch', [
       }
       return ret;
     };
+    //LDViewer.addNotification("noti test from lan switch", 500);
+    /*if ($.cookie("dbpv_primary_lang") === undefined) {
+			$.cookie("dbpv_primary_lang", $scope.primarylang, {expires:90, path: '/'});
+		}//*/
+    //$scope.primarylanguage = $.cookie("dbpv_primary_lang");//*/
+    $scope.$watch('primarylang', function (lang) {
+      if (lang != $scope.primarylanguage) {
+        $scope.primarylanguage = lang;
+      }
+    });
+    //*/
     $scope.$watch('primarylanguage', function (lang) {
-      $scope.primarylang = lang;
-      $.cookie('dbpv_primary_lang', lang);
+      if (lang != $scope.primarylang) {
+        $scope.primarylang = lang;
+      }
+      //$.cookie("dbpv_primary_lang", lang);
       Jassa.sponate.SponateUtils.defaultPrefLangs = [
         lang,
         $scope.fallbacklang
@@ -3264,6 +3283,14 @@ angular.module('ldv.ui.legend', ['ldv.templates.ui']).directive('dbpvLegend', fu
       var action = $scope.actions[i];
       if (typeof action.legend != 'undefined') {
         $scope.addLegend(action.legend);
+      }
+      if (action.group !== undefined && action.group.length > 0) {
+        for (var j = 0; j < action.group.length; j++) {
+          var act = action.group[j];
+          if (typeof act.prototype.legend != 'undefined') {
+            $scope.addLegend(act.prototype.legend);
+          }
+        }
       }
     }  //*/
   }

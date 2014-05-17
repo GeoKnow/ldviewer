@@ -38,6 +38,6 @@
     "commit": "84fff1c7f9a5cf47bffb2e6cad7f5626680da43b"
   },
   "_source": "git://github.com/GeoKnow/Jassa-Bower.git",
-  "_target": "0.0.2-SNAPSHOT",
+  "_target": "~0.0.2-SNAPSHOT",
   "_originalSource": "jassa"
 }

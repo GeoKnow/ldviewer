@@ -47,6 +47,7 @@ angular.module('ldv.ui.classInstances', ['ldv.table.displayNode', 'ldv.ui.pagina
         };
 		
 		$scope.$watch("primarylang", function(lang) {
+			//alert("lang switch class instances");
 			var labelmap = Jassa.sponate.SponateUtils.createDefaultLabelMap([lang, $scope.fallbacklang], LDViewer.getConfig('labelPrefs'));
 			$scope.facetTreeConfig.labelMap = labelmap;
 		});
@@ -142,6 +143,7 @@ angular.module('ldv.ui.classInstances', ['ldv.table.displayNode', 'ldv.ui.pagina
 		
 		$scope.$watch('ObjectUtils.hashCode(facetTreeConfig)', function(cfg) {
 			$scope.loadInstances();
+			//$scope.page = 0;
 		}, true);
 		
 		$scope.$watch('page', function(page) {
