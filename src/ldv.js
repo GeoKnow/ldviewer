@@ -13,6 +13,7 @@ LDViewer.doConfigure = function() {
 ldv.config(function($routeProvider, $locationProvider) {
 	//$locationProvider.html5Mode(true);
 	$routeProvider
+		.when('/test', {templateUrl:'tpl/test.html'})
 		.when('/search/:q', {templateUrl: '/tpl/search.html', controller: 'SearchCtrl'})
 		.when('/resource/:page', {redirectTo: function(params, a, search) {return "/page/"+params.page;}})
 		.when('/:a/:b', {templateUrl: '/tpl/entity.html', controller: 'MetaCtrl'})

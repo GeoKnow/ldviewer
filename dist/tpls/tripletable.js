@@ -2,7 +2,11 @@ angular.module('ldv.templates.tripletable', ['triple-table/displayPredicates/dis
 
 angular.module("triple-table/displayPredicates/displayPredicate.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("triple-table/displayPredicates/displayPredicate.html",
-    "<div><div class=\"pred-name\"><span display-node settings=\"\" showlanguage=\"true\" node=\"predicate\" primarylang=\"primarylang\" fallbacklang=\"fallbacklang\"></span></div><div display-node-values about=\"about\" predicate=\"predicate\" values=\"predicate.values\" valfilter=\"valfilter\" primarylang=\"primarylang\" fallbacklang=\"fallbacklang\"></div></div>");
+    "<div>\n" +
+    "	<div class=\"pred-name\">\n" +
+    "	<span display-node settings=\"\" showlanguage=\"true\" node=\"predicate\" primarylang=\"primarylang\" fallbacklang=\"fallbacklang\"></span></div><div display-node-values about=\"about\" predicate=\"predicate\" values=\"predicate.values\" valfilter=\"valfilter\" primarylang=\"primarylang\" fallbacklang=\"fallbacklang\"></div>\n" +
+    "		<div style=\"clear:both\"></div>\n" +
+    "</div>");
 }]);
 
 angular.module("triple-table/displayPredicates/displayPredicates.html", []).run(["$templateCache", function($templateCache) {
@@ -23,7 +27,8 @@ angular.module("triple-table/displayPredicates/displayPredicates.html", []).run(
     "										<span value-filter valfilter=\"valfilter\">\n" +
     "										</span>\n" +
     "									</div>	\n" +
-    "								</div>	\n" +
+    "								</div>\n" +
+    "								<div style=\"clear:both\"></div>\n" +
     "							</div>\n" +
     "						</div>\n" +
     "						<div class=\"predicate\" ng-repeat=\"(id, predicate) in predicates | predicateFilter:predfilter | predicateValueFilter:valfilter | orderBy:sortPredicates\">\n" +
@@ -86,11 +91,11 @@ angular.module("triple-table/taf/tripleAction.html", []).run(["$templateCache", 
     "		<span ng-bind-html-unsafe=\"action.display();\"></span> \n" +
     "	</a>\n" +
     "</span>\n" +
-    "<span ng-show=\"group\">\n" +
+    "<span class=\"dropdown\" ng-show=\"group\">\n" +
     "	<a role=\"button\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" href=\"javascript:void(0);\" title=\"{{action.description}}\"> \n" +
     "		<span ng-bind-html-unsafe=\"action.display();\"></span> \n" +
     "	</a>\n" +
-    "	<ul class=\"dropdown-menu action-group\">\n" +
+    "	<ul class=\"dropdown-menu action-group\" role=\"menu\">\n" +
     "		<li ng-repeat=\"act in action.actions\">\n" +
     "			<a href=\"javascript:void(0);\" title=\"{{act.description}}\" ng-click=\"act.execute(about, predicate, value);\"> \n" +
     "				<span ng-bind-html-unsafe=\"act.display();\"></span> \n" +

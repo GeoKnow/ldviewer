@@ -204,6 +204,10 @@ body #static {
 	border-radius: 0px 0px 0px 0px;
 }
 
+span.dropdown  {
+	display:inline-block;
+}
+
 .dropdown-menu {
 	top:auto;
 	left:auto;
@@ -382,7 +386,7 @@ body #static {
 	padding-right:0px;
 	padding-bottom:3px;
 	padding-top: 6px;
-	overflow: hidden;
+	/*overflow: hidden;*/
 	min-width:500px;
 }
 
@@ -421,6 +425,7 @@ body #static {
 
 #dbpvpproperties {
 	border-top:	1px solid #ddd;
+	clear:both;
 }
 
 #dbpvplist {
@@ -742,12 +747,25 @@ label.dbpv-tabletop {
 	padding:3px;
 }
 
-ul .action-group {
+.action-group {
+	min-width: 30px;
+}
+
+.action-group li {
 	width: 20px;
 }
 
-ul .action-group li {
-	width: 20px;
+.action-group li a:hover,
+.action-group li a:focus,
+.action-group .active a:hover,
+.action-group .active a:focus {
+	background-color: white;
+	background-image: none;
+	filter:none;
+}
+
+.action-group li a {
+	padding: 5px 7px;
 }
 
 #dbpvpreview #dbpvptext {

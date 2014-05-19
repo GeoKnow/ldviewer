@@ -61,9 +61,9 @@ angular.module("ui/pagination/pagination.html", []).run(["$templateCache", funct
     "							</button>\n" +
     "						</div>\n" +
     "						<div ng-show=\"!showLeftNav\">\n" +
-    "							<div class=\"btn-show-left-placeholder\">\n" +
-    "								PREVIOUS\n" +
-    "							</div>\n" +
+    "							<button class=\"btn btn-block-primary btn-small btn-show-left dbpv-btn\" disabled=\"disabled\">\n" +
+    "						&nbsp\n" +
+    "							</button>\n" +
     "						</div>\n" +
     "						<div ng-show=\"showPaginator\">\n" +
     "							<div class=\"rev-paginator\">PAGE:\n" +
@@ -79,9 +79,9 @@ angular.module("ui/pagination/pagination.html", []).run(["$templateCache", funct
     "							</button>\n" +
     "						</div>\n" +
     "						<div ng-show=\"!showRightNav\">\n" +
-    "							<div class=\"btn-show-right-placeholder\">\n" +
-    "					NEXT\n" +
-    "							</div>\n" +
+    "							<button class=\"btn btn-block-primary btn-small btn-show-right dbpv-btn\" disabled=\"disabled\">\n" +
+    "					&nbsp\n" +
+    "							</button>\n" +
     "						</div>\n" +
     "					</div>");
 }]);
