@@ -17,7 +17,7 @@ angular.module('ldv.ui.lookup', ['ldv.services.search', 'ui.bootstrap', 'ldv.tem
 
 	.controller('DbpvLookupCtrl', ['$scope', '$http', '$timeout', 'Search', '$templateCache', function($scope, $http, $timeout, Search, $templateCache) {
 		
-		$templateCache.put("tpl/typeahead-custom.html", '<a><span bind-html-unsafe="match.label|typeaheadHighlight:query"></span><span class="typeahead-url"> ({{match.model.url}})</span></a>');
+		$templateCache.put("tpl/typeahead-custom.html", '<a><span ng-bind-html="match.label|typeaheadHighlight:query"></span><span class="typeahead-url"> ({{match.model.url}})</span></a>');
 	
 		var timer = false;
 		var delay = 500;

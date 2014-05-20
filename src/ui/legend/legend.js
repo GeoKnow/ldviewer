@@ -1,5 +1,5 @@
 
-angular.module('ldv.ui.legend', ['ldv.templates.ui'])
+angular.module('ldv.ui.legend', ['ldv.templates.ui', 'ngSanitize'])
 .directive('dbpvLegend', function() {
 	return {
 		restrict:	"EA",

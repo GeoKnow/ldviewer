@@ -1,5 +1,5 @@
 
-angular.module('ldv.table.taf', ['ldv.templates.tripletable'])
+angular.module('ldv.table.taf', ['ldv.templates.tripletable', 'ngSanitize'])
 .directive('tripleActions', function() {
 	return {
 		restrict:	"EA",

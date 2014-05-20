@@ -1,5 +1,5 @@
 
-angular.module('ldv.ui.status', ['ldv.templates.ui'])
+angular.module('ldv.ui.status', ['ldv.templates.ui', 'ngSanitize'])
 .directive('dbpvStatus', function() {
 	return {
 		restrict: 	"EA",

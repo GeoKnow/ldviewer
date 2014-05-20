@@ -39,7 +39,7 @@ angular.module("ui/languageSwitch/languageSwitch.html", []).run(["$templateCache
 
 angular.module("ui/legend/legend.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("ui/legend/legend.html",
-    "<div id=\"legend\" ><h2 style=\"margin-top:0;\">Legend</h2>	<div class=\"container\" id=\"legends\">		<div class=\"legend\" ng-repeat=\"legend in legends\">			<div class=\"name\">{{legend.name}}</div>			<div class=\"description\">{{legend.description}}</div>			<div class=\"line\" ng-repeat=\"line in legend.lines\">				<span ng-bind-html-unsafe=\"line.icon\"></span> : {{line.text}}			</div>		</div>	</div></div>");
+    "<div id=\"legend\" ><h2 style=\"margin-top:0;\">Legend</h2>	<div class=\"container\" id=\"legends\">		<div class=\"legend\" ng-repeat=\"legend in legends\">			<div class=\"name\">{{legend.name}}</div>			<div class=\"description\">{{legend.description}}</div>			<div class=\"line\" ng-repeat=\"line in legend.lines\">				<span ng-bind-html=\"line.icon\"></span> : {{line.text}}			</div>		</div>	</div></div>");
 }]);
 
 angular.module("ui/lookup/lookup.html", []).run(["$templateCache", function($templateCache) {
@@ -49,7 +49,13 @@ angular.module("ui/lookup/lookup.html", []).run(["$templateCache", function($tem
 
 angular.module("ui/notifications/notifications.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("ui/notifications/notifications.html",
-    "			<div id=\"notifications\">				<div class=\"notification\" ng-click=\"removeNotification(notification);\" ng-repeat=\"notification in notifications\">					<span class=\"text\">{{notification.text}}</span>				</div>			</div>");
+    "<div id=\"notifications\">				\n" +
+    "	<div class=\"notification\" ng-click=\"removeNotification(notification);\" ng-repeat=\"notification in notifications\">					\n" +
+    "		<span class=\"text\">\n" +
+    "			{{notification.text}}\n" +
+    "		</span>				\n" +
+    "	</div>			\n" +
+    "</div>");
 }]);
 
 angular.module("ui/pagination/pagination.html", []).run(["$templateCache", function($templateCache) {
@@ -117,7 +123,7 @@ angular.module("ui/shortcuts/shortcuts.html", []).run(["$templateCache", functio
 
 angular.module("ui/status/status.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("ui/status/status.html",
-    "<div id=\"dbpv-status\"><div ng-repeat=\"status in stasi\" class=\"status-item\"><span ng-bind-html-unsafe=\"status.icon\" ng-click=\"removeStatus(status)\"></span><span>{{status.text}}</span></div></div>");
+    "<div id=\"dbpv-status\"><div ng-repeat=\"status in stasi\" class=\"status-item\"><span ng-bind-html=\"status.icon\" ng-click=\"removeStatus(status)\"></span><span>{{status.text}}</span></div></div>");
 }]);
 
 angular.module("ui/survey/survey.html", []).run(["$templateCache", function($templateCache) {

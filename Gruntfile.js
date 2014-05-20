@@ -106,5 +106,5 @@ module.exports = function (grunt) {
 	grunt.registerTask('buildSass', ['concat:scss', 'sass', 'cssmin']);
 	grunt.registerTask('buildConfig', ['concat:config', 'uglify:config']);
 	grunt.registerTask('buildSrc',
-		['html2js', 'concat:srcjs', 'ngmin:dist', 'uglify:js']);
+		['html2js', 'concat:srcjs', 'ngmin:dist'/*, 'uglify:js'*/]);
 };

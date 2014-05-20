@@ -612,9 +612,9 @@
 								var annotation = annotations[i];
 								var offset = parseInt(annotation["@offset"]);
 								var len = annotation["@surfaceForm"].length;
-								var link = annotation["@URI"];
-								link = LDViewer.preprocess_triple_url(link);
-								link = '<a dbpv-preview href="'+link+'">';
+								var olink = annotation["@URI"];
+								var link = LDViewer.preprocess_triple_url(olink);
+								link = '<a dbpv-preview="'+olink+'" href="'+link+'">';
 								pieces.push(text.substring(previndex, offset));
 								pieces.push(link+text.substr(offset, len)+"</a>");
 								previndex = offset+len;
@@ -678,5 +678,23 @@
 	});
 	
 	Taf.addAction(ViewingGroup);
+	
+	var ViewingGrou = Class.create(Taf.ActionGroupFactory, {
+		check:	function(about, predicate, value) {
+			if (value.uri === undefined || (value.uri.indexOf("http://dbpedia.org/resource") != 0)) {
+				return false;
+			} else {
+				return true;
+			}
+		},
+		group:	[LodliveAction, RelFinderAction],
+		action:	Class.create(Taf.ActionGroup, {
+			display:	function() {
+				return "<span class='glyphicon glyphicon-cog'></span>";
+			}
+		})
+	});
+	
+	//Taf.addAction(ViewingGrou);
 	
 })();

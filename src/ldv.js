@@ -1,4 +1,4 @@
-var ldv = angular.module('ldv', ['ldv.services', 'ldv.controller', 'ldv.table', 'ldv.ui', 'ldv.pretty']);
+var ldv = angular.module('ldv', ['ngRoute', 'ldv.services', 'ldv.controller', 'ldv.table', 'ldv.ui', 'ldv.pretty']);
 
 var LDViewer = {};
 
