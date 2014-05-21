@@ -9,6 +9,9 @@ angular.module('ldv.services.entity', ['ldv.services.UrlService', 'ldv.services.
 				}
 				
 				var entityUrl = resource;
+				if (LDViewer.getConfig("encodegraph") == true) {
+					entityUrl = encodeURI(entityUrl);
+				}
 				
 				var rdf = Jassa.rdf;	
 				

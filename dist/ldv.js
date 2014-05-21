@@ -543,6 +543,9 @@ angular.module('ldv.services.entity', [
           reverse = false;
         }
         var entityUrl = resource;
+        if (LDViewer.getConfig('encodegraph') == true) {
+          entityUrl = encodeURI(entityUrl);
+        }
         var rdf = Jassa.rdf;
         var about = $('[about]').attr('about');
         //XXX this is ugly
