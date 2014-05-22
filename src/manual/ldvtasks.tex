@@ -4,7 +4,8 @@
 \date{}
 \maketitle
 
-\section{Introduction}
+%\section{Introduction}
+
 
 \section{Tasks}
 \subsection{Social integration}
@@ -25,7 +26,8 @@
 \subsection{UI}
 \begin{enumerate}
 \item show birthplace/deathplace of a person on the map
-\item transform date displays to more intuitive representations
+\item transform date displays to more intuitive presentations
+\item transform number displays to more intuitive presentation
 \end{enumerate}
 
 \subsection{Random}
@@ -34,4 +36,37 @@
 \item notify user when viewed place is on the southern hemisphere
 \end{enumerate}
 
+
+\section{How to do it?}
+\subsection{Steps}
+\begin{enumerate}
+\item \textbf{fork it}: fork it on github in order for the others to know what you're working on
+\item \textbf{clone it}: make a local clone of your forked github repository:\\
+\texttt{git clone http://github.com/\_\_your\_username\_\_/ldviewer.git}
+\item \textbf{make it}: write your action in a separate file in the \texttt{/src/dist/actions/}\\ see the manual and next section for more info
+\item \textbf{push it}: make a pull request on github
+\end{enumerate}
+
+\section{How to write user actions}
+Take a look at the already implemented actions to get an idea how actions are written.
+The action definition is an object that defines a class using Class from PrototypeJS.
+The action definition for user actions can be seen as consisting of two parts. The first part defines the factory for the actions and contains 
+\begin{enumerate}
+\item the \texttt{check()} method that is used to check whether the action is applicable to the triple.
+\item the \texttt{legend} field describing what to display in the legend of the interface
+\item the \texttt{action} field, which contains the definition of the action instance.
+\end{enumerate}
+The definition of the action instance is the second part.
+The action instance definition contains 
+\begin{enumerate}
+\item the \texttt{execute()} method which is executed when the user clicks on the action's icon in the interface
+\item the \texttt{display()} function which should return the HTML that will be used to create the action icon in the interface. Note that the HTML code this function returns is sanitized by Angular's ngSanitize module, which may reject unsafe HTML.
+\item the \texttt{description} field which should contain a short description of what this action does. This description will appear when the user hovers over the action icon in the interface.
+\end{enumerate}
+Optionally, the factory object may also define a \texttt{factory} method.
+For more details, see the implementation of \texttt{LDViewer.ActionFactory}.
+
+All action factories MUST subclass \texttt{LDViewer.ActionFactory} and all action instance definitions should subclass \texttt{LDViewer.Action} using Class from PrototypeJS.
+
+Finally, the action must explicitly be added to the interface by calling \texttt{LDViewer.taf.addAction()} or \texttt{Taf.addAction()} with the action factory object as the only argument.
 \end{document}
