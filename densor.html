@@ -4,25 +4,27 @@
 	.densor-grid {
 		margin: 50px;
 	}
-	.densor-row {
-		height:6px;
-		width: 216px;
-		margin-bottom:5px;
-	}
-	.densor-dot {
+	
+	.densor-col {
 		width: 6px;
 		margin-left: 3px;
 		margin-right: 3px;
-		height: 100%;
 		float:left;
+	}
+	
+	.densor-dot {
+		width: 6px;
+		height: 6px;
+		margin-top: 3px;
+		margin-bottom: 3px;
 	}
 	.densor-dot.circle {
 		border-radius:50%;
 	}
-	.densor-dot.active {
+	.densor-col.active .densor-dot.present {
 		background-color: #57f;
 	}
-	.densor-dot.inactive {
+	.densor-col.inactive .densor-dot.present {
 		background-color: #ddd;
 	}
 	
@@ -42,106 +44,151 @@
 </head>
 <body>
 <div class="densor-grid">
-	<div class="densor-row">
-		<div class="densor-dot circle inactive"></div>
-		<div class="densor-dot circle inactive"></div>
-		<div class="densor-dot circle inactive"></div>
-		<div class="densor-dot circle inactive"></div>
-		<div class="densor-dot circle inactive"></div>
-		<div class="densor-dot circle inactive"></div>
-		<div class="densor-dot circle inactive"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle inactive"></div>
-		<div class="densor-dot circle inactive"></div>
-		<div class="densor-dot circle inactive"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle inactive"></div>
-		<div class="densor-dot circle inactive"></div>
+	<div class="densor-col inactive">
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle present"></div>
 	</div>
-	<div class="densor-row">
-		<div class="densor-dot circle inactive"></div>
-		<div class="densor-dot circle inactive"></div>
-		<div class="densor-dot circle inactive"></div>
-		<div class="densor-dot circle inactive"></div>
-		<div class="densor-dot circle inactive"></div>
-		<div class="densor-dot circle inactive"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
+	<div class="densor-col inactive">
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle present"></div>
 	</div>
-	<div class="densor-row">
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle inactive"></div>
-		<div class="densor-dot circle inactive"></div>
-		<div class="densor-dot circle inactive"></div>
-		<div class="densor-dot circle inactive"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
+		<div class="densor-col inactive">
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle present"></div>
 	</div>
-	<div class="densor-row">
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle inactive"></div>
-		<div class="densor-dot circle inactive"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
+	<div class="densor-col inactive">
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle present"></div>
+		<div class="densor-dot circle present"></div>
+		<div class="densor-dot circle present"></div>
 	</div>
-	<div class="densor-row">
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
-		<div class="densor-dot circle active"></div>
+		<div class="densor-col inactive">
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle present"></div>
+		<div class="densor-dot circle present"></div>
 	</div>
+		<div class="densor-col active">
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle present"></div>
+		<div class="densor-dot circle present"></div>
+		<div class="densor-dot circle present"></div>
+		<div class="densor-dot circle present"></div>
+	</div>
+	<div class="densor-col active">
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle present"></div>
+		<div class="densor-dot circle present"></div>
+		<div class="densor-dot circle present"></div>
+		<div class="densor-dot circle present"></div>
+		<div class="densor-dot circle present"></div>
+	</div>
+		<div class="densor-col active">
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle present"></div>
+		<div class="densor-dot circle present"></div>
+		<div class="densor-dot circle present"></div>
+		<div class="densor-dot circle present"></div>
+	</div>
+		<div class="densor-col active">
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle present"></div>
+		<div class="densor-dot circle present"></div>
+		<div class="densor-dot circle present"></div>
+	</div>
+	<div class="densor-col active">
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle present"></div>
+		<div class="densor-dot circle present"></div>
+		<div class="densor-dot circle present"></div>
+	</div>
+		<div class="densor-col active">
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle present"></div>
+	</div>
+		<div class="densor-col active">
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle present"></div>
+	</div>
+	<div class="densor-col active">
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle present"></div>
+	</div>
+		<div class="densor-col active">
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle present"></div>
+	</div>
+		<div class="densor-col active">
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle present"></div>
+	</div><div class="densor-col inactive">
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle  present"></div>
+	</div>
+		<div class="densor-col inactive">
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle present"></div>
+	</div>
+		<div class="densor-col inactive">
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle"></div>
+		<div class="densor-dot circle present"></div>
+	</div>
+
+	<div style="clear:both"></div>
 	<div class="densor-slider">
 		<div class="densor-bar"></div>
 	</div>
