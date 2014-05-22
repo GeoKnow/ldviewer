@@ -8,12 +8,14 @@
 
 
 \section{Tasks}
+If you are familiar with web development and JavaScript, these actions should not take more than a few hours of your time.
+However, the time needed may vary on the action specifications and your previous experience. So chose fast and wisely.
 \subsection{Social integration}
 \begin{enumerate}
 \item Share the fact on Facebook
 \item Share the fact on Twitter
 \item Share the fact on G+
-\item If viewed entity has coordinates, check whether the user has checked in at this place using Foursquare.
+\item If viewed entity has coordinates, check whether the user has checked in within a reasonable distance of this place using Foursquare.
 \end{enumerate}
 
 \subsection{Search integration}
@@ -40,10 +42,11 @@
 \section{How to do it?}
 \subsection{Steps}
 \begin{enumerate}
-\item \textbf{fork it}: fork it on github in order for the others to know what you're working on
+\item \textbf{fork it}: fork it on github in order for the others to know what you're working on.
 \item \textbf{clone it}: make a local clone of your forked github repository:\\
-\texttt{git clone http://github.com/\_\_your\_username\_\_/ldviewer.git}
-\item \textbf{make it}: write your action in a separate file in the \texttt{/src/dist/actions/}\\ see the manual and next section for more info
+\texttt{git clone http://github.com/\_\_your\_username\_\_/ldviewer.git}\\
+and point your web server config to \texttt{index.html} in the root folder of the project.
+\item \textbf{make it}: write your action in the template provided at \texttt{/dist/action.js}\\ see the manual and next section for more info. Remember to rename this file to avoid merge conflicts later on.
 \item \textbf{push it}: make a pull request on github
 \end{enumerate}
 

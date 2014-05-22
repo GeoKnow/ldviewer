@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2013.9.10)  21 MAY 2014 18:16
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2013.9.10)  22 MAY 2014 19:27
 entering extended mode
 **ldvtasks.tex
 (C:\wamp\www\dbpv\src\manual\ldvtasks.tex
@@ -60,7 +60,7 @@ LaTeX Warning: No \author given.
 Here is how much of TeX's memory you used:
  235 strings out of 493921
  2652 string characters out of 3147282
- 53031 words of memory out of 3000000
+ 54031 words of memory out of 3000000
  3602 multiletter control sequences out of 15000+200000
  8063 words of font info for 29 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
@@ -71,7 +71,7 @@ blic/amsfonts/cm/cmbx12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/ams
 fonts/cm/cmr10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/
 cmr17.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt10.pf
 b>
-Output written on ldvtasks.pdf (3 pages, 77288 bytes).
+Output written on ldvtasks.pdf (3 pages, 78488 bytes).
 PDF statistics:
  32 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
