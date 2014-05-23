@@ -58,6 +58,8 @@ ldv.run([
       if (msg && msg.length > 1)
         LDViewer.addNotification(msg, 10000);
     });
+    LDViewer.configure(LDViewer.configuration);
+    LDViewer.doConfigure();
     // LOAD SETTINGS FROM COOKIES
     var cookies = $.cookie();
     for (var key in cookies) {
@@ -87,8 +89,8 @@ angular.module('ldv.controller', [
   '$location',
   'UrlService',
   function ($rootScope, $scope, $routeParams, $filter, $timeout, $http, $compile, $location, UrlService) {
-    LDViewer.configure(LDViewer.configuration);
-    LDViewer.doConfigure();
+    //LDViewer.configure(LDViewer.configuration);
+    //LDViewer.doConfigure();
     LDViewer.about = function (about) {
       if (about === undefined) {
         return $scope.about;
@@ -3068,6 +3070,42 @@ angular.module('ldv.ui.custom', ['ldv.templates.ui']).directive('dbpvTop', [
   }
 ]);
 ;
+angular.module('ui-densor', []).directive('densor', function () {
+  return {
+    restrict: 'EA',
+    replace: true,
+    scope: {
+      data: '=',
+      min: '=',
+      max: '=',
+      levels: '=',
+      top: '=',
+      bottom: '='
+    },
+    templateUrl: 'ui/densor/densor.html',
+    controller: 'DensorCtrl'
+  };
+}).controller('DensorCtrl', [
+  '$scope',
+  function ($scope) {
+    $scope.buckets = [
+      1,
+      2,
+      3,
+      4,
+      3,
+      4,
+      2,
+      2,
+      5,
+      2,
+      1,
+      5,
+      5
+    ];
+  }
+]);
+;
 angular.module('ldv.ui.disclaimer', ['ldv.templates.ui']).directive('dbpvDisclaimer', function () {
   return {
     restrict: 'EA',
@@ -3330,8 +3368,9 @@ angular.module('ldv.ui.lookup', [
   '$timeout',
   'Search',
   '$templateCache',
-  function ($scope, $http, $timeout, Search, $templateCache) {
-    $templateCache.put('tpl/typeahead-custom.html', '<a><span ng-bind-html="match.label|typeaheadHighlight:query"></span><span class="typeahead-url"> ({{match.model.url}})</span></a>');
+  '$q',
+  function ($scope, $http, $timeout, Search, $templateCache, $q) {
+    $templateCache.put('tpl/typeahead-custom.html', '<a><span ng-bind-html="match.label|typeaheadHighlight:query"></span><span class="typeahead-url" ng-if="match.model.url"> ({{match.model.url}})</span></a>');
     var timer = false;
     var delay = 500;
     $scope.results = [];
@@ -3356,6 +3395,8 @@ angular.module('ldv.ui.lookup', [
         $scope.results = [];
       } else {
         return Search.search($scope.querie, 10).then(function (results) {
+          // Почему ты не работаешь?
+          // Должно работать
           var res = [];
           for (var i = 0; i < results.length; i++) {
             var result = results[i];
@@ -3368,7 +3409,15 @@ angular.module('ldv.ui.lookup', [
           }
           console.log(res);
           return res;
+        }, function (error) {
+          var res = [];
+          res.push({
+            'type': 'uri',
+            'l_label': 'NO RESULTS FOUND'
+          });
+          return res;
         });  //*/
+             //*/
              /*  delete $http.defaults.headers.common['X-Requested-With'];
 				//alert("returning promise");
 				return $http.get($scope.lookupendpoint+"/PrefixSearch?MaxHits=5&QueryString="+$scope.query).then(function(data) {
@@ -4194,6 +4243,7 @@ angular.module('triple-table/taf/tripleAction.html', []).run([
 angular.module('ldv.templates.ui', [
   'ui/classInstances/classInstances.html',
   'ui/custom/custom.html',
+  'ui/densor/densor.html',
   'ui/disclaimer/disclaimer.html',
   'ui/filters/predicateFilter.html',
   'ui/filters/valueFilter.html',
@@ -4221,6 +4271,12 @@ angular.module('ui/custom/custom.html', []).run([
   '$templateCache',
   function ($templateCache) {
     $templateCache.put('ui/custom/custom.html', '<div id="smartSlider"><div id="smartSlider-title">{{title}}</div><div id="smartSlider-content" compile="content"></div></div>');
+  }
+]);
+angular.module('ui/densor/densor.html', []).run([
+  '$templateCache',
+  function ($templateCache) {
+    $templateCache.put('ui/densor/densor.html', '<div class="densor">\n' + '\t<div class="densor-grid">\n' + '\t\t<div ng-repeat="bucket in buckets" class="densor-col">\n' + '\t\t\t\n' + '\t\t</div>\n' + '\t</div>\n' + '</div>');
   }
 ]);
 angular.module('ui/disclaimer/disclaimer.html', []).run([

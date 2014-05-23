@@ -49,6 +49,9 @@ ldv.run(function($rootScope) {
 			LDViewer.addNotification(msg, 10000);
 	});
 	
+	LDViewer.configure(LDViewer.configuration);
+	LDViewer.doConfigure();
+	
 		// LOAD SETTINGS FROM COOKIES
 	var cookies = $.cookie();
 	for (var key in cookies) {

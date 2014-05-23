@@ -8,8 +8,11 @@
 
 
 \section{Tasks}
+Below follows a list of actions that could be implemented.
 If you are familiar with web development and JavaScript, these actions should not take more than a few hours of your time.
 However, the time needed may vary on the action specifications and your previous experience. So chose fast and wisely.
+
+Alternatively, if you want to implement an interesting action that is not on the list, let us know.
 \subsection{Social integration}
 \begin{enumerate}
 \item Share the fact on Facebook
@@ -72,4 +75,13 @@ For more details, see the implementation of \texttt{LDViewer.ActionFactory}.
 All action factories MUST subclass \texttt{LDViewer.ActionFactory} and all action instance definitions should subclass \texttt{LDViewer.Action} using Class from PrototypeJS.
 
 Finally, the action must explicitly be added to the interface by calling \texttt{LDViewer.taf.addAction()} or \texttt{Taf.addAction()} with the action factory object as the only argument.
+
+Several actions may require additional support, for example, local/global action state and some actions may require using the LDViewer API.
+For the API, please check the manual.
+Please look at the already implemented actions to see how the API is used.
+An example of local action state is the Spotlight action, which remembers whether it is awaiting response from the Spotlight annotation endpoint.
+The Spotlight action also uses the Notification API and transforms the display values of triple values.
+Thus, the Spotlight action might be regarded as a reference implementation for several features of the Triple Action Framework.
+The notifications are useful for the last actions on our list.
+Transforming display values are useful for number and date formatting actions.
 \end{document}

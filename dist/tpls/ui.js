@@ -1,4 +1,4 @@
-angular.module('ldv.templates.ui', ['ui/classInstances/classInstances.html', 'ui/custom/custom.html', 'ui/disclaimer/disclaimer.html', 'ui/filters/predicateFilter.html', 'ui/filters/valueFilter.html', 'ui/languageSwitch/languageSwitch.html', 'ui/legend/legend.html', 'ui/lookup/lookup.html', 'ui/notifications/notifications.html', 'ui/pagination/pagination.html', 'ui/preview/preview.html', 'ui/relationInstances/relationInstances.html', 'ui/settings/settings.html', 'ui/shortcuts/shortcuts.html', 'ui/status/status.html', 'ui/survey/survey.html', 'ui/topbar/topbar.html', 'ui/topbar/topbarbutton.html']);
+angular.module('ldv.templates.ui', ['ui/classInstances/classInstances.html', 'ui/custom/custom.html', 'ui/densor/densor.html', 'ui/disclaimer/disclaimer.html', 'ui/filters/predicateFilter.html', 'ui/filters/valueFilter.html', 'ui/languageSwitch/languageSwitch.html', 'ui/legend/legend.html', 'ui/lookup/lookup.html', 'ui/notifications/notifications.html', 'ui/pagination/pagination.html', 'ui/preview/preview.html', 'ui/relationInstances/relationInstances.html', 'ui/settings/settings.html', 'ui/shortcuts/shortcuts.html', 'ui/status/status.html', 'ui/survey/survey.html', 'ui/topbar/topbar.html', 'ui/topbar/topbarbutton.html']);
 
 angular.module("ui/classInstances/classInstances.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("ui/classInstances/classInstances.html",
@@ -15,6 +15,17 @@ angular.module("ui/classInstances/classInstances.html", []).run(["$templateCache
 angular.module("ui/custom/custom.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("ui/custom/custom.html",
     "<div id=\"smartSlider\"><div id=\"smartSlider-title\">{{title}}</div><div id=\"smartSlider-content\" compile=\"content\"></div></div>");
+}]);
+
+angular.module("ui/densor/densor.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("ui/densor/densor.html",
+    "<div class=\"densor\">\n" +
+    "	<div class=\"densor-grid\">\n" +
+    "		<div ng-repeat=\"bucket in buckets\" class=\"densor-col\">\n" +
+    "			\n" +
+    "		</div>\n" +
+    "	</div>\n" +
+    "</div>");
 }]);
 
 angular.module("ui/disclaimer/disclaimer.html", []).run(["$templateCache", function($templateCache) {
