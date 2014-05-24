@@ -16,11 +16,11 @@ angular.module('ldv.services.UrlService', [])
 			var url = {'uri':uri};
 			if (this.localUrl(url)) {
 				url.uri = url.uri.slice($rootScope.localgraph.length, url.uri.length);
-				url.uri = "/"+$rootScope.localprefix+url.uri;
+				url.uri = /*"/"+*/$rootScope.localprefix+url.uri;
 				url.local = true;
 			}
 			if ($rootScope.godmode) {
-				url.uri = "/"+$rootScope.localprefix+"/"+uri;
+				url.uri = /*"/"+*/$rootScope.localprefix+"/"+uri;
 			}
 			return url;
 		},

@@ -79,6 +79,10 @@ module.exports = function (grunt) {
 			tripletable: {
 				src:	'src/triple-table/**/*.html',
 				dest:	'dist/tpls/tripletable.js'
+			},
+			main: {
+				src:	'src/tpl/*.html',
+				dest:	'dist/tpls/main.js'
 			}
 		},
 		sass: {

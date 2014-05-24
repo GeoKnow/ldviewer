@@ -4,7 +4,8 @@ var ldv = angular.module('ldv', [
     'ldv.controller',
     'ldv.table',
     'ldv.ui',
-    'ldv.pretty'
+    'ldv.pretty',
+    'ldv.templates.main'
   ]);
 var LDViewer = {};
 LDViewer.configure = function (confun) {
@@ -19,20 +20,20 @@ ldv.config([
   function ($routeProvider, $locationProvider) {
     //$locationProvider.html5Mode(true);
     $routeProvider.when('/test', { templateUrl: 'tpl/test.html' }).when('/search/:q', {
-      templateUrl: '/tpl/search.html',
+      templateUrl: 'tpl/search.html',
       controller: 'SearchCtrl'
     }).when('/resource/:page', {
       redirectTo: function (params, a, search) {
         return '/page/' + params.page;
       }
     }).when('/:a/:b', {
-      templateUrl: '/tpl/entity.html',
+      templateUrl: 'tpl/entity.html',
       controller: 'MetaCtrl'
     }).when('/:a/:b/:c', {
-      templateUrl: '/tpl/entity.html',
+      templateUrl: 'tpl/entity.html',
       controller: 'MetaCtrl'
     }).when('/:a/:b/:c/:d/:e', {
-      templateUrl: '/tpl/entity.html',
+      templateUrl: 'tpl/entity.html',
       controller: 'MetaCtrl'
     }).otherwise({ redirectTo: '/resource/404' });
   }
@@ -50,7 +51,6 @@ ldv.run([
     LDViewer.getConfig = function (config) {
       return $rootScope[config];
     };
-    $rootScope.iconpath = '/css/200px-dbpedia.png';
     $rootScope.loadFailed = function (msg) {
       $rootScope.failMessage = msg;
     };
@@ -438,11 +438,11 @@ angular.module('ldv.services.UrlService', []).factory('UrlService', [
         var url = { 'uri': uri };
         if (this.localUrl(url)) {
           url.uri = url.uri.slice($rootScope.localgraph.length, url.uri.length);
-          url.uri = '/' + $rootScope.localprefix + url.uri;
+          url.uri = $rootScope.localprefix + url.uri;
           url.local = true;
         }
         if ($rootScope.godmode) {
-          url.uri = '/' + $rootScope.localprefix + '/' + uri;
+          url.uri = $rootScope.localprefix + '/' + uri;
         }
         return url;
       },
@@ -3629,7 +3629,7 @@ angular.module('ldv.preview', [
           $scope.dbpvp.show = true;
           uri = UrlService.defaultUri(uri);
           $scope.populatePreview(uri, $scope.dbpvp, $scope);
-          element.after('<div id="dbpvpreview" style="position:absolute;top:{{dbpvp.position.top}}px;left:{{dbpvp.position.left}}px;" ><div id="dbpvpthumbnail">\t\t\t\t<img ng-src="{{dbpvp.thumbnail[0].uri}}"></img>\t\t\t</div><div id="dbpvptext">\t\t\t<div id="dbpvplabel">\t\t\t\t<span ng-repeat="value in dbpvp.label |languageFilter:primarylang:fallbacklang">\t\t\t\t\t{{value.literalLabel.lex}}\t\t\t\t</span>\t\t\t</div>\t\t\t<div id="dbpvpdescription">\t\t\t\t<span ng-repeat="value in dbpvp.description |languageFilter:primarylang:fallbacklang">\t\t\t\t\t{{value.literalLabel.lex}}\t\t\t\t</span>\t\t\t</div>\t\t\t</div><div ng-repeat="(key, val) in dbpvp.properties">\t\t\t\t<div id="dbpvpdescription">\t\t\t\t\t<span ng-show="val.length>0">\t\t\t\t\t\t{{key}}:\t\t\t\t\t\t<a href="{{val[0].uri}}">\t\t\t\t\t\t\t{{val[0].lex}}\t\t\t\t\t\t</a>\t\t\t\t\t</span>\t\t\t\t</div>\t\t\t</div><div id="loading" ng-show="previewSemaphore>0">\t\t\t<center><img style="margin-bottom:15px;" src="/statics/css/ajax-loader.gif"></img></center>\t\t</div></div>');
+          element.after('<div id="dbpvpreview" style="position:absolute;top:{{dbpvp.position.top}}px;left:{{dbpvp.position.left}}px;" ><div id="dbpvpthumbnail">\t\t\t\t<img ng-src="{{dbpvp.thumbnail[0].uri}}"></img>\t\t\t</div><div id="dbpvptext">\t\t\t<div id="dbpvplabel">\t\t\t\t<span ng-repeat="value in dbpvp.label |languageFilter:primarylang:fallbacklang">\t\t\t\t\t{{value.literalLabel.lex}}\t\t\t\t</span>\t\t\t</div>\t\t\t<div id="dbpvpdescription">\t\t\t\t<span ng-repeat="value in dbpvp.description |languageFilter:primarylang:fallbacklang">\t\t\t\t\t{{value.literalLabel.lex}}\t\t\t\t</span>\t\t\t</div>\t\t\t</div><div ng-repeat="(key, val) in dbpvp.properties">\t\t\t\t<div id="dbpvpdescription">\t\t\t\t\t<span ng-show="val.length>0">\t\t\t\t\t\t{{key}}:\t\t\t\t\t\t<a href="{{val[0].uri}}">\t\t\t\t\t\t\t{{val[0].lex}}\t\t\t\t\t\t</a>\t\t\t\t\t</span>\t\t\t\t</div>\t\t\t</div><div id="loading" ng-show="previewSemaphore>0">\t\t\t<center><img style="margin-bottom:15px;" src="css/ajax-loader.gif"></img></center>\t\t</div></div>');
           $compile(element.next())($scope);  //$scope.bleh = "this is new bleh";
         }, 800);
       }
@@ -4138,6 +4138,29 @@ angular.module('ldv.ui', [
   'ldv.ui.shortcuts',
   'ldv.ui.notifications'
 ]);
+angular.module('ldv.templates.main', [
+  'tpl/entity.html',
+  'tpl/search.html',
+  'tpl/test.html'
+]);
+angular.module('tpl/entity.html', []).run([
+  '$templateCache',
+  function ($templateCache) {
+    $templateCache.put('tpl/entity.html', '<div id="triples">\n' + '<div shortcut-box shortcuts="shortcuts"></div>\n' + '\n' + '<!--div dbpv-legend actions="actions"></div-->\n' + '\n' + '<div id="pretty-box" class="top-block" data-intro="This is the pretty box. It displays a small selection of entity properties in a pretty way." data-step="3">\n' + '\n' + '\t<div id="entityOptions">\n' + '\t\t<span>\n' + '\t\t  <a href="javascript:void(0);" class="dropdown-toggle glyphicon glyphicon-th-large" style="font-size:20px" data-toggle="dropdown"></a>\n' + '\t\t  <ul class="dropdown-menu" role="menu">\n' + '\t\t\t<li><a href="/describe/?uri={{about.uri}}" target="_self">OpenLink Faceted Browser</a></li>\n' + '\t\t\t<li><a href="http://linkeddata.uriburner.com/ode/?uri={{about.uri}}">OpenLink Data Explorer</a></li>\n' + '\t\t  </ul>\n' + '\t\t</span>\n' + '\t\t\n' + '\t\t<span>\n' + '\t\t  <a href="javascript:void(0);" class="dropdown-toggle dbpvicon dbpvicon-rdf" data-toggle="dropdown"></a>\n' + '\t\t  <ul class="dropdown-menu" role="menu">\n' + '\t\t\t<li><a href="{{about.datalink}}.rdf" target="_self">RDF/XML</a></li>\n' + '\t\t\t<li><a href="{{about.datalink}}.ntriples" target="_self">RDF/N-triples</a></li>\n' + '\t\t\t<li><a href="{{about.datalink}}.json" target="_self">RDF/JSON</a></li>\n' + '\t\t\t<li><a href="{{about.datalink}}.n3" target="_self">RDF/N3-Turtle</a></li>\n' + '\t\t  </ul>\n' + '\t\t</span>\n' + '\t\t\n' + '\t\t<span>\n' + '\t\t  <a href="javascript:void(0);" class="dropdown-toggle dbpvicon dbpvicon-json" data-toggle="dropdown"></a>\n' + '\t\t  <ul class="dropdown-menu" role="menu">\n' + '\t\t\t<li><a href="/sparql?default-graph-uri={{localgraph}}&amp;query=DESCRIBE+<{{about.uri}}>&amp;output=application%2Fmicrodata%2Bjson" target="_self">Microdata/JSON</a></li>\n' + '\t\t\t<li><a href="/sparql?default-graph-uri={{localgraph}}&amp;query=DESCRIBE+<{{about.uri}}>&amp;output=application%2Fld%2Bjson" target="_self">JSON-LD</a></li>\n' + '\t\t\t<li><a href="{{about.datalink}}.json"  target="_self">RDF/JSON</a></li>\n' + '\t\t  </ul>\n' + '\t\t</span>\n' + '\t</div>\n' + '\t\n' + '\t<div pretty-box about="about" dbpvp="dbpvp" primarylang="primarylang" fallbacklang="fallbacklang" owlgraph=\'owlgraph\' owlendpoint="owlendpoint" entity-semaphore="entitySemaphore"></div>\n' + '\n' + '</div>\n' + '<div dbpv-preview-box dbpvp="preview" primarylang="primarylang" fallbacklang="fallbacklang"></div>\n' + '\n' + '\n' + '<div dbpvp-map></div>\n' + '\n' + '<div id="triple-list">\n' + '\n' + '<div id="triples">\n' + '\n' + '\t<div display-predicates primarylang="primarylang" fallbacklang="fallbacklang" about="about">\n' + '\n' + '\t</div>\n' + '\t\n' + '\t<div dbpv-relation-instances about="about" primarylang="primarylang" fallbacklang="fallbacklang">\n' + '\t</div>\n' + '\t\n' + '\t<div dbpv-class-instances about="about" primarylang="primarylang" fallbacklang="fallbacklang"></div>\n' + '\n' + '</div>\n' + '\n' + '\n' + '\n' + '\n' + '<div class="footer">\n' + '    <div id="ft_t">\n' + '        Browse using:\n' + '\t<a href="http://linkeddata.uriburner.com/ode/?uri={{about.uri}}">OpenLink Data Explorer</a> |\n' + '\t<a href="/describe/?uri={{about.uri}}">OpenLink Faceted Browser</a>\n' + '        <!--a href="http://dataviewer.zitgist.com/?uri=http%3A%2F%2Fdbpedia.org%2Fresource%2FBoris_Johnson">Zitgist Data Viewer</a> |\n' + '        <a href="http://beckr.org/marbles?uri=http%3A%2F%2Fdbpedia.org%2Fresource%2FBoris_Johnson">Marbles</a> |\n' + '        <a href="http://www4.wiwiss.fu-berlin.de/rdf_browser/?browse_uri=http%3A%2F%2Fdbpedia.org%2Fresource%2FBoris_Johnson">DISCO</a> |\n' + '        <a href="http://dig.csail.mit.edu/2005/ajar/release/tabulator/0.8/tab.html?uri=http%3A%2F%2Fdbpedia.org%2Fresource%2FBoris_Johnson" >Tabulator</a-->\n' + '        &nbsp; &nbsp; Raw Data in:\n' + '\t\n' + '        <a href="/sparql?default-graph-uri={{localgraph}}&amp;query=DESCRIBE+&lt;{{about.uri}}&gt;&amp;format=text/csv" target="_self" >CSV</a> | RDF (\n' + '        <a href="{{about.datalink}}.ntriples" target="_self" >N-Triples</a> \n' + '        <a href="{{about.datalink}}.n3" target="_self" >N3/Turtle</a> \n' + '\t<a href="{{about.datalink}}.json" target="_self" >JSON</a> \n' + '        <a href="{{about.datalink}}.rdf" target="_self" >XML</a> ) | OData (\n' + '\t<a href="{{about.datalink}}.atom" target="_self" >Atom</a> \n' + '\t<a href="{{about.datalink}}.json" target="_self" >JSON</a> )| Microdata (\n' + '\t<a href="/sparql?default-graph-uri={{localgraph}}&amp;query=DESCRIBE+&lt;{{about.uri}}&gt;&amp;output=application/microdata-json" target="_self" > JSON</a>\n' + '        <a href="/sparql?default-graph-uri={{localgraph}}&amp;query=DESCRIBE+&lt;{{about.uri}}&gt;&amp;output=text/html" target="_self" >HTML</a>) |  \n' + '        <a href="/sparql?default-graph-uri={{localgraph}}&amp;query=DESCRIBE+&lt;{{about.uri}}&gt;&amp;output=application/ld-json" target="_self" >JSON-LD</a> \n' + '\n' + '        &nbsp; &nbsp;<a href="http://wiki.dbpedia.org/Imprint">About</a>&nbsp; &nbsp;\n' + '      </div> <!-- #ft_t -->\n' + '      <div id="ft_b">\n' + '        <a href="http://virtuoso.openlinksw.com" title="OpenLink Virtuoso"><img class="powered_by" src="css/virt_power_no_border.png" alt="Powered by OpenLink Virtuoso"></a>\n' + '        <a href="http://linkeddata.org/"><img alt="This material is Open Knowledge" src="css/LoDLogo.gif"></a> &nbsp;\n' + '        <a href="http://dbpedia.org/sparql"><img alt="W3C Semantic Web Technology" src="css/sw-sparql-blue.png"></a> &nbsp;  &nbsp;\n' + '        <a href="http://www.opendefinition.org/"><img alt="This material is Open Knowledge" src="css/od_80x15_red_green.png"></a>\n' + '\t<span about="" resource="http://www.w3.org/TR/rdfa-syntax" rel="dc:conformsTo" xmlns:dc="http://purl.org/dc/terms/">\n' + '\t<a href="http://validator.w3.org/check?uri=referer"><img src="http://www.w3.org/Icons/valid-xhtml-rdfa" alt="Valid XHTML + RDFa" height="27"></a>\n' + '\t</span>\n' + '      </div> <!-- #ft_b -->\n' + '\t  <div dbpv-disclaimer about="about" localgraph="localgraph"></div>\n' + '</div>\n' + '\n' + '</div>\n' + '</div>\n' + '');
+  }
+]);
+angular.module('tpl/search.html', []).run([
+  '$templateCache',
+  function ($templateCache) {
+    $templateCache.put('tpl/search.html', '<div class="search-results">\n' + '\n' + '</div>');
+  }
+]);
+angular.module('tpl/test.html', []).run([
+  '$templateCache',
+  function ($templateCache) {
+    $templateCache.put('tpl/test.html', '\n' + '\t<span class="dropdown">\n' + '\t\t<a role="button" href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">\n' + '\t\t\tdrop the\n' + '\t\t</a>\n' + '\t\t<ul class="dropdown-menu" role="menu">\n' + '\t\t\t<li><a>beat</a></li>\n' + '\t\t\t<li><a>eggs</a></li>\n' + '\t\t</ul>\n' + '\t</span>\n' + '\t<span class="dropdown btn-group">\n' + '\t\t<a role="button" href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">\n' + '\t\t\tdrop the\n' + '\t\t</a>\n' + '\t\t<ul class="dropdown-menu" role="menu">\n' + '\t\t\t<li>beat</li>\n' + '\t\t\t<li>eggs</li>\n' + '\t\t</ul>\n' + '\t</span>');
+  }
+]);
 angular.module('ldv.templates.pretty', [
   'pretty/prettyLinks/prettyLinks.html',
   'pretty/prettyList/prettyList.html',
@@ -4172,7 +4195,7 @@ angular.module('pretty/prettyTypes/prettyTypes.html', []).run([
 angular.module('pretty/prettybox/prettybox.html', []).run([
   '$templateCache',
   function ($templateCache) {
-    $templateCache.put('pretty/prettybox/prettybox.html', '<div>\n' + '\t<div id="dbpvpthumbnail"><img ng-src="{{dbpvp.thumbnail[0].uri}}"></img>\t</div>\t<div id="dbpvptext">\t\t\n' + '\t\t<div id="dbpvplabel">\t\t\t\n' + '\t\t\t<span ng-repeat="value in dbpvp.label |languageFilter:primarylang:fallbacklang">\t\t\t\t\n' + '\t\t\t\t<a href="{{about.uri}}">{{value.literalLabel.lex}}</a>\t\t\t\n' + '\t\t\t</span>\t\t\n' + '\t\t</div>\t\t\n' + '\t\t<div pretty-types types="dbpvp.types" primarylang="primarylang" fallbacklang="fallbacklang" owlgraph="owlgraph" owlendpoint="owlendpoint"></div>\t\t\n' + '\t\t<div id="dbpvpdescription">\t\t\t\n' + '\t\t\t<span ng-repeat="value in dbpvp.description |languageFilter:primarylang:fallbacklang">\t\t\t\t\n' + '\t\t\t\t{{value.literalLabel.lex}}\t\t\t\n' + '\t\t\t</span>\t\t\n' + '\t\t</div>\t\t\n' + '\t\t<div pretty-links links="dbpvp.links"></div> \n' + '\t\t<div dbpvp-list properties="dbpvp.properties" primarylang="primarylang" fallbacklang="fallbacklang">\n' + '\t\t</div>\n' + '\t\t<div id="loading" ng-show="entitySemaphore>0">\t\t\t\n' + '\t\t\t<center><img style="margin-bottom:15px;" src="/statics/css/ajax-loader.gif"></img></center>\t\t\n' + '\t\t</div>\t\n' + '\t</div>\n' + '</div>');
+    $templateCache.put('pretty/prettybox/prettybox.html', '<div>\n' + '\t<div id="dbpvpthumbnail"><img ng-src="{{dbpvp.thumbnail[0].uri}}"></img>\t</div>\t<div id="dbpvptext">\t\t\n' + '\t\t<div id="dbpvplabel">\t\t\t\n' + '\t\t\t<span ng-repeat="value in dbpvp.label |languageFilter:primarylang:fallbacklang">\t\t\t\t\n' + '\t\t\t\t<a href="{{about.uri}}">{{value.literalLabel.lex}}</a>\t\t\t\n' + '\t\t\t</span>\t\t\n' + '\t\t</div>\t\t\n' + '\t\t<div pretty-types types="dbpvp.types" primarylang="primarylang" fallbacklang="fallbacklang" owlgraph="owlgraph" owlendpoint="owlendpoint"></div>\t\t\n' + '\t\t<div id="dbpvpdescription">\t\t\t\n' + '\t\t\t<span ng-repeat="value in dbpvp.description |languageFilter:primarylang:fallbacklang">\t\t\t\t\n' + '\t\t\t\t{{value.literalLabel.lex}}\t\t\t\n' + '\t\t\t</span>\t\t\n' + '\t\t</div>\t\t\n' + '\t\t<div pretty-links links="dbpvp.links"></div> \n' + '\t\t<div dbpvp-list properties="dbpvp.properties" primarylang="primarylang" fallbacklang="fallbacklang">\n' + '\t\t</div>\n' + '\t\t<div id="loading" ng-show="entitySemaphore>0">\t\t\t\n' + '\t\t\t<center><img style="margin-bottom:15px;" src="css/ajax-loader.gif"></img></center>\t\t\n' + '\t\t</div>\t\n' + '\t</div>\n' + '</div>');
   }
 ]);
 angular.module('ldv.templates.tripletable', [
@@ -4360,7 +4383,7 @@ angular.module('ui/status/status.html', []).run([
 angular.module('ui/survey/survey.html', []).run([
   '$templateCache',
   function ($templateCache) {
-    $templateCache.put('ui/survey/survey.html', '<div id="survey" ng-show="showSurvey"><img class="btn-survey" src="/statics/surveyrequest.png" ng-click="surveyClicked()"/></div>');
+    $templateCache.put('ui/survey/survey.html', '<div id="survey" ng-if="showSurvey"><img class="btn-survey" src="css/surveyrequest.png" ng-click="surveyClicked()"/></div>');
   }
 ]);
 angular.module('ui/topbar/topbar.html', []).run([

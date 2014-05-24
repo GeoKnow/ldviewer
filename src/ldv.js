@@ -1,4 +1,4 @@
-var ldv = angular.module('ldv', ['ngRoute', 'ldv.services', 'ldv.controller', 'ldv.table', 'ldv.ui', 'ldv.pretty']);
+var ldv = angular.module('ldv', ['ngRoute', 'ldv.services', 'ldv.controller', 'ldv.table', 'ldv.ui', 'ldv.pretty', 'ldv.templates.main']);
 
 var LDViewer = {};
 
@@ -14,12 +14,12 @@ ldv.config(function($routeProvider, $locationProvider) {
 	//$locationProvider.html5Mode(true);
 	$routeProvider
 		.when('/test', {templateUrl:'tpl/test.html'})
-		.when('/search/:q', {templateUrl: '/tpl/search.html', controller: 'SearchCtrl'})
+		.when('/search/:q', {templateUrl: 'tpl/search.html', controller: 'SearchCtrl'})
 		.when('/resource/:page', {redirectTo: function(params, a, search) {return "/page/"+params.page;}})
-		.when('/:a/:b', {templateUrl: '/tpl/entity.html', controller: 'MetaCtrl'})
-		.when('/:a/:b/:c', {templateUrl: '/tpl/entity.html', controller: 'MetaCtrl'})
+		.when('/:a/:b', {templateUrl: 'tpl/entity.html', controller: 'MetaCtrl'})
+		.when('/:a/:b/:c', {templateUrl: 'tpl/entity.html', controller: 'MetaCtrl'})
 	//	.when('/:a//:b/:c/:d', {templateUrl: '/tpl/entity.html', controller: 'MetaCtrl'})
-		.when('/:a/:b/:c/:d/:e', {templateUrl: '/tpl/entity.html', controller: 'MetaCtrl'})
+		.when('/:a/:b/:c/:d/:e', {templateUrl: 'tpl/entity.html', controller: 'MetaCtrl'})
 		.otherwise({redirectTo: '/resource/404'});
 });
 //*/
@@ -36,7 +36,6 @@ ldv.run(function($rootScope) {
 	LDViewer.getConfig = function(config) {
 		return $rootScope[config];
 	};
-	$rootScope.iconpath = "/css/200px-dbpedia.png";
 	
 
 

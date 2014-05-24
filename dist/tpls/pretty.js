@@ -49,7 +49,7 @@ angular.module("pretty/prettybox/prettybox.html", []).run(["$templateCache", fun
     "		<div dbpvp-list properties=\"dbpvp.properties\" primarylang=\"primarylang\" fallbacklang=\"fallbacklang\">\n" +
     "		</div>\n" +
     "		<div id=\"loading\" ng-show=\"entitySemaphore>0\">			\n" +
-    "			<center><img style=\"margin-bottom:15px;\" src=\"/statics/css/ajax-loader.gif\"></img></center>		\n" +
+    "			<center><img style=\"margin-bottom:15px;\" src=\"css/ajax-loader.gif\"></img></center>		\n" +
     "		</div>	\n" +
     "	</div>\n" +
     "</div>");

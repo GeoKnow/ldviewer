@@ -57,4 +57,5 @@ LDViewer.configuration = function() {
 	LDViewer.setConfig('showLabels' , true);
 	
 	LDViewer.setConfig('templateStr', "Template");//*/
+	LDViewer.setConfig('iconpath', "css/200px-dbpedia.png");
 };

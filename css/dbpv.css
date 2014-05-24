@@ -91,19 +91,19 @@
 }
 
 .dbpvicon-relfinder {
-	background-image:url('/statics/css/relfindericon.png');
+	background-image:url('relfindericon.png');
 }
 
 .dbpvicon-lodlive {
-	background-image:url('/statics/css/lodliveicon.png');
+	background-image:url('lodliveicon.png');
 }
 
 .dbpvicon-openlink {
-	background-image:url('/statics/css/openlinkicon.png');
+	background-image:url('openlinkicon.png');
 }
 
 .dbpvicon-wikipedia {
-	background-image:url('/statics/css/wikipediaicon.png');
+	background-image:url('wikipediaicon.png');
 }
 
 #entityOptions {
@@ -113,11 +113,11 @@
 }
 
 .dbpvicon-rdf {
-	background-image:url('/statics/css/rdficon.png');
+	background-image:url('rdficon.png');
 }
 
 .dbpvicon-json {
-	background-image:url('/statics/css/jsonicon.png');
+	background-image:url('jsonicon.png');
 }
 
 
