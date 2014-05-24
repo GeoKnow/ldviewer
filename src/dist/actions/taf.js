@@ -580,6 +580,7 @@
 		},
 		action: Class.create(Taf.Action, {
 		
+			// local action state variables
 			busy:	false,
 			done:	false,
 			
@@ -599,11 +600,11 @@
 				if (!this.busy && !this.done) {
 					//this.value = value.literalLabel.lex;
 					//this.annotate_async(value.literalLabel.lex, this.execute_callback, this);
-					var busy = this;
+					var bus = this;
 					var text = value.literalLabel.lex;
 					LDViewer.http.get(this.endpoint+"?text="+encodeURIComponent(text)).success(function (data, status, headers, config) {	
-						busy.busy = false;
-						busy.done = true;
+						bus.busy = false;
+						bus.done = true;
 						if (data !== undefined && data["Resources"] !== undefined) {
 							var annotations = data["Resources"];
 							var previndex = 0;
