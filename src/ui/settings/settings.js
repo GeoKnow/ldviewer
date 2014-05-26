@@ -30,9 +30,10 @@ angular.module('ldv.ui.settings', ['ldv.templates.ui'])
 			for (var key in cookies) {
 				var settingsprefix = "dbpv_setting_";
 				if (key.slice(0, settingsprefix.length) == settingsprefix) {
-					$.removeCookie(key);
+					$.removeCookie(key, {path: "/"});
 				}
 			}
+			cookies = $.cookie();
 			$scope.refresh();
 		};
 		

@@ -1,6 +1,6 @@
 {
   "name": "jassa",
-  "version": "0.0.2-SNAPSHOT",
+  "version": "0.0.3-SNAPSHOT",
   "homepage": "https://github.com/GeoKnow/Jassa",
   "authors": [
     "Claus Stadler <cstadler@informatik.uni-leipzig.de>"
@@ -31,13 +31,14 @@
     "test",
     "tests"
   ],
-  "_release": "0.0.2-SNAPSHOT",
+  "_release": "0.0.3-SNAPSHOT",
   "_resolution": {
     "type": "version",
-    "tag": "v0.0.2-SNAPSHOT",
-    "commit": "84fff1c7f9a5cf47bffb2e6cad7f5626680da43b"
+    "tag": "v0.0.3-SNAPSHOT",
+    "commit": "1fa302fd051882f1151207560aa652700ad12c3f"
   },
   "_source": "git://github.com/GeoKnow/Jassa-Bower.git",
-  "_target": "~0.0.2-SNAPSHOT",
-  "_originalSource": "jassa"
+  "_target": "0.0.3-SNAPSHOT",
+  "_originalSource": "jassa",
+  "_direct": true
 }

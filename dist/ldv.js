@@ -3766,9 +3766,10 @@ angular.module('ldv.ui.settings', ['ldv.templates.ui']).directive('dbpvSettings'
       for (var key in cookies) {
         var settingsprefix = 'dbpv_setting_';
         if (key.slice(0, settingsprefix.length) == settingsprefix) {
-          $.removeCookie(key);
+          $.removeCookie(key, { path: '/' });
         }
       }
+      cookies = $.cookie();
       $scope.refresh();
     };
     $scope.refresh = function () {
@@ -4323,7 +4324,7 @@ angular.module('ui/filters/valueFilter.html', []).run([
 angular.module('ui/languageSwitch/languageSwitch.html', []).run([
   '$templateCache',
   function ($templateCache) {
-    $templateCache.put('ui/languageSwitch/languageSwitch.html', '<div data-intro="Filter by language." data-step="2" class="input-group-btn">\t\t\t\t\t<button type="button" class="btn btn-default dropdown-toggle language-button" data-toggle="dropdown"><span style="font-size:0.8em;" class="glyphicon glyphicon-globe"></span> <span ng-bind="getNativeName(primarylanguage);"></span></button>\t\t\t\t        <ul class="dropdown-menu">\t\t\t\t\t  <li ng-repeat="(code, names) in availableLanguages"><a href="javascript:void(0);" ng-click="selectLanguage(code);">{{names.nativeName}}</a></li>\t\t\t\t\t  <li class="divider"></li>\t\t\t\t\t  <li class="unavailable" ng-repeat="(code, names) in restLanguages()"><a href="javascript:void(0);" ng-click="selectLanguage(code);">{{names.nativeName}}</a></li>\t\t\t\t\t</ul>\t\t\t\t</div>');
+    $templateCache.put('ui/languageSwitch/languageSwitch.html', '<div data-intro="Filter by language." data-step="2" class="input-group-btn dropdown">\t\t\t\t\t<button type="button" class="btn btn-default dropdown-toggle language-button" data-toggle="dropdown"><span style="font-size:0.8em;" class="glyphicon glyphicon-globe"></span> <span ng-bind="getNativeName(primarylanguage);"></span></button>\t\t\t\t        <ul class="dropdown-menu">\t\t\t\t\t  <li ng-repeat="(code, names) in availableLanguages"><a href="javascript:void(0);" ng-click="selectLanguage(code);">{{names.nativeName}}</a></li>\t\t\t\t\t  <li class="divider"></li>\t\t\t\t\t  <li class="unavailable" ng-repeat="(code, names) in restLanguages()"><a href="javascript:void(0);" ng-click="selectLanguage(code);">{{names.nativeName}}</a></li>\t\t\t\t\t</ul>\t\t\t\t</div>');
   }
 ]);
 angular.module('ui/legend/legend.html', []).run([
