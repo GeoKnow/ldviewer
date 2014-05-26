@@ -48,8 +48,8 @@ angular.module('ldv.pretty.map', ['ldv.templates.pretty'])
 				
 				if ($scope.micon === undefined) {
 					$scope.micon = L.icon({
-						iconUrl: '/css/marker-icon.png',
-						shadowUrl:	'/css/marker-shadow.png',
+						iconUrl: 'css/marker-icon.png',
+						shadowUrl:	'css/marker-shadow.png',
 						iconSize:	[25, 41],
 						shadowSize:	[41, 41],
 						iconAnchor:	[13, 40],
