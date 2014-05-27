@@ -9,7 +9,7 @@ angular.module("tpl/entity.html", []).run(["$templateCache", function($templateC
     "\n" +
     "<div id=\"pretty-box\" class=\"top-block\" data-intro=\"This is the pretty box. It displays a small selection of entity properties in a pretty way.\" data-step=\"3\">\n" +
     "\n" +
-    "	<div id=\"entityOptions\">\n" +
+    "	<!--div id=\"entityOptions\">\n" +
     "		<span>\n" +
     "		  <a href=\"javascript:void(0);\" class=\"dropdown-toggle glyphicon glyphicon-th-large\" style=\"font-size:20px\" data-toggle=\"dropdown\"></a>\n" +
     "		  <ul class=\"dropdown-menu\" role=\"menu\">\n" +
@@ -36,7 +36,7 @@ angular.module("tpl/entity.html", []).run(["$templateCache", function($templateC
     "			<li><a href=\"{{about.datalink}}.json\"  target=\"_self\">RDF/JSON</a></li>\n" +
     "		  </ul>\n" +
     "		</span>\n" +
-    "	</div>\n" +
+    "	</div-->\n" +
     "	\n" +
     "	<div pretty-box about=\"about\" dbpvp=\"dbpvp\" primarylang=\"primarylang\" fallbacklang=\"fallbacklang\" owlgraph='owlgraph' owlendpoint=\"owlendpoint\" entity-semaphore=\"entitySemaphore\"></div>\n" +
     "\n" +

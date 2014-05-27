@@ -20,7 +20,8 @@ angular.module('ldv.services.UrlService', [])
 				url.local = true;
 			}
 			if ($rootScope.godmode) {
-				url.uri = /*"/"+*/$rootScope.localprefix+"/"+uri;
+				url.uri = url.uri.replace(/^.*:\/\//, '');
+				url.uri = /*"/"+*/$rootScope.localprefix+"/"+url.uri;
 			}
 			return url;
 		},
@@ -57,20 +58,19 @@ angular.module('ldv.services.UrlService', [])
 		processResource:	function(params) {
 			var resource = "";
 			if ($rootScope.godmode) {
-				var protocol = params.a;
-				var empty = params.b;
-				if (empty != "") {
+				/*if (empty != "") {
 					return $rootScope.localgraph + this.processLocalResource(params);
-				}
-				var host = params.c;
-				var resource = "/"+params.d;
-				var alphabet = ["e","f","g", "h", "i"];
+				}//*/
+				var host = params.a;
+				var resource = "/"+params.b;
+				var alphabet = ["c", "d", "e","f","g", "h", "i"];
 				for (var i = 0; i<alphabet.length; i++) {
 					var letter = alphabet[i];
 					if (params[letter] !== undefined) {
 						resource += "/" + params[letter];
 					}
 				}
+				var protocol = "http:";
 				$rootScope.localgraph = protocol+"//"+host;
 				$rootScope.endpointgraph = [$rootScope.localgraph];
 				$rootScope.endpoint = $rootScope.localgraph+"/sparql";

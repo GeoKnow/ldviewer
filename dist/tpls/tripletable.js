@@ -12,7 +12,7 @@ angular.module("triple-table/displayPredicates/displayPredicate.html", []).run([
 angular.module("triple-table/displayPredicates/displayPredicates.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("triple-table/displayPredicates/displayPredicates.html",
     "<div class=\"top-block\"> \n" +
-    "						<div id=\"triples-top\">\n" +
+    "						<div id=\"triples-top\" ng-if=\"showFilters\">\n" +
     "						<div class=\"predicate\">\n" +
     "								<div class=\"pred-name form-inline\">\n" +
     "									<label class=\"dbpv-tabletop\"> Property:\n" +

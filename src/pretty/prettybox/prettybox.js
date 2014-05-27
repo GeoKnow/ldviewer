@@ -23,9 +23,21 @@ angular.module('ldv.pretty', ['ldv.pretty.types', 'ldv.pretty.links', 'ldv.prett
 				fn($scope.dbpvp);
 			//);
 		}
-		$scope.entitySemaphore = $rootScope.entitySemaphore;
+		
+		$rootScope.$watch('entitySemaphore', function(semaphore) {
+			$scope.semaphore = semaphore;
+		});
+		
 		$scope.dbpvp = {};
 		$scope.dbpvp.properties = [];
+		$rootScope.$watch('failMessage', function(msg) {
+			if (msg) {
+				$scope.loadmsg = msg;
+				$scope.showMsg = true;
+			} else {
+				$scope.showMsg = false;
+			}
+		});
 		
 	}]);
 

@@ -20,9 +20,11 @@ angular.module('ldv.services.entity', ['ldv.services.UrlService', 'ldv.services.
 				var query = "";
 				var labelquery = "";
 				
+				var showlabels = $rootScope.showLabels;
+				
 				if (!reverse) {
 					query = "SELECT DISTINCT * where {<"+entityUrl+"> ?p ?o}";
-					if ($rootScope.showLabels) {
+					if (showlabels) {
 						labelqueries = ["SELECT DISTINCT ?p as ?x ?pl ?l WHERE { ?p ?pl ?l . {"+query + "}", "SELECT DISTINCT ?o as ?x ?pl ?l WHERE { ?o ?pl ?l . {"+query + "}"];
 					}
 				} else {
@@ -50,7 +52,7 @@ angular.module('ldv.services.entity', ['ldv.services.UrlService', 'ldv.services.
 								var binding = resultset.nextBinding();
 								//console.log(binding);
 								var prop = binding.get(pVar);
-															labelnodes.push(prop);
+								if (showlabels)														labelnodes.push(prop);
 								var predid = prop.uri;
 								var obj = {};
 								if (!reverse) {
@@ -62,7 +64,7 @@ angular.module('ldv.services.entity', ['ldv.services.UrlService', 'ldv.services.
 									predid = "o-"+predid;
 									prop.forward = false;
 								}
-															labelnodes.push(obj);
+								if (showlabels)														labelnodes.push(obj);
 								var subj = about;
 								var triple = new rdf.Triple(subj, prop, obj);
 								
@@ -74,16 +76,17 @@ angular.module('ldv.services.entity', ['ldv.services.UrlService', 'ldv.services.
 								}
 								pred.values.push(obj);
 							}
-							assignLabels(labelqueries, labelnodes);
-							console.log("LOADED INQE");
+							if (showlabels) 										assignLabels(labelqueries, labelnodes);
+							//console.log("LOADED INQE");
 							var ret = {};
 							ret.predicates = predicates;
-							ret.labelnodes = labelnodes;
-							ret.labelqueries = labelqueries;
+							if (showlabels) 										ret.labelnodes = labelnodes;
+							if (showlabels) 										ret.labelqueries = labelqueries;
 							return predicates;
 						},
 						function(error) {
 							if (status) status.delete();
+							//alert(JSON.stringify(error));
 							return error;
 						},
 						function(update) {

@@ -670,6 +670,14 @@ label.dbpv-tabletop {
 	overflow: hidden;
 }
 
+#pretty-box #loadMsg {
+	font-size: 2em;
+	padding-left: 1em;
+	padding-right:1em;
+	text-align:center;
+	margin-bottom:1em;
+}
+
 #pretty-box #dbpvptext {
 }
 

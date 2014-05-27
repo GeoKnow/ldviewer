@@ -19,12 +19,14 @@ ldv.config(function($routeProvider, $locationProvider) {
 		.when('/:a/:b', {templateUrl: 'tpl/entity.html', controller: 'MetaCtrl'})
 		.when('/:a/:b/:c', {templateUrl: 'tpl/entity.html', controller: 'MetaCtrl'})
 	//	.when('/:a//:b/:c/:d', {templateUrl: '/tpl/entity.html', controller: 'MetaCtrl'})
-		.when('/:a/:b/:c/:d/:e', {templateUrl: 'tpl/entity.html', controller: 'MetaCtrl'})
+		.when('/:a/:b/:c/:d/:e/:f/:g/:h/:i', {templateUrl: 'tpl/entity.html', controller: 'MetaCtrl'})
 		.otherwise({redirectTo: '/resource/404'});
 });
 //*/
 
 ldv.run(function($rootScope) {
+	$rootScope.entitySemaphore = 0;
+
 	$rootScope.$watch('localgraph', function(lg) {
 		$rootScope.endpointgraph = [lg];
 	});
@@ -37,9 +39,15 @@ ldv.run(function($rootScope) {
 		return $rootScope[config];
 	};
 	
-
+	$rootScope.loadSuccess = function() {
+		$rootScope.failMessage = undefined;
+	};
 
 	$rootScope.loadFailed = function(msg) {
+		$rootScope.failMessage = msg;
+	};
+	
+	$rootScope.serverError = function(msg) {
 		$rootScope.failMessage = msg;
 	};
 	
@@ -62,5 +70,6 @@ ldv.run(function($rootScope) {
 			$rootScope[key.slice(settingsprefix.length, key.length)] = val;
 		}
 	}
+	
 });
 

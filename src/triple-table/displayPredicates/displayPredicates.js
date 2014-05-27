@@ -76,6 +76,8 @@ tripleTableModule.directive('displayPredicates', function() {
 				)
 			;
 			//*/
+			$rootScope.entitySemaphore ++;
+			$rootScope.loadSuccess();
 			$q.all([forwardpromise, reversepromise])
 				.then(
 					function(resultmap) {
@@ -90,14 +92,20 @@ tripleTableModule.directive('displayPredicates', function() {
 						if (empty) {
 							(function(uri) {
 								$rootScope.loadFailed("No information available for "+$scope.about.uri);
+								$scope.showFilter = false;
 							})($scope.about.uri);
 						} else {
+							$rootScope.loadSuccess();
 							$scope.doTaf = true;
+							$scope.showFilters = true;
 						}
+						$rootScope.entitySemaphore --;
 					},
 					function(errormap) {
 						(function(uri) {
-							$rootScope.loadFailed("No information available for "+$scope.about.uri);
+							$rootScope.serverError("Server Error");
+							$rootScope.entitySemaphore --;
+							$scope.showFilters = false;
 						})($scope.about.uri);
 					},
 					function(updatemap) {

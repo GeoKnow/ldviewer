@@ -14,8 +14,9 @@
 		<div pretty-links links="dbpvp.links"></div> 
 		<div dbpvp-list properties="dbpvp.properties" primarylang="primarylang" fallbacklang="fallbacklang">
 		</div>
-		<div id="loading" ng-show="entitySemaphore>0">			
+		<div id="loading" ng-if="semaphore>0">			
 			<center><img style="margin-bottom:15px;" src="css/ajax-loader.gif"></img></center>		
-		</div>	
+		</div>
+		<div id="loadMsg" ng-if="showMsg">{{loadmsg}}</div>
 	</div>
 </div>

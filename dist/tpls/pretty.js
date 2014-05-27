@@ -3,7 +3,7 @@ angular.module('ldv.templates.pretty', ['pretty/prettyLinks/prettyLinks.html', '
 angular.module("pretty/prettyLinks/prettyLinks.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("pretty/prettyLinks/prettyLinks.html",
     "<div id=\"dbpvplinks\">			\n" +
-    "<div ng-repeat=\"(label, list) in links\" style=\"float:left;margin-right: 15px;\">				<div ng-show=\"list.length>1\" >					\n" +
+    "<div ng-repeat=\"(label, list) in links\" style=\"float:left;margin-right: 15px;\">				<div ng-if=\"list.length>1\" class=\"dropdown\">					\n" +
     "\n" +
     "<a role=\"button\" href=\"javascript:void(0);\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">{{label}} \n" +
     "	<span class=\"glyphicon glyphicon-chevron-down\" style=\"font-size:0.6em;\"></span>\n" +
@@ -12,7 +12,7 @@ angular.module("pretty/prettyLinks/prettyLinks.html", []).run(["$templateCache",
     "	<li ng-repeat=\"link in list\"><a target=\"_blank\" href=\"{{link.uri}}\">{{link.plex}}</a></li>									\n" +
     "</ul>			\n" +
     "\n" +
-    "</div>				<div ng-show=\"list.length==1\">					<a target=\"_blank\" href=\"{{list[0].uri}}\">{{list[0].plex}}</a>				</div>			</div>		</div>");
+    "</div>				<div ng-if=\"list.length==1\">					<a target=\"_blank\" href=\"{{list[0].uri}}\">{{list[0].plex}}</a>				</div>			</div>		</div>");
 }]);
 
 angular.module("pretty/prettyList/prettyList.html", []).run(["$templateCache", function($templateCache) {
@@ -48,9 +48,10 @@ angular.module("pretty/prettybox/prettybox.html", []).run(["$templateCache", fun
     "		<div pretty-links links=\"dbpvp.links\"></div> \n" +
     "		<div dbpvp-list properties=\"dbpvp.properties\" primarylang=\"primarylang\" fallbacklang=\"fallbacklang\">\n" +
     "		</div>\n" +
-    "		<div id=\"loading\" ng-show=\"entitySemaphore>0\">			\n" +
+    "		<div id=\"loading\" ng-if=\"semaphore>0\">			\n" +
     "			<center><img style=\"margin-bottom:15px;\" src=\"css/ajax-loader.gif\"></img></center>		\n" +
-    "		</div>	\n" +
+    "		</div>\n" +
+    "		<div id=\"loadMsg\" ng-if=\"showMsg\">{{loadmsg}}</div>\n" +
     "	</div>\n" +
     "</div>");
 }]);
