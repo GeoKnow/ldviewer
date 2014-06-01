@@ -1,0 +1,37 @@
+#shortcuts {
+	position:absolute;
+	top:0px;
+	left:10px;
+	width:230px;
+	z-index:1000;
+}
+
+#shortcuts .shortcutscuts {
+	border-top: 5px solid #bbb;
+}
+
+#shortcuts .shortcut {
+	border-top: 2px solid #bbb;
+	text-align:center;
+	padding: 8px;
+}
+
+#shortcuts .shortcut span a {
+	font-size: 1.2em;
+	text-decoration:none;
+}
+
+#shortcuts .shortcut-home {
+	text-align:center;
+	margin-bottom:-15px;
+	font-size:3em;
+	padding: 5px 10px;
+}
+
+#shortcuts .shortcut-home a {
+	text-decoration:none;
+}
+
+#shortcuts .shortcut-home a span {
+	display:block;
+}

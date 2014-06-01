@@ -1,0 +1,30 @@
+
+.dbpvicon {
+	display:inline-block;
+	width:20px;
+	height:20px;
+}
+
+.dbpvicon-relfinder {
+	background-image:url('img/relfindericon.png');
+}
+
+.dbpvicon-lodlive {
+	background-image:url('img/lodliveicon.png');
+}
+
+.dbpvicon-openlink {
+	background-image:url('img/openlinkicon.png');
+}
+
+.dbpvicon-wikipedia {
+	background-image:url('img/wikipediaicon.png');
+}
+
+.dbpvicon-rdf {
+	background-image:url('img/rdficon.png');
+}
+
+.dbpvicon-json {
+	background-image:url('img/jsonicon.png');
+}

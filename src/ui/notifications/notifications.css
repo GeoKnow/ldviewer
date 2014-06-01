@@ -1,0 +1,22 @@
+#notifications {
+	position:fixed;
+	left: 10px;
+	bottom: 10px;
+	z-index: 10000;
+}
+
+#notifications .notification {
+	box-shadow: 1px 2px 6px #777;
+	font-size: 1.2em;
+	background-color: #ffaa33;
+	overflow:hidden;
+	line-height:30px;
+	border-left:5px solid grey;
+	max-width: 500px;
+	padding: 5px 10px;
+	margin-bottom: 5px;
+}
+
+#notifications .notification:hover {
+	background-color: #ff9900;
+}

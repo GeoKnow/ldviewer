@@ -1,0 +1,11 @@
+
+#dbpvpmapcontainer {
+	position:relative;
+	margin-bottom:10px;
+}
+
+#dbpvpmapcontainer .dbpvpmap-active {
+	height: 200px;
+	border: 1pt solid #CCC;
+}
+

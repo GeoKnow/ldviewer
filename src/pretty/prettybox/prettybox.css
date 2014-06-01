@@ -1,0 +1,85 @@
+#pretty-box {
+	background-color: white;
+	border: 1px solid #CCC;
+	/*padding-right: 15px;*/
+	margin-bottom: 15px;
+	overflow: hidden;
+}
+
+#pretty-box #loadMsg {
+	font-size: 2em;
+	padding-left: 1em;
+	padding-right:1em;
+	text-align:center;
+	margin-bottom:1em;
+}
+
+#pretty-box #dbpvptext {
+}
+
+#pretty-box #dbpvpthumbnail {
+	float:left;
+	margin-right: 15px;
+}
+
+
+#pretty-box #dbpvplabel {
+	padding-left: 15px;
+	padding-top: 5px;
+	font-size: 2.5em;
+}
+
+#pretty-box #dbpvptypes {
+	padding-bottom:5px;
+	padding-left: 15px;
+	font-size: 1.5em;
+	color: #999;
+}
+
+#pretty-box #dbpvptypes .dbpvptype:last-child .comma{
+	display:none;
+}
+
+#pretty-box #dbpvpdescription {
+	margin-bottom: 10px;
+	padding-left: 15px;
+}
+
+#pretty-box #dbpvplinks {
+	overflow: auto;
+	margin-bottom: 10px;
+	margin-left: 15px;
+}
+
+
+
+#dbpvpproperties {
+	border-top:	1px solid #ddd;
+	clear:both;
+}
+
+#dbpvplist {
+	width: 50%;
+	border-top: 2px solid #ddd;
+	border-bottom: 2px solid #ddd;
+	margin-left: 25%;
+}
+
+#dbpvplist .propertyentry {
+	padding: 0.5em;
+	border-bottom: 1px solid #ddd;
+}
+
+#dbpvplist .propertykey {
+	font-weight: bold;
+	padding: 0.5em;
+	vertical-align:text-top;
+}
+
+#dbpvplist .propertyvalues {
+	padding: 0.5em;
+}
+
+#dbpvplist .propertyvalue {
+	padding-bottom: 0.5em;
+}

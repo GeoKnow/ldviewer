@@ -1,0 +1,18 @@
+#survey {
+	z-index: 4;
+	position: absolute;
+	top: 6em;
+	right: 1em;
+}
+
+#survey .btn-survey {
+	color: black;
+	border: 5px dashed #ccc;
+	border-radius: 10px;
+	padding: 1em;
+	cursor: pointer;
+}
+
+#survey .btn-survey:hover {
+	border-color: grey;
+}

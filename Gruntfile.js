@@ -4,7 +4,7 @@ module.exports = function (grunt) {
         concat: {
             css: {
                 src: [
-                    'css/*.css'
+                    'src/**/*.css'
                 ],
                 dest: 'dist/ldv.css'
             },
@@ -103,12 +103,13 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-html2js');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
-    grunt.registerTask('default', ['concat:css', 'cssmin:css', 'concat:js', 'uglify:js']);
+    grunt.registerTask('default', ['build']);
 	grunt.registerTask('build', 
-		['buildConfig', 'buildSrc']);
+		['buildConfig', 'buildSrc', 'buildCss']);
 	
 	grunt.registerTask('buildSass', ['concat:scss', 'sass', 'cssmin']);
 	grunt.registerTask('buildConfig', ['concat:config', 'uglify:config']);
 	grunt.registerTask('buildSrc',
 		['html2js', 'concat:srcjs', 'ngmin:dist'/*, 'uglify:js'*/]);
+	grunt.registerTask('buildCss', ['concat:css','cssmin']);
 };

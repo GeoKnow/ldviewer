@@ -1,0 +1,63 @@
+
+
+#class-instances {
+	overflow: hidden;
+}
+
+#class-instances #facetblock {
+	float:left;
+	width: 35%;
+	padding: 1em;
+}
+
+ #facettreeblock, #facetvaluesblock, #facetconstraintsblock, #facettitleblock  {
+	margin-bottom: 18px;
+	width: 100%;
+	background-color: white;
+	padding: 10px;
+ }
+ 
+ #facettitleblock {
+	font-weight: bold;
+	font-align: center;
+	font-size: 18px;
+ }
+ 
+ .titletext {
+	font-weight:bold;
+	font-align: center;
+	font-size: 18px;
+ }
+
+#class-instances #instance-block {
+	float:right;
+	width: 60%;
+	padding-top: 0;
+	margin-top: 1em;
+	margin-right:1em;
+	margin-bottom: 1em;
+}
+
+#class-instances #class-instances-top {
+	background-color: white;
+	padding: 10px;
+	font-size: 18px;
+	font-weight: bold;
+	text-align: center;
+	border: 1px solid #CCC;
+}
+
+#class-instances #class-instances .class-instance-i {
+	background-color: #F9F9F9;
+	border:	1px solid #DDD;
+	border-top: none;
+	
+	overflow:hidden;
+}
+
+#class-instances #class-instances .class-instance-i .class-instance {
+	float:left;
+	padding: 10px;
+	width: 100%;
+	height: 100%;
+}
