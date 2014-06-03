@@ -1,7 +1,7 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2013.9.10)  23 MAY 2014 19:41
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2013.9.10)  2 JUN 2014 21:24
 entering extended mode
 **ldvtasks.tex
-(C:\wamp\www\dbpv\src\manual\ldvtasks.tex
+(C:\wamp\www\lukovnikov.github.io\ldviewer\src\manual\ldvtasks.tex
 LaTeX2e <2011/06/27>
 Babel <v3.8m> and hyphenation patterns for english, afrikaans, ancientgreek, ar
 abic, armenian, assamese, basque, bengali, bokmal, bulgarian, catalan, coptic, 
@@ -30,7 +30,7 @@ File: size10.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
 \belowcaptionskip=\skip42
 \bibindent=\dimen102
 )
-(C:\wamp\www\dbpv\src\manual\ldvtasks.aux)
+(C:\wamp\www\lukovnikov.github.io\ldviewer\src\manual\ldvtasks.aux)
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 2.
 LaTeX Font Info:    ... okay on input line 2.
 LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 2.
@@ -53,27 +53,47 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 
 LaTeX Warning: No \author given.
 
-[1
 
-{C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}] [2] [3]
-(C:\wamp\www\dbpv\src\manual\ldvtasks.aux) ) 
+Overfull \hbox (47.85983pt too wide) in paragraph at lines 30--31
+\OT1/cmr/m/n/10 Tip: wrap the ac-tions in ac-tion group(s) (see \OT1/cmtt/m/n/1
+0 ViewingGroup \OT1/cmr/m/n/10 in \OT1/cmtt/m/n/10 src/dist/actions/taf.js\OT1/
+cmr/m/n/10 ) 
+ []
+
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 37.
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\omscmr.fd"
+File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 37.
+ [1
+
+{C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}] [2]
+Overfull \hbox (0.91524pt too wide) in paragraph at lines 86--88
+\OT1/cmr/m/n/10 tails, see the im-ple-men-ta-tion of \OT1/cmtt/m/n/10 LDViewer.
+ActionFactory \OT1/cmr/m/n/10 in \OT1/cmtt/m/n/10 src/taf/core.js\OT1/cmr/m/n/1
+0 . 
+ []
+
+[3] (C:\wamp\www\lukovnikov.github.io\ldviewer\src\manual\ldvtasks.aux) ) 
 Here is how much of TeX's memory you used:
- 235 strings out of 493921
- 2652 string characters out of 3147282
- 53031 words of memory out of 3000000
- 3602 multiletter control sequences out of 15000+200000
+ 252 strings out of 493921
+ 3115 string characters out of 3147282
+ 54031 words of memory out of 3000000
+ 3616 multiletter control sequences out of 15000+200000
  8063 words of font info for 29 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
- 23i,6n,17p,280b,193s stack positions out of 5000i,500n,10000p,200000b,50000s
-<C:/Program Files/MiKTeX 2.9/fonts/
-type1/public/amsfonts/cm/cmbx10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/pu
-blic/amsfonts/cm/cmbx12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/ams
-fonts/cm/cmr10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/
-cmr17.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt10.pf
-b>
-Output written on ldvtasks.pdf (3 pages, 79673 bytes).
+ 23i,6n,19p,289b,243s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Pr
+ogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Program Fi
+les/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Program Files/MiKT
+eX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Files/MiKTeX 2.9/fo
+nts/type1/public/amsfonts/cm/cmr17.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1
+/public/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/
+amsfonts/cm/cmtt10.pfb>
+Output written on ldvtasks.pdf (3 pages, 89420 bytes).
 PDF statistics:
- 32 PDF objects out of 1000 (max. 8388607)
+ 36 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

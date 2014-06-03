@@ -14,25 +14,36 @@ However, the time needed may vary on the action specifications and your previous
 
 Alternatively, if you want to implement an interesting action that is not on the list, let us know.
 \subsection{Social integration}
+Enable sharing facts (represented by triples) on social networks.
+One idea is to share sentences like: ``Did you know that...''.
 \begin{enumerate}
 \item Share the fact on Facebook
 \item Share the fact on Twitter
 \item Share the fact on G+
-\item If viewed entity has coordinates, check whether the user has checked in within a reasonable distance of this place using Foursquare.
 \end{enumerate}
+Tip: take into account different languages (see \texttt{primarylang} in the manual).
 
 \subsection{Search integration}
 \begin{enumerate}
-\item Search for the fact or value on Google
-\item Search for the fact or value on Bing
-\item Search for the fact or value on Yahoo!
+\item write actions to search for the triple (or its parts) on Google, Yahoo! and Bing.
 \end{enumerate}
+Tip: wrap the actions in action group(s) (see \texttt{ViewingGroup} in \texttt{src/dist/actions/taf.js})
 
 \subsection{UI}
+Beware: these are system actions. System actions are not displayed as icons for the users to click on. Instead, they are executed when the data are loaded. Some say that system actions are easier to implement than user actions. For more on system actions, check the manual.
 \begin{enumerate}
 \item show birthplace/deathplace of a person on the map
+\begin{itemize}
+\item Tip: take a look at the already implemented map action.
+\end{itemize}
 \item transform date displays to more intuitive presentations
+\begin{itemize}
+\item Tip: take a look at Spotlight action.
+\end{itemize}
 \item transform number displays to more intuitive presentation
+\begin{itemize}
+\item Tip: take a look at Spotlight action.
+\end{itemize}
 \end{enumerate}
 
 \subsection{Random}
@@ -45,12 +56,15 @@ Alternatively, if you want to implement an interesting action that is not on the
 \section{How to do it?}
 \subsection{Steps}
 \begin{enumerate}
-\item \textbf{fork it}: fork it on github in order for the others to know what you're working on.
+\item \textbf{fork it}: fork it on Github for the others to know what you're working on.
+\begin{itemize}
+\item change the README.md in your fork so that it contains the description of the action you are going to implement on the first line - this should be no duplicate, so please first check all the forks of the repository before proceeding.
+\end{itemize}
 \item \textbf{clone it}: make a local clone of your forked github repository:\\
 \texttt{git clone http://github.com/\_\_your\_username\_\_/ldviewer.git}\\
 and point your web server config to \texttt{index.html} in the root folder of the project.
-\item \textbf{make it}: write your action in the template provided at \texttt{/dist/action.js}\\ see the manual and next section for more info. Remember to rename this file to avoid merge conflicts later on.
-\item \textbf{push it}: make a pull request on github
+\item \textbf{make it}: write your action in the template provided at \texttt{/dist/action.js}.\\ See the manual and next section for more info. Remember to rename this file to avoid merge conflicts later on.
+\item \textbf{push it}: make a pull request on Github.
 \end{enumerate}
 
 \section{How to write user actions}
@@ -70,7 +84,7 @@ The action instance definition contains
 \item the \texttt{description} field which should contain a short description of what this action does. This description will appear when the user hovers over the action icon in the interface.
 \end{enumerate}
 Optionally, the factory object may also define a \texttt{factory} method.
-For more details, see the implementation of \texttt{LDViewer.ActionFactory}.
+For more details, see the implementation of \texttt{LDViewer.ActionFactory} in \texttt{src/taf/core.js}.
 
 All action factories MUST subclass \texttt{LDViewer.ActionFactory} and all action instance definitions should subclass \texttt{LDViewer.Action} using Class from PrototypeJS.
 
@@ -79,7 +93,7 @@ Finally, the action must explicitly be added to the interface by calling \texttt
 Several actions may require additional support, for example, local/global action state and some actions may require using the LDViewer API.
 For the API, please check the manual.
 Please look at the already implemented actions to see how the API is used.
-An example of local action state is the Spotlight action, which remembers whether it is awaiting response from the Spotlight annotation endpoint.
+An example of local action state is the Spotlight action (in \texttt{src/dist/actions/taf.js}), which remembers whether it is awaiting response from the Spotlight annotation endpoint.
 The Spotlight action also uses the Notification API and transforms the display values of triple values.
 Thus, the Spotlight action might be regarded as a reference implementation for several features of the Triple Action Framework.
 The notifications are useful for the last actions on our list.
