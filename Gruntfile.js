@@ -36,8 +36,12 @@ module.exports = function (grunt) {
 				dest: 'dist/ldv.js'
 			},
 			config: {
-				src: ['src/dist/config.js', 'src/dist/actions/*.js'],
+				src: ['src/dist/config.js'],
 				dest: 'dist/cfg.js'
+			},
+			actions: {
+				src: ['src/dist/actions/*.js'],
+				dest: 'dist/actions.js'
 			}
         },
         cssmin: {
@@ -62,6 +66,10 @@ module.exports = function (grunt) {
 			config: {
 				src:	'dist/cfg.js',
 				dest:	'dist/cfg.js'
+			},
+			actions: {
+				src:	'dist/actions.js',
+				dest:	'dist/actions.js'
 			}
         },
 		html2js: {
@@ -105,11 +113,11 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.registerTask('default', ['build']);
 	grunt.registerTask('build', 
-		['buildConfig', 'buildSrc', 'buildCss']);
+		['buildConfig', 'buildActions', 'buildSrc', 'buildCss']);
 	
 	grunt.registerTask('buildSass', ['concat:scss', 'sass', 'cssmin']);
 	grunt.registerTask('buildConfig', ['concat:config', 'uglify:config']);
-	grunt.registerTask('buildSrc',
-		['html2js', 'concat:srcjs', 'ngmin:dist'/*, 'uglify:js'*/]);
+	grunt.registerTask('buildActions', ['concat:actions', 'uglify:actions']);
+	grunt.registerTask('buildSrc', ['html2js', 'concat:srcjs', 'ngmin:dist'/*, 'uglify:js'*/]);
 	grunt.registerTask('buildCss', ['concat:css','cssmin']);
 };
