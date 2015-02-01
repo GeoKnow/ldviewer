@@ -65,14 +65,10 @@ angular.module("tpl/entity.html", []).run(["$templateCache", function($templateC
     "\n" +
     "\n" +
     "<div class=\"footer\">\n" +
-    "    <div id=\"ft_t\">\n" +
+    "    <!--div id=\"ft_t\">\n" +
     "        Browse using:\n" +
     "	<a href=\"http://linkeddata.uriburner.com/ode/?uri={{about.uri}}\">OpenLink Data Explorer</a> |\n" +
     "	<a href=\"/describe/?uri={{about.uri}}\">OpenLink Faceted Browser</a>\n" +
-    "        <!--a href=\"http://dataviewer.zitgist.com/?uri=http%3A%2F%2Fdbpedia.org%2Fresource%2FBoris_Johnson\">Zitgist Data Viewer</a> |\n" +
-    "        <a href=\"http://beckr.org/marbles?uri=http%3A%2F%2Fdbpedia.org%2Fresource%2FBoris_Johnson\">Marbles</a> |\n" +
-    "        <a href=\"http://www4.wiwiss.fu-berlin.de/rdf_browser/?browse_uri=http%3A%2F%2Fdbpedia.org%2Fresource%2FBoris_Johnson\">DISCO</a> |\n" +
-    "        <a href=\"http://dig.csail.mit.edu/2005/ajar/release/tabulator/0.8/tab.html?uri=http%3A%2F%2Fdbpedia.org%2Fresource%2FBoris_Johnson\" >Tabulator</a-->\n" +
     "        &nbsp; &nbsp; Raw Data in:\n" +
     "	\n" +
     "        <a href=\"/sparql?default-graph-uri={{localgraph}}&amp;query=DESCRIBE+&lt;{{about.uri}}&gt;&amp;format=text/csv\" target=\"_self\" >CSV</a> | RDF (\n" +
@@ -87,7 +83,7 @@ angular.module("tpl/entity.html", []).run(["$templateCache", function($templateC
     "        <a href=\"/sparql?default-graph-uri={{localgraph}}&amp;query=DESCRIBE+&lt;{{about.uri}}&gt;&amp;output=application/ld-json\" target=\"_self\" >JSON-LD</a> \n" +
     "\n" +
     "        &nbsp; &nbsp;<a href=\"http://wiki.dbpedia.org/Imprint\">About</a>&nbsp; &nbsp;\n" +
-    "      </div> <!-- #ft_t -->\n" +
+    "      </div--> <!-- #ft_t -->\n" +
     "      <div id=\"ft_b\">\n" +
     "        <a href=\"http://virtuoso.openlinksw.com\" title=\"OpenLink Virtuoso\"><img class=\"powered_by\" src=\"css/virt_power_no_border.png\" alt=\"Powered by OpenLink Virtuoso\"></a>\n" +
     "        <a href=\"http://linkeddata.org/\"><img alt=\"This material is Open Knowledge\" src=\"css/LoDLogo.gif\"></a> &nbsp;\n" +
