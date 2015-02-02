@@ -4436,7 +4436,7 @@ angular.module('ui/status/status.html', []).run([
 angular.module('ui/survey/survey.html', []).run([
   '$templateCache',
   function ($templateCache) {
-    $templateCache.put('ui/survey/survey.html', '<div id="survey" ng-if="showSurvey"><img class="btn-survey" src="css/surveyrequest.png" ng-click="surveyClicked()"/></div>');
+    $templateCache.put('ui/survey/survey.html', '<div id="survey" ng-if="showSurvey"><img class="btn-survey" src="dist/img/surveyrequest.png" ng-click="surveyClicked()"/></div>\n' + '');
   }
 ]);
 angular.module('ui/topbar/topbar.html', []).run([

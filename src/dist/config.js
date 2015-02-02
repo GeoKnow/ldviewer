@@ -56,7 +56,7 @@ LDViewer.configuration = function() {
 		'showLabels': true,
 		
 		'templateStr': "Template",
-		'iconpath': "css/200px-dbpedia.png"
+		'iconpath': "dist/img/200px-dbpedia.png"
 		
 	};
 	for (var key in config) {
