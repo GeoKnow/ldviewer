@@ -8,7 +8,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css"/>
-  <link rel="stylesheet" href="css/bootstrap-glyphicons.css"/>
   <link rel="stylesheet" href="bower_components/leaflet-dist/leaflet.css" />
   <!--[if lte IE 8]><link rel="stylesheet" href="/css/leaflet.ie.css" /><![endif]-->
   <link rel="stylesheet" href="bower_components/intro.js/minified/introjs.min.css"></link>
@@ -40,7 +39,7 @@
   <!--script type="text/javascript" src="/lib/angularbootstrap.js"></script-->
   <script src="bower_components/angular-ui-bootstrap-bower/ui-bootstrap-tpls.min.js"></script>
   
-  <script type="text/javascript" src="lib/jassa.js"></script>
+  <script src="bower_components/jassa/jassa.min.js"></script>
   <!--script src="bower_components/jassa/jassa.min.js"></script-->
   <!--script type="text/javascript" src="/lib/jassa-ui.js"></script-->
   <script src="bower_components/jassa-ui-angular/jassa-ui-angular-tpls.min.js"></script>
