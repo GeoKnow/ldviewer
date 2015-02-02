@@ -1,6 +1,30 @@
 module.exports = function (grunt) {
+
+    require('load-grunt-tasks')(grunt);
+    require('time-grunt')(grunt);
+  
     grunt.initConfig({
-        pkg: grunt.file.readJSON('package.json'),
+        pkg: grunt.file.readJSON('package.json'),    
+       // Empties folders to start fresh
+       clean: {
+           dist: {
+                files: [{
+                    dot: true,
+                    src: [
+                        'dist/{,*/}*'
+                        ]
+                }]
+           }
+        },
+        
+        copy: {
+          img: {
+            expand: true,
+            cwd:    'src',
+            src:    'img/*',
+            dest:   'dist/'
+          }
+        },
         concat: {
             css: {
                 src: [
@@ -102,18 +126,12 @@ module.exports = function (grunt) {
         watch: {
           files: ['src/*', 'src/*/*'],
           tasks: ['buildSrc']
-       }
+        }
     });
-    grunt.loadNpmTasks('grunt-contrib-concat');
-    grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks('grunt-contrib-sass');
-	grunt.loadNpmTasks('grunt-ngmin');
-	grunt.loadNpmTasks('grunt-html2js');
-    grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-contrib-cssmin');
+    
     grunt.registerTask('default', ['build']);
 	grunt.registerTask('build', 
-		['buildConfig', 'buildActions', 'buildSrc', 'buildCss']);
+		['clean:dist', 'copy:img', 'buildConfig', 'buildActions', 'buildSrc', 'buildCss']);
 	
 	grunt.registerTask('buildSass', ['concat:scss', 'sass', 'cssmin']);
 	grunt.registerTask('buildConfig', ['concat:config', 'uglify:config']);

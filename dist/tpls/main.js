@@ -54,10 +54,10 @@ angular.module("tpl/entity.html", []).run(["$templateCache", function($templateC
     "\n" +
     "	</div>\n" +
     "	\n" +
-    "	<div dbpv-relation-instances about=\"about\" primarylang=\"primarylang\" fallbacklang=\"fallbacklang\">\n" +
+    "	<!--div dbpv-relation-instances about=\"about\" primarylang=\"primarylang\" fallbacklang=\"fallbacklang\">\n" +
     "	</div>\n" +
     "	\n" +
-    "	<div dbpv-class-instances about=\"about\" primarylang=\"primarylang\" fallbacklang=\"fallbacklang\"></div>\n" +
+    "	<div dbpv-class-instances about=\"about\" primarylang=\"primarylang\" fallbacklang=\"fallbacklang\"></div-->\n" +
     "\n" +
     "</div>\n" +
     "\n" +
@@ -85,10 +85,10 @@ angular.module("tpl/entity.html", []).run(["$templateCache", function($templateC
     "        &nbsp; &nbsp;<a href=\"http://wiki.dbpedia.org/Imprint\">About</a>&nbsp; &nbsp;\n" +
     "      </div--> <!-- #ft_t -->\n" +
     "      <div id=\"ft_b\">\n" +
-    "        <a href=\"http://virtuoso.openlinksw.com\" title=\"OpenLink Virtuoso\"><img class=\"powered_by\" src=\"css/virt_power_no_border.png\" alt=\"Powered by OpenLink Virtuoso\"></a>\n" +
-    "        <a href=\"http://linkeddata.org/\"><img alt=\"This material is Open Knowledge\" src=\"css/LoDLogo.gif\"></a> &nbsp;\n" +
-    "        <a href=\"http://dbpedia.org/sparql\"><img alt=\"W3C Semantic Web Technology\" src=\"css/sw-sparql-blue.png\"></a> &nbsp;  &nbsp;\n" +
-    "        <a href=\"http://www.opendefinition.org/\"><img alt=\"This material is Open Knowledge\" src=\"css/od_80x15_red_green.png\"></a>\n" +
+    "        <a href=\"http://virtuoso.openlinksw.com\" title=\"OpenLink Virtuoso\"><img class=\"powered_by\" src=\"img/virt_power_no_border.png\" alt=\"Powered by OpenLink Virtuoso\"></a>\n" +
+    "        <a href=\"http://linkeddata.org/\"><img alt=\"This material is Open Knowledge\" src=\"img/LoDLogo.gif\"></a> &nbsp;\n" +
+    "        <a href=\"http://dbpedia.org/sparql\"><img alt=\"W3C Semantic Web Technology\" src=\"img/sw-sparql-blue.png\"></a> &nbsp;  &nbsp;\n" +
+    "        <a href=\"http://www.opendefinition.org/\"><img alt=\"This material is Open Knowledge\" src=\"img/od_80x15_red_green.png\"></a>\n" +
     "	<span about=\"\" resource=\"http://www.w3.org/TR/rdfa-syntax\" rel=\"dc:conformsTo\" xmlns:dc=\"http://purl.org/dc/terms/\">\n" +
     "	<a href=\"http://validator.w3.org/check?uri=referer\"><img src=\"http://www.w3.org/Icons/valid-xhtml-rdfa\" alt=\"Valid XHTML + RDFa\" height=\"27\"></a>\n" +
     "	</span>\n" +
@@ -110,8 +110,7 @@ angular.module("tpl/search.html", []).run(["$templateCache", function($templateC
 
 angular.module("tpl/test.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("tpl/test.html",
-    "\n" +
-    "	<span class=\"dropdown\">\n" +
+    "<span class=\"dropdown\">\n" +
     "		<a role=\"button\" href=\"javascript:void(0);\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">\n" +
     "			drop the\n" +
     "		</a>\n" +
