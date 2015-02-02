@@ -3428,43 +3428,44 @@ angular.module('ldv.ui.lookup', [
       if ($scope.querie === undefined || $scope.querie == '') {
         $scope.results = [];
       } else {
-        return Search.search($scope.querie, 10).then(function (results) {
-          // Почему ты не работаешь?
-          // Должно работать
+        /*
+				return Search.search($scope.querie, 10).then(function(results) {
+					// Почему ты не работаешь?
+					// Должно работать
+					var res = [];
+					
+					for (var i = 0; i < results.length; i++) {
+						var result = results[i];
+						var r = {"type": "uri", "l_label": result['label'].literalLabel.lex, "url": result["uri"].uri};
+						res.push(r);
+					}
+					console.log(res);
+					
+					return res;
+				},
+				function(error) {
+					var res = [];
+					res.push({"type":'uri', 'l_label': "NO RESULTS FOUND"});
+					return res;
+				}
+				);//*/
+        //*/
+        delete $http.defaults.headers.common['X-Requested-With'];
+        //alert("returning promise");
+        return $http.get($scope.lookupendpoint + '/PrefixSearch?MaxHits=5&QueryString=' + $scope.query).then(function (data) {
+          var results = data.data['results'];
           var res = [];
           for (var i = 0; i < results.length; i++) {
             var result = results[i];
             var r = {
                 'type': 'uri',
-                'l_label': result['label'].literalLabel.lex,
-                'url': result['uri'].uri
+                'l_label': result['label'],
+                'url': result['uri']
               };
-            res.push(r);
+            res.push(r);  //		console.log(r.l_label);
           }
-          console.log(res);
-          return res;
-        }, function (error) {
-          var res = [];
-          res.push({
-            'type': 'uri',
-            'l_label': 'NO RESULTS FOUND'
-          });
           return res;
         });  //*/
-             //*/
-             /*  delete $http.defaults.headers.common['X-Requested-With'];
-				//alert("returning promise");
-				return $http.get($scope.lookupendpoint+"/PrefixSearch?MaxHits=5&QueryString="+$scope.query).then(function(data) {
-					var results = data.data["results"];
-					var res = [];
-					for (var i = 0; i<results.length ; i++) {
-						var result = results[i];
-						var r = {"type": "uri", "l_label": result['label'], "url": result['uri']};
-						res.push(r);
-				//		console.log(r.l_label);
-					}
-					return res;
-				});//*/
       }
     };
   }
