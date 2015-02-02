@@ -22,7 +22,7 @@ module.exports = function (grunt) {
             expand: true,
             cwd:    'src',
             src:    'img/*',
-            dest:   'dist/img/'
+            dest:   'dist/'
           }
         },
         concat: {
