@@ -1117,49 +1117,6 @@ module["exports"] = Jassa;
 		}
 	});
 	
-	
-	/**
-	 * Note: this is a read only collection
-	 * 
-	 */
-	ns.NestedList = Class.create({
-	    classLabel: 'jassa.util.NestedList',
-	    
-	    initialize: function() {
-	        this.subLists = [];
-	    },
-
-	    /**
-	     * Returns an array with the concatenation of all items
-	     */
-	    getArray: function() {
-	        // tmp is an array of arrays
-	        var tmp = _(this.subLists).each(function(subList) {
-	            return subList.getArray();
-	        });
-	        
-	        var result = _(tmp).flatten(true);
-	        
-	        return result;
-	    },
-	    
-	    contains: function(item) {
-	        var found = _(this.subLists).find(function(subList) {
-	            var r = subList.contains(item);
-	            return r;
-	        });
-	
-	        var result = !!found;
-	        return result;
-	    },
-	    
-	    /*
-	    get: function(index) {
-	        
-	    },
-	    */
-	});
-	
 	ns.ArrayList = Class.create({
 	   initialize: function(fnEquals) {
 	       this.items = [];
@@ -1229,10 +1186,6 @@ module["exports"] = Jassa;
        
 	   removeByIndex: function(index) {
 	       this.items.splice(index, 1);
-	   },
-	   
-	   size: function() {
-	       return this.items.length;
 	   }
 	});
 	
@@ -5253,8 +5206,7 @@ module["exports"] = Jassa;
 				
 		// TODO This should only return the variables!!
 		getProjectVars: function() {
-		    var result = this.projectVars ? this.projectVars.getVars() : null;
-			return result;
+			return this.projectVars;
 		},
 
 		// TODO Remove this method
@@ -11562,8 +11514,6 @@ or simply: Angular + Magic Sparql = Angular Marql
 			this.service = service;
 
 			this.context = new ns.Context();
-
-			prefixes = prefixes || {};
 			this.context.getPrefixMapping().setNsPrefixes(prefixes);
 		},
 
@@ -14185,28 +14135,7 @@ or simply: Angular + Magic Sparql = Angular Marql
 		}
 	});
 
-
-    ns.ConstraintElementFactoryLang = Class.create(ns.ConstraintElementFactory, {
-        createElementsAndExprs: function(rootFacetNode, constraintSpec) {
-            var facetNode = rootFacetNode.forPath(constraintSpec.getDeclaredPath());
-
-            var pathVar = facetNode.getVar();
-            var exprVar = new sparql.ExprVar(pathVar);
-
-            var elements = sparql.ElementUtils.createElementsTriplesBlock(facetNode.getTriples());
-
-            // NOTE Value is assumed to be node holding a string, maybe check it here
-            var val = constraintSpec.getValue().getLiteralValue();
-
-            var exprs = [new sparql.E_LangMatches(new sparql.E_Lang(exprVar), val)];
-            
-            var result = new ns.ElementsAndExprs(elements, exprs);
-            
-            //console.log('constraintSpec.getValue() ', constraintSpec.getValue());
-            return result;
-        }
-    });
-
+	
     ns.ConstraintElementFactoryRegex = Class.create(ns.ConstraintElementFactory, {
         createElementsAndExprs: function(rootFacetNode, constraintSpec) {
             var facetNode = rootFacetNode.forPath(constraintSpec.getDeclaredPath());
@@ -14582,257 +14511,12 @@ or simply: Angular + Magic Sparql = Angular Marql
 		result.put("bbox", new ns.ConstraintElementFactoryBBoxRange());
 
 	    result.put("regex", new ns.ConstraintElementFactoryRegex());
-	    result.put("lang", new ns.ConstraintElementFactoryLang());
 
 		
 		return result;
 	};
 	
-	
-	/**
-	 * A class which is backed by a a jassa.util.list<Constraint>
-	 * Only the backing list's .toArray() method is used, essentially
-	 * using the list as a supplier.
-	 * 
-	 * The question is, whether the methods
-	 * .getConstraintSteps()
-	 * .getConstraintsByPath()
-	 * 
-	 * justify a list wrapper.
-	 * Or maybe these should be static helpers?
-	 * 
-	 *  
-	 */
-	ns.ConstraintList = Class.create({
-	    classLabel: 'jassa.facete.ConstraintList', 
-	        
-	    initialize: function(list) {
-	        this.list = list || new util.ArrayList();
-	    },
 
-        /**
-         * Yields all constraints having at least one
-         * variable bound to the exact path
-         * 
-         * Note: In general, a constraint may make use of multiple paths
-         */
-        getConstraintsByPath: function(path) {
-            var result = [];
-            
-            var constraints = this.constraints;
-            
-            for(var i = 0; i < constraints.length; ++i) {
-                var constraint = constraints[i];
-                
-                var paths = constraint.getDeclaredPaths();
-                
-                var isPath = _.some(paths, function(p) {
-                    var tmp = p.equals(path);
-                    return tmp;
-                });
-                
-                if(isPath) {
-                    result.push(constraint);
-                }
-            }
-            
-            return result;
-        },
-        
-
-        getConstrainedSteps: function(path) {
-            //console.log("getConstrainedSteps: ", path);
-            //checkNotNull(path);
-            
-            var tmp = [];
-            
-            var steps = path.getSteps();
-            var constraints = this.constraints;
-            
-            for(var i = 0; i < constraints.length; ++i) {
-                var constraint = constraints[i];
-                //console.log("  Constraint: " + constraint);
-
-                var paths = constraint.getDeclaredPaths();
-                //console.log("    Paths: " + paths.length + " - " + paths);
-                
-                for(var j = 0; j < paths.length; ++j) {
-                    var p = paths[j];
-                    var pSteps = p.getSteps();
-                    var delta = pSteps.length - steps.length; 
-                    
-                    //console.log("      Compare: " + delta, p, path);
-                    
-                    var startsWith = p.startsWith(path);
-                    //console.log("      Startswith: " + startsWith);
-                    if(delta == 1 && startsWith) {
-                        var step = pSteps[pSteps.length - 1];
-                        tmp.push(step);
-                    }
-                }
-            }
-            
-            var result = _.uniq(tmp, function(step) { return "" + step; });
-            
-            //console.log("Constraint result", constraints.length, result.length);
-            
-            return result;
-        },
-        
-        getConstraints: function() {
-            return this.constraints;  
-        },
-        
-        addConstraint: function(constraint) {
-            this.constraints.push(constraint);
-        },
-        
-        // Fcuking hack because of legacy code and the lack of a standard collection library...
-        // TODO Make the constraints a hash set (or a list set)
-        removeConstraint: function(constraint) {
-            var result = false;
-
-            var cs = this.constraints;
-            
-            var n = [];
-            for(var i = 0; i < cs.length; ++i) {
-                var c = cs[i];
-                
-                if(!c.equals(constraint)) {
-                    n.push(c);
-                } else {
-                    result = true;
-                }
-            }
-            
-            this.constraints = n;
-            return result;
-        },
-
-        toggleConstraint: function(constraint) {
-            var wasRemoved = this.removeConstraint(constraint);
-            if(!wasRemoved) {
-                this.addConstraint(constraint);
-            }
-        }
-	});
-
-	
-	/**
-	 * The constraint compiler provides a method for transforming a constraintList
-	 * into corresponding SPARQL elements.
-	 * 
-	 * The compiler is initialized with a constraintElementFactory. The compiler
-	 * just delegates to these factories.
-	 * 
-	 */
-	ns.ConstraintCompiler = Class.create({
-        initialize: function(cefRegistry) {            
-            if(!cefRegistry) {
-                cefRegistry = ns.createDefaultConstraintElementFactories(); 
-            }
-            
-            this.cefRegistry = cefRegistry;
-        },
-        
-        getCefRegistry: function() {
-            return this.cefRegistry;
-        },
-        
-        
-        createElementsAndExprs: function(constraintList, facetNode, excludePath) {
-            //var triples = [];
-            var elements = [];
-            var resultExprs = [];
-            
-            
-            var pathToExprs = {};
-            
-            var self = this;
-
-            var constraints = constraintList.toArray();
-            
-            _(constraints).each(function(constraint) {
-                var paths = constraint.getDeclaredPaths();
-                
-                var pathId = _(paths).reduce(
-                    function(memo, path) {
-                        return memo + ' ' + path;
-                    },
-                    ''
-                );
-
-                // Check if any of the paths is excluded
-                if(excludePath) {
-                    var skip = _(paths).some(function(path) {
-                        //console.log("Path.equals", excludePath, path);
-                        
-                        var tmp = excludePath.equals(path);
-                        return tmp;
-                    });
-
-                    if(skip) {
-                        return;
-                    }
-                }
-                
-                
-                _(paths).each(function(path) {
-                    
-                    //if(path.equals(excludePath)) {
-                        // TODO Exclude only works if there is only a single path
-                        // Or more generally, if all paths were excluded...
-                        // At least that somehow seems to make sense
-                    //}
-                    
-                    var fn = facetNode.forPath(path);
-                    
-                    //console.log("FNSTATE", fn);
-                    
-                    var tmpElements = fn.getElements();
-                    elements.push.apply(elements, tmpElements);
-                });
-                
-                var constraintName = constraint.getName();
-                var cef = self.cefRegistry.get(constraintName);
-                if(!cef) {
-                    throw "No constraintElementFactory registered for " + constraintName;
-                }
-                
-                var ci = cef.createElementsAndExprs(facetNode, constraint);
-                
-                //var ci = constraint.instanciate(facetNode);
-                var ciElements = ci.getElements();
-                var ciExprs = ci.getExprs();
-                
-                if(ciElements) {
-                    elements.push.apply(elements, ciElements);
-                }               
-                
-                if(ciExprs && ciExprs.length > 0) {
-                
-                    var exprs = pathToExprs[pathId];
-                    if(!exprs) {
-                        exprs = [];
-                        pathToExprs[pathId] = exprs;
-                    }
-                    
-                    var andExpr = sparql.andify(ciExprs);
-                    exprs.push(andExpr);
-                }               
-            });
-
-            _(pathToExprs).each(function(exprs) {
-                var orExpr = sparql.orify(exprs);
-                resultExprs.push(orExpr);
-            });
-            
-            var result = new ns.ElementsAndExprs(elements, resultExprs);
-
-            return result;
-        }	    
-	});
-	
 	
 	/**
 	 * A constraint manager is a container for ConstraintSpec objects.
@@ -18740,12 +18424,11 @@ or simply: Angular + Magic Sparql = Angular Marql
     ns.FacetConfig = Class.create({
         classLabel: 'jassa.facete.FacetConfig',
         
-        initialize: function(baseConcept, rootFacetNode, constraintManager, labelMap, pathTaggerManager) {
+        initialize: function(baseConcept, rootFacetNode, constraintManager, pathTaggerManager) {
             this.baseConcept = baseConcept;
             this.rootFacetNode = rootFacetNode;
             this.constraintManager = constraintManager;
             
-            this.labelMap = labelMap || sponate.SponateUtils.createDefaultLabelMap(); 
             this.pathTaggerManager = pathTaggerManager || new ns.ItemTaggerManager();
         },
         
@@ -18771,14 +18454,6 @@ or simply: Angular + Magic Sparql = Angular Marql
         
         setConstraintManager: function(constraintManager) {
             this.constraintManager = constraintManager;
-        },
-        
-        getLabelMap: function() {
-            return this.labelMap;
-        },
-        
-        setLabelMap: function() {
-            this.labelMap = labelMap;
         },
         
         getPathTaggerManager: function() {
@@ -18902,22 +18577,22 @@ or simply: Angular + Magic Sparql = Angular Marql
 //                var result = this.createFacetService2(facetConfig.);
 //            },
 //            
-            createFacetService: function(sparqlService, facetConfig) {
+            createFacetService: function(sparqlService, facetConfig, labelMap) {
                 var facetConceptGenerator = this.createFacetConceptGenerator(facetConfig);
 
-                //labelMap = labelMap || sponate.SponateUtils.createDefaultLabelMap();
+                labelMap = labelMap || new sponate.SponateUtils.createDefaultLabelMap();
                 
-                var facetService = new ns.FacetServiceImpl(sparqlService, facetConceptGenerator, facetConfig.getLabelMap(), facetConfig.getPathTaggerManager());
+                var facetService = new ns.FacetServiceImpl(sparqlService, facetConceptGenerator, labelMap, facetConfig.getPathTaggerManager());
 
                 return facetService;
             },
             
             
             
-            createFacetTreeService: function(sparqlService, facetTreeConfig) {
+            createFacetTreeService: function(sparqlService, facetTreeConfig, labelMap) {
 
 
-                var facetService = this.createFacetService(sparqlService, facetTreeConfig.getFacetConfig());
+                var facetService = this.createFacetService(sparqlService, facetTreeConfig.getFacetConfig(), labelMap);
                 
                 var expansionSet = facetTreeConfig.getExpansionSet();
                 var expansionMap = facetTreeConfig.getExpansionMap();
