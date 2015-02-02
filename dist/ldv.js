@@ -3452,7 +3452,7 @@ angular.module('ldv.ui.lookup', [
         //*/
         delete $http.defaults.headers.common['X-Requested-With'];
         //alert("returning promise");
-        return $http.get($scope.lookupendpoint + '/PrefixSearch?MaxHits=5&QueryString=' + $scope.query).then(function (data) {
+        return $http.get($scope.lookupendpoint + '/PrefixSearch?MaxHits=15&QueryString=' + $scope.querie).then(function (data) {
           var results = data.data['results'];
           var res = [];
           for (var i = 0; i < results.length; i++) {
