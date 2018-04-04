@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="ldv">
+
+<head>
+<!-- BOOTSTRAP CSS -->
+  <title> LD Viewer </title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="bower_components/leaflet-dist/leaflet.css" />
+  <!--[if lte IE 8]><link rel="stylesheet" href="/css/leaflet.ie.css" /><![endif]-->
+  <link rel="stylesheet" href="bower_components/intro.js/minified/introjs.min.css"></link>
+  
+  <link rel="stylesheet" href="dist/ldv.css"/>
+  
+  
+  <script src="bower_components/jquery/jquery.min.js"></script>
+  <script src="bower_components/jquery-cookie/jquery.cookie.js"></script>
+  <script src="bower_components/intro.js/minified/intro.min.js"></script>
+  <script src="bower_components/underscore/underscore.js"></script>
+  <script src="bower_components/underscore.string/dist/underscore.string.min.js"></script>
+  <script src="bower_components/jscache/cache.js"></script>
+  <script src="bower_components/angular/angular.min.js"></script>
+  <script src="bower_components/angular-route/angular-route.min.js"></script>
+  <script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+  <script src="bower_components/leaflet-dist/leaflet.js"></script>
+  <script src="bower_components/angular-ui-bootstrap-bower/ui-bootstrap-tpls.min.js"></script>
+  <script src="bower_components/jassa/jassa.min.js"></script>
+  <script src="bower_components/jassa-ui-angular/jassa-ui-angular-tpls.min.js"></script>
+  
+  <script type="text/javascript" src="dist/ldv.js"></script>
+  <script type="text/javascript" src="dist/cfg.js"></script>
+  <script type="text/javascript" src="dist/actions.js"></script>
+  <!--script type="text/javascript" src="/dist/taf.js"></script-->
+  <script type="text/javascript" src="dist/action.js"></script>
+  
+  
+  <script type="text/javascript">$.cookie("dbpv_has_js", "1");</script>
+  <script type="text/javascript">
+	_.mixin(_.str.exports());
+  </script>
+	
+</head>
+<body>
+
+
+<!-- COOKIE NOTIFICATION -->
+
+<script type="text/javascript">
+	function acceptCookies() {
+		$.cookie("dbpv_cookies", "1", {expires: 365});
+		checkCookies();
+	}
+	
+	function checkCookies() {
+		var cookiecookie = $.cookie("dbpv_cookies");
+		$("#cookiebar").hide();
+		if (cookiecookie === undefined || cookiecookie != "1") {
+			$('#cookiebar').show();
+		}
+	}
+	$(document).ready(function() {
+		checkCookies();
+	});
+</script>
+<div id="cookiebar" style="display:none">
+	This website uses cookies
+	<button class="btn btn-primary btn-small" onclick="acceptCookies();">
+		OK
+	</button>
+</div>
+
+<!-- END COOKIE NOTIFICATION -->
+
+
+<div id="dynamic" >
+	<div dbpv-notifications></div>
+	<div dbpv-topbar logo="iconpath" primarylang="primarylang" languages="languages" lookupendpoint="lookupendpoint" lookupgraph="lookupgraph" localgraph="localgraph" localprefix="localprefix"></div>
+
+
+	<div id="page-contents" ng-view></div>
+	<div dbpv-status></div>
+	<div dbpv-survey></div>
+</div>
+
+</body>
+</html>
+

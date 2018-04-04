@@ -238,7 +238,7 @@ body #static {
 }
 
 .dbpv-filter {
-	width: 150px;
+	width: 150px !important;
 	border: 0pt solid white;
 	border-bottom: 1pt solid #CCC;
 	border-radius: 0px 0px 0px 0px;

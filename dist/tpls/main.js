@@ -54,10 +54,10 @@ angular.module("tpl/entity.html", []).run(["$templateCache", function($templateC
     "\n" +
     "	</div>\n" +
     "	\n" +
-    "	<div dbpv-relation-instances about=\"about\" primarylang=\"primarylang\" fallbacklang=\"fallbacklang\">\n" +
+    "	<!--div dbpv-relation-instances about=\"about\" primarylang=\"primarylang\" fallbacklang=\"fallbacklang\">\n" +
     "	</div>\n" +
     "	\n" +
-    "	<div dbpv-class-instances about=\"about\" primarylang=\"primarylang\" fallbacklang=\"fallbacklang\"></div>\n" +
+    "	<div dbpv-class-instances about=\"about\" primarylang=\"primarylang\" fallbacklang=\"fallbacklang\"></div-->\n" +
     "\n" +
     "</div>\n" +
     "\n" +
@@ -65,14 +65,10 @@ angular.module("tpl/entity.html", []).run(["$templateCache", function($templateC
     "\n" +
     "\n" +
     "<div class=\"footer\">\n" +
-    "    <div id=\"ft_t\">\n" +
+    "    <!--div id=\"ft_t\">\n" +
     "        Browse using:\n" +
     "	<a href=\"http://linkeddata.uriburner.com/ode/?uri={{about.uri}}\">OpenLink Data Explorer</a> |\n" +
     "	<a href=\"/describe/?uri={{about.uri}}\">OpenLink Faceted Browser</a>\n" +
-    "        <!--a href=\"http://dataviewer.zitgist.com/?uri=http%3A%2F%2Fdbpedia.org%2Fresource%2FBoris_Johnson\">Zitgist Data Viewer</a> |\n" +
-    "        <a href=\"http://beckr.org/marbles?uri=http%3A%2F%2Fdbpedia.org%2Fresource%2FBoris_Johnson\">Marbles</a> |\n" +
-    "        <a href=\"http://www4.wiwiss.fu-berlin.de/rdf_browser/?browse_uri=http%3A%2F%2Fdbpedia.org%2Fresource%2FBoris_Johnson\">DISCO</a> |\n" +
-    "        <a href=\"http://dig.csail.mit.edu/2005/ajar/release/tabulator/0.8/tab.html?uri=http%3A%2F%2Fdbpedia.org%2Fresource%2FBoris_Johnson\" >Tabulator</a-->\n" +
     "        &nbsp; &nbsp; Raw Data in:\n" +
     "	\n" +
     "        <a href=\"/sparql?default-graph-uri={{localgraph}}&amp;query=DESCRIBE+&lt;{{about.uri}}&gt;&amp;format=text/csv\" target=\"_self\" >CSV</a> | RDF (\n" +
@@ -87,12 +83,12 @@ angular.module("tpl/entity.html", []).run(["$templateCache", function($templateC
     "        <a href=\"/sparql?default-graph-uri={{localgraph}}&amp;query=DESCRIBE+&lt;{{about.uri}}&gt;&amp;output=application/ld-json\" target=\"_self\" >JSON-LD</a> \n" +
     "\n" +
     "        &nbsp; &nbsp;<a href=\"http://wiki.dbpedia.org/Imprint\">About</a>&nbsp; &nbsp;\n" +
-    "      </div> <!-- #ft_t -->\n" +
+    "      </div--> <!-- #ft_t -->\n" +
     "      <div id=\"ft_b\">\n" +
-    "        <a href=\"http://virtuoso.openlinksw.com\" title=\"OpenLink Virtuoso\"><img class=\"powered_by\" src=\"css/virt_power_no_border.png\" alt=\"Powered by OpenLink Virtuoso\"></a>\n" +
-    "        <a href=\"http://linkeddata.org/\"><img alt=\"This material is Open Knowledge\" src=\"css/LoDLogo.gif\"></a> &nbsp;\n" +
-    "        <a href=\"http://dbpedia.org/sparql\"><img alt=\"W3C Semantic Web Technology\" src=\"css/sw-sparql-blue.png\"></a> &nbsp;  &nbsp;\n" +
-    "        <a href=\"http://www.opendefinition.org/\"><img alt=\"This material is Open Knowledge\" src=\"css/od_80x15_red_green.png\"></a>\n" +
+    "        <a href=\"http://virtuoso.openlinksw.com\" title=\"OpenLink Virtuoso\"><img class=\"powered_by\" src=\"dist/img/virt_power_no_border.png\" alt=\"Powered by OpenLink Virtuoso\"></a>\n" +
+    "        <a href=\"http://linkeddata.org/\"><img alt=\"This material is Open Knowledge\" src=\"dist/img/LoDLogo.gif\"></a> &nbsp;\n" +
+    "        <a href=\"http://dbpedia.org/sparql\"><img alt=\"W3C Semantic Web Technology\" src=\"dist/img/sw-sparql-blue.png\"></a> &nbsp;  &nbsp;\n" +
+    "        <a href=\"http://www.opendefinition.org/\"><img alt=\"This material is Open Knowledge\" src=\"dist/img/od_80x15_red_green.png\"></a>\n" +
     "	<span about=\"\" resource=\"http://www.w3.org/TR/rdfa-syntax\" rel=\"dc:conformsTo\" xmlns:dc=\"http://purl.org/dc/terms/\">\n" +
     "	<a href=\"http://validator.w3.org/check?uri=referer\"><img src=\"http://www.w3.org/Icons/valid-xhtml-rdfa\" alt=\"Valid XHTML + RDFa\" height=\"27\"></a>\n" +
     "	</span>\n" +
@@ -114,8 +110,7 @@ angular.module("tpl/search.html", []).run(["$templateCache", function($templateC
 
 angular.module("tpl/test.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("tpl/test.html",
-    "\n" +
-    "	<span class=\"dropdown\">\n" +
+    "<span class=\"dropdown\">\n" +
     "		<a role=\"button\" href=\"javascript:void(0);\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">\n" +
     "			drop the\n" +
     "		</a>\n" +

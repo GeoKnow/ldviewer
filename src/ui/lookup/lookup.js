@@ -46,6 +46,7 @@ angular.module('ldv.ui.lookup', ['ldv.services.search', 'ui.bootstrap', 'ldv.tem
 			if ($scope.querie === undefined || $scope.querie == "") {
 				$scope.results = [];
 			}else{
+			    /*
 				return Search.search($scope.querie, 10).then(function(results) {
 					// Почему ты не работаешь?
 					// Должно работать
@@ -68,9 +69,9 @@ angular.module('ldv.ui.lookup', ['ldv.services.search', 'ui.bootstrap', 'ldv.tem
 				);//*/
 			//*/
 			
-			/*  delete $http.defaults.headers.common['X-Requested-With'];
+			  delete $http.defaults.headers.common['X-Requested-With'];
 				//alert("returning promise");
-				return $http.get($scope.lookupendpoint+"/PrefixSearch?MaxHits=5&QueryString="+$scope.query).then(function(data) {
+				return $http.get($scope.lookupendpoint+"/PrefixSearch?MaxHits=15&QueryString="+$scope.querie).then(function(data) {
 					var results = data.data["results"];
 					var res = [];
 					for (var i = 0; i<results.length ; i++) {
@@ -80,7 +81,8 @@ angular.module('ldv.ui.lookup', ['ldv.services.search', 'ui.bootstrap', 'ldv.tem
 				//		console.log(r.l_label);
 					}
 					return res;
-				});//*/
+				});
+				//*/
 			}
 		};
 	}])
